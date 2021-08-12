@@ -2,13 +2,13 @@
 
 namespace Generator.Helpers
 {
-    public static class DifficultHelper
+    public static class HardHelper
     {
         public static Lay GenerateLay()
         {
             return new Lay(cHECK_SHOOT_WHEN_LAYING: false, dELTA_LAY_CHECK: 2, dELTA_GETUP: 2.7, dELTA_AFTER_GETUP: 10,
                     cLEAR_POINTS_OF_SCARE_SEC: 20, mAX_LAY_TIME: 35, dELTA_WANT_LAY_CHECL_SEC: 5, aTTACK_LAY_CHANCE: 25,
-                    dIST_TO_COVER_TO_LAY: 3.5, dIST_TO_COVER_TO_LAY_SQRT: 12.5, dIST_GRASS_TERRAIN_SQRT: 0.160000011, dIST_ENEMY_NULL_DANGER_LAY: 15,
+                    dIST_TO_COVER_TO_LAY: 3.5, dIST_TO_COVER_TO_LAY_SQRT: 12.25, dIST_GRASS_TERRAIN_SQRT: 0.160000011, dIST_ENEMY_NULL_DANGER_LAY: 15,
                     dIST_ENEMY_NULL_DANGER_LAY_SQRT: 225, dIST_ENEMY_GETUP_LAY: 10, dIST_ENEMY_GETUP_LAY_SQRT: 100, dIST_ENEMY_CAN_LAY: 15,
                     dIST_ENEMY_CAN_LAY_SQRT: 225, lAY_AIM: 0.6, mIN_CAN_LAY_DIST_SQRT: 121, mIN_CAN_LAY_DIST: 11,
                     mAX_CAN_LAY_DIST_SQRT: 40000, mAX_CAN_LAY_DIST: 200, lAY_CHANCE_DANGER: 40, dAMAGE_TIME_TO_GETUP: 3);
@@ -16,8 +16,8 @@ namespace Generator.Helpers
 
         public static Core GenerateCore()
         {
-            return new Core(visibleAngle: 140, visibleDistance: 130, gainSightCoef: 0.1,
-                    scatteringPerMeter: 0.1, scatteringClosePerMeter: 0.1, damageCoeff: 1, hearingSense: 2.85,
+            return new Core(visibleAngle: 130, visibleDistance: 110, gainSightCoef: 0.2,
+                    scatteringPerMeter: 0.12, scatteringClosePerMeter: 0.12, damageCoeff: 1, hearingSense: 1.05,
                     canRun: true, canGrenade: true, aimingType: "normal", pistolFireDistancePref: 35,
                     shotgunFireDistancePref: 50, rifleFireDistancePref: 100, accuratySpeed: 0.3, waitInCoverBetweenShotsSec: 1.5);
         }

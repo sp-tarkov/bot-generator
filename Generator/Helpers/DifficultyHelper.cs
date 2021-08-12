@@ -43,20 +43,20 @@ namespace Generator.Helpers
 
             bot.difficulty.hard = new Models.Output.Difficulty.DifficultySettings()
             {
-                Lay = DifficultHelper.GenerateLay(),
-                Aiming = DifficultHelper.GenerateAiming(),
-                Look = DifficultHelper.GenerateLook(),
-                Shoot = DifficultHelper.GenerateShoot(),
-                Move = DifficultHelper.GenerateMove(),
-                Grenade = DifficultHelper.GenerateGrenade(),
-                Change = DifficultHelper.GenerateChange(),
-                Cover = DifficultHelper.GenerateCover(),
-                Patrol = DifficultHelper.GeneratePatrol(),
-                Hearing = DifficultHelper.GenerateHearing(),
-                Mind = DifficultHelper.GenerateMind(),
-                Boss = DifficultHelper.GenerateBoss(),
-                Core = DifficultHelper.GenerateCore(),
-                Scattering = DifficultHelper.GenerateScattering()
+                Lay = HardHelper.GenerateLay(),
+                Aiming = HardHelper.GenerateAiming(),
+                Look = HardHelper.GenerateLook(),
+                Shoot = HardHelper.GenerateShoot(),
+                Move = HardHelper.GenerateMove(),
+                Grenade = HardHelper.GenerateGrenade(),
+                Change = HardHelper.GenerateChange(),
+                Cover = HardHelper.GenerateCover(),
+                Patrol = HardHelper.GeneratePatrol(),
+                Hearing = HardHelper.GenerateHearing(),
+                Mind = HardHelper.GenerateMind(),
+                Boss = HardHelper.GenerateBoss(),
+                Core = HardHelper.GenerateCore(),
+                Scattering = HardHelper.GenerateScattering()
             };
             bot.difficulty.impossible = new Models.Output.Difficulty.DifficultySettings()
             {
