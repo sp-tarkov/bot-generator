@@ -12,12 +12,12 @@ namespace Generator.Models.Output
             experience = new Experience();
             health = new Health();
             skills = new Skills();
+            inventory = new Inventory();
             firstName = new List<string>();
             lastName = new List<string>();
             difficulty = new Difficulty.Difficulty();
             chances = new Chances();
             generation = new GenerationChances();
-            inventory = new Inventory();
         }
 
         [JsonIgnore]
@@ -26,12 +26,12 @@ namespace Generator.Models.Output
         public Experience experience { get; set; }
         public Health health { get; set; }
         public Skills skills { get; set; }
+        public Inventory inventory { get; set; }
         public List<string> firstName { get; set; }
         public List<string> lastName { get; set; }
         public Difficulty.Difficulty difficulty { get; set;}
         public Chances chances { get; set; }
         public GenerationChances generation { get; set; }
-        public Inventory inventory { get; set; }
     }
     public class Appearance
     {
