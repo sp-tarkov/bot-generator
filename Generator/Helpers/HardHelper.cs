@@ -125,7 +125,7 @@ namespace Generator.Helpers
                     sMOKE_CHECK_DELTA: 1, dELTA_GRENADE_START_TIME: 0.7, aMBUSH_IF_SMOKE_IN_ZONE_100: 40, aMBUSH_IF_SMOKE_RETURN_TO_ATTACK_SEC: 30,
                     nO_RUN_FROM_AI_GRENADES: false, mAX_THROW_POWER: 15.7, grenadePrecision: 0.3, sTOP_WHEN_THROW_GRENADE: true,
                     wAIT_TIME_TURN_AWAY: 0.2, sMOKE_SUPPRESS_DELTA: 20, dAMAGE_GRENADE_SUPPRESS_DELTA: 8, sTUN_SUPPRESS_DELTA: 9,
-                    cHEAT_START_GRENADE_PLACE: false, cAN_THROW_STRAIGHT_CONTACT: true, sTRAIGHT_CONTACT_DELTA_SEC: -1, aNG_TYPE: 4);
+                    cHEAT_START_GRENADE_PLACE: false, cAN_THROW_STRAIGHT_CONTACT: true, sTRAIGHT_CONTACT_DELTA_SEC: -1, aNG_TYPE: 4, mIN_THROW_DIST_PERCENT_0_1: 0.5);
         }
 
         public static Move GenerateMove()
