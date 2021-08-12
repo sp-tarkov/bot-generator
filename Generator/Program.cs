@@ -6,13 +6,20 @@ namespace Generator
     {
         static void Main(string[] args)
         {
-            string[] botTypes = {"assault", "marksman", "pmcbot", "bossbully", "bosskilla" };
+            string[] botTypes = { "assault", "marksman", "pmcbot", "bossbully", "bosskilla" };
 
             // Read raw bot dumps from live and turn into c# objects
             var workingPath = Directory.GetCurrentDirectory();
             var dumpPath = $"{workingPath}//dumps";
             var botParser = new BotParser(workingPath, dumpPath, botTypes);
             var parsedBots = botParser.Parse();
+
+            if (parsedBots.Count == 0)
+            {
+                Helpers.LoggingHelpers.LogToConsole("no bots found, unable to continue");
+                Helpers.LoggingHelpers.LogToConsole("Check your dumps are in 'Generator\\bin\\Debug\\netcoreapp3.1\\dumps' and start with 'resp.' NOT 'req'");
+                return;
+            }
 
             // Generate the base bot class and add basic details (health/body part hp etc)
             var baseBotGenerator = new BaseBotGenerator(parsedBots);
