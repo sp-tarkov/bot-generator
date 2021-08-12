@@ -95,7 +95,7 @@
             double mAX_AIMING_UPGRADE_BY_TIME, int dAMAGE_TO_DISCARD_AIM_0_100, double mIN_TIME_DISCARD_AIM_SEC, double mAX_TIME_DISCARD_AIM_SEC,
             double xZ_COEF, int sHOOT_TO_CHANGE_PRIORITY, double bOTTOM_COEF, double fIRST_CONTACT_ADD_SEC,
             int fIRST_CONTACT_ADD_CHANCE_100, double bASE_HIT_AFFECTION_DELAY_SEC, int bASE_HIT_AFFECTION_MIN_ANG, int bASE_HIT_AFFECTION_MAX_ANG,
-            int bASE_SHIEF, int sCATTERING_HAVE_DAMAGE_COEF, double sCATTERING_DIST_MODIF, double sCATTERING_DIST_MODIF_CLOSE,
+            double bASE_SHIEF, int sCATTERING_HAVE_DAMAGE_COEF, double sCATTERING_DIST_MODIF, double sCATTERING_DIST_MODIF_CLOSE,
             int aIMING_TYPE, int dIST_TO_SHOOT_TO_CENTER, int dIST_TO_SHOOT_NO_OFFSET, int sHPERE_FRIENDY_FIRE_SIZE,
             double cOEF_IF_MOVE, double tIME_COEF_IF_MOVE, double bOT_MOVE_IF_DELTA, int nEXT_SHOT_MISS_CHANCE_100,
             int nEXT_SHOT_MISS_Y_OFFSET, int aNYTIME_LIGHT_WHEN_AIM_100, int aNY_PART_SHOOT_TIME, double wEAPON_ROOT_OFFSET,
@@ -177,7 +177,7 @@
         public double BASE_HIT_AFFECTION_DELAY_SEC { get; set; }
         public int BASE_HIT_AFFECTION_MIN_ANG { get; set; }
         public int BASE_HIT_AFFECTION_MAX_ANG { get; set; }
-        public int BASE_SHIEF { get; set; }
+        public double BASE_SHIEF { get; set; }
         public int SCATTERING_HAVE_DAMAGE_COEF { get; set; }
         public double SCATTERING_DIST_MODIF { get; set; }
         public double SCATTERING_DIST_MODIF_CLOSE { get; set; }
