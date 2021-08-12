@@ -73,10 +73,7 @@ namespace Generator
 
         private void AddDifficulties(Bot bot, List<Datum> rawParsedBots)
         {
-            var botType = bot.botType;
-            var firstBotOfDesiredType = rawParsedBots.First(x => x.Info.Settings.Role == botType.ToString());
-
-            switch (botType)
+            switch (bot.botType)
             {
                 case BotType.assault:
                     DifficultyHelper.AddAssaultDifficulties(bot);
@@ -92,7 +89,13 @@ namespace Generator
 
         private void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawParsedBots)
         {
-            var firstBotOfDesiredType = rawParsedBots.First(x => x.Info.Settings.Role == botToUpdate.botType.ToString());
+            var firstBotOfDesiredType = rawParsedBots.FirstOrDefault(x => x.Info.Settings.Role == botToUpdate.botType.ToString());
+            if (firstBotOfDesiredType == null)
+            {
+                LoggingHelpers.LogToConsole($"bottype of: {botToUpdate.botType} not found, unable to update body part health.");
+                return;
+            }
+
             botToUpdate.health.BodyParts.Head.min = firstBotOfDesiredType.Health.BodyParts.Head.Health.Current;
             botToUpdate.health.BodyParts.Head.max = firstBotOfDesiredType.Health.BodyParts.Head.Health.Maximum;
 
