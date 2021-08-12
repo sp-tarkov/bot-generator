@@ -16,8 +16,8 @@ namespace Generator.Helpers
 
         public static Core GenerateCore()
         {
-            return new Core(visibleAngle: 130, visibleDistance: 110, gainSightCoef: 0.2,
-                    scatteringPerMeter: 0.12, scatteringClosePerMeter: 0.12, damageCoeff: 1, hearingSense: 1.05,
+            return new Core(visibleAngle: 140, visibleDistance: 130, gainSightCoef: 0.1,
+                    scatteringPerMeter: 0.1, scatteringClosePerMeter: 0.1, damageCoeff: 1, hearingSense: 2.85,
                     canRun: true, canGrenade: true, aimingType: "normal", pistolFireDistancePref: 35,
                     shotgunFireDistancePref: 50, rifleFireDistancePref: 100, accuratySpeed: 0.3, waitInCoverBetweenShotsSec: 1.5);
         }
@@ -72,10 +72,10 @@ namespace Generator.Helpers
 
         internal static Hearing GenerateHearing()
         {
-            return new Hearing(bOT_CLOSE_PANIC_DIST: 2, cHANCE_TO_HEAR_SIMPLE_SOUND_0_1: 0.45,
-                    dISPERSION_COEF: 1.6, cLOSE_DIST: 10, fAR_DIST: 30, sOUND_DIR_DEEFREE: 30, dIST_PLACE_TO_FIND_POINT: 70,
-                    dEAD_BODY_SOUND_RAD: 30, lOOK_ONLY_DANGER: false, rESET_TIMER_DIST: 17, hEAR_DELAY_WHEN_PEACE: 0.85,
-                    hEAR_DELAY_WHEN_HAVE_SMT: 0.56, lOOK_ONLY_DANGER_DELTA: 9);
+            return new Hearing(bOT_CLOSE_PANIC_DIST: 2, cHANCE_TO_HEAR_SIMPLE_SOUND_0_1: 0.7,
+                    dISPERSION_COEF: 3.6, cLOSE_DIST: 10, fAR_DIST: 30, sOUND_DIR_DEEFREE: 30, dIST_PLACE_TO_FIND_POINT: 70,
+                    dEAD_BODY_SOUND_RAD: 30, lOOK_ONLY_DANGER: false, rESET_TIMER_DIST: 17, hEAR_DELAY_WHEN_PEACE: 0.75,
+                    hEAR_DELAY_WHEN_HAVE_SMT: 0.5, lOOK_ONLY_DANGER_DELTA: 9);
         }
 
         public static Patrol GeneratePatrol()
@@ -84,7 +84,7 @@ namespace Generator.Helpers
                     tRY_CHOOSE_RESERV_WAY_ON_START: false, cAN_LOOK_TO_DEADBODIES: true, cAN_FRIENDLY_TILT: true,
                     cAN_HARD_AIM: true, rESERVE_TIME_STAY: 72, fRIEND_SEARCH_SEC: 12, tALK_DELAY: 1.1,
                     mIN_TALK_DELAY: 35, tALK_DELAY_BIG: 15.1, cHANGE_WAY_TIME: 125.1, mIN_DIST_TO_CLOSE_TALK: 5,
-                    vISION_DIST_COEF_PEACE: 0.5, mIN_DIST_TO_CLOSE_TALK_SQR: 25, cHANCE_TO_CUT_WAY_0_100: 75, cUT_WAY_MIN_0_1: 0.4,
+                    vISION_DIST_COEF_PEACE: 0.75, mIN_DIST_TO_CLOSE_TALK_SQR: 25, cHANCE_TO_CUT_WAY_0_100: 75, cUT_WAY_MIN_0_1: 0.4,
                     cUT_WAY_MAX_0_1: 0.65, cHANCE_TO_CHANGE_WAY_0_100: 50, cHANCE_TO_SHOOT_DEADBODY: 52, sUSPETION_PLACE_LIFETIME: 7,
                     rESERVE_OUT_TIME: 30, cLOSE_TO_SELECT_RESERV_WAY: 25, mAX_YDIST_TO_START_WARN_REQUEST_TO_REQUESTER: 5);
         }
@@ -118,12 +118,12 @@ namespace Generator.Helpers
             return new Grenade(dELTA_NEXT_ATTEMPT_FROM_COVER: 5, dELTA_NEXT_ATTEMPT: 10, mIN_DIST_NOT_TO_THROW: 8,
                     nEAR_DELTA_THROW_TIME_SEC: 2, mIN_THROW_GRENADE_DIST: 12, mIN_THROW_GRENADE_DIST_SQRT: 144, mIN_DIST_NOT_TO_THROW_SQR: 64,
                     rUN_AWAY: 22, rUN_AWAY_SQR: 484, aDD_GRENADE_AS_DANGER: 65, aDD_GRENADE_AS_DANGER_SQR: 4225,
-                    cHANCE_TO_NOTIFY_ENEMY_GR_100: 99, grenadePerMeter: 0.2, rEQUEST_DIST_MUST_THROW_SQRT: 4, rEQUEST_DIST_MUST_THROW: 2,
+                    cHANCE_TO_NOTIFY_ENEMY_GR_100: 99, grenadePerMeter: 0.1, rEQUEST_DIST_MUST_THROW_SQRT: 4, rEQUEST_DIST_MUST_THROW: 2,
                     bEWARE_TYPE: 2, sHOOT_TO_SMOKE_CHANCE_100: 30, cHANCE_RUN_FLASHED_100: 0, mAX_FLASHED_DIST_TO_SHOOT: 10,
                     mAX_FLASHED_DIST_TO_SHOOT_SQRT: 100, fLASH_GRENADE_TIME_COEF: 0.3, sIZE_SPOTTED_COEF: 2, bE_ATTENTION_COEF: 4,
                     tIME_SHOOT_TO_FLASH: 4, cLOSE_TO_SMOKE_TO_SHOOT: 5, cLOSE_TO_SMOKE_TO_SHOOT_SQRT: 25, cLOSE_TO_SMOKE_TIME_DELTA: 7,
                     sMOKE_CHECK_DELTA: 1, dELTA_GRENADE_START_TIME: 0.7, aMBUSH_IF_SMOKE_IN_ZONE_100: 40, aMBUSH_IF_SMOKE_RETURN_TO_ATTACK_SEC: 30,
-                    nO_RUN_FROM_AI_GRENADES: false, mAX_THROW_POWER: 15.7, grenadePrecision: 0.3, sTOP_WHEN_THROW_GRENADE: true,
+                    nO_RUN_FROM_AI_GRENADES: false, mAX_THROW_POWER: 16.7, grenadePrecision: 0.1, sTOP_WHEN_THROW_GRENADE: true,
                     wAIT_TIME_TURN_AWAY: 0.2, sMOKE_SUPPRESS_DELTA: 20, dAMAGE_GRENADE_SUPPRESS_DELTA: 8, sTUN_SUPPRESS_DELTA: 9,
                     cHEAT_START_GRENADE_PLACE: false, cAN_THROW_STRAIGHT_CONTACT: true, sTRAIGHT_CONTACT_DELTA_SEC: -1, aNG_TYPE: 4, mIN_THROW_DIST_PERCENT_0_1: 0.5);
         }
@@ -152,8 +152,8 @@ namespace Generator.Helpers
 
         public static Look GenerateLook()
         {
-            return new Look(oLD_TIME_POINT: 11, wAIT_NEW_SENSOR: 2.1,wAIT_NEW__LOOK_SENSOR: 7.8, lOOK_AROUND_DELTA: 1.1,
-                    mAX_VISION_GRASS_METERS: 0.4, mAX_VISION_GRASS_METERS_FLARE: 7,mAX_VISION_GRASS_METERS_OPT: 0.9090909,
+            return new Look(oLD_TIME_POINT: 11, wAIT_NEW_SENSOR: 2.1, wAIT_NEW__LOOK_SENSOR: 7.8, lOOK_AROUND_DELTA: 1.1,
+                    mAX_VISION_GRASS_METERS: 0.4, mAX_VISION_GRASS_METERS_FLARE: 7, mAX_VISION_GRASS_METERS_OPT: 0.9090909,
                     mAX_VISION_GRASS_METERS_FLARE_OPT: 0.125, lightOnVisionDistance: 30,
                     fAR_DISTANCE: 160, farDeltaTimeSec: 3, mIDDLE_DIST: 90, middleDeltaTimeSec: 1, closeDeltaTimeSec: 0.1,
                     pOSIBLE_VISION_SPACE: 1.2, gOAL_TO_FULL_DISSAPEAR: 0.25, gOAL_TO_FULL_DISSAPEAR_SHOOT: 0.0001, bODY_DELTA_TIME_SEARCH_SEC: 1.7,
@@ -165,13 +165,13 @@ namespace Generator.Helpers
         public static Aiming GenerateAiming()
         {
             return new Aiming(mAX_AIM_PRECICING: 4, bETTER_PRECICING_COEF: 0.7, rECALC_DIST: 0.7, rECALC_SQR_DIST: 0.48999998,
-                    cOEF_FROM_COVER: 0.8, pANIC_COEF: 1.2, pANIC_ACCURATY_COEF: 1.2, hARD_AIM: 0.75, pANIC_TIME: 2, rECALC_MUST_TIME: 3,
-                    dAMAGE_PANIC_TIME: 15, dANGER_UP_POINT: 1.3, mAX_AIMING_UPGRADE_BY_TIME: 0.85, dAMAGE_TO_DISCARD_AIM_0_100: 100,
-                    mIN_TIME_DISCARD_AIM_SEC: 2.9, mAX_TIME_DISCARD_AIM_SEC: 3.2, xZ_COEF: 0.75, sHOOT_TO_CHANGE_PRIORITY: 5525,
-                    bOTTOM_COEF: 0.3, fIRST_CONTACT_ADD_SEC: 0.1, fIRST_CONTACT_ADD_CHANCE_100: 80, bASE_HIT_AFFECTION_DELAY_SEC: 1.77,
-                    bASE_HIT_AFFECTION_MIN_ANG: 14, bASE_HIT_AFFECTION_MAX_ANG: 28, bASE_SHIEF: 1, sCATTERING_HAVE_DAMAGE_COEF: 2,
-                    sCATTERING_DIST_MODIF: 0.7, sCATTERING_DIST_MODIF_CLOSE: 0.85, aIMING_TYPE: 5, dIST_TO_SHOOT_TO_CENTER: 3,
-                    dIST_TO_SHOOT_NO_OFFSET: 3, sHPERE_FRIENDY_FIRE_SIZE: -1, cOEF_IF_MOVE: 1.9, tIME_COEF_IF_MOVE: 1.5, bOT_MOVE_IF_DELTA: 0.01,
+                    cOEF_FROM_COVER: 0.65, pANIC_COEF: 1.2, pANIC_ACCURATY_COEF: 1.2, hARD_AIM: 0.75, pANIC_TIME: 2, rECALC_MUST_TIME: 3,
+                    dAMAGE_PANIC_TIME: 15, dANGER_UP_POINT: 1.3, mAX_AIMING_UPGRADE_BY_TIME: 0.85, dAMAGE_TO_DISCARD_AIM_0_100: 96,
+                    mIN_TIME_DISCARD_AIM_SEC: 2.3, mAX_TIME_DISCARD_AIM_SEC: 2.6, xZ_COEF: 0.65, sHOOT_TO_CHANGE_PRIORITY: 5525,
+                    bOTTOM_COEF: 0.2, fIRST_CONTACT_ADD_SEC: 0.05, fIRST_CONTACT_ADD_CHANCE_100: 80, bASE_HIT_AFFECTION_DELAY_SEC: 0.27,
+                    bASE_HIT_AFFECTION_MIN_ANG: 14, bASE_HIT_AFFECTION_MAX_ANG: 18, bASE_SHIEF: 0.5, sCATTERING_HAVE_DAMAGE_COEF: 2,
+                    sCATTERING_DIST_MODIF: 0.55, sCATTERING_DIST_MODIF_CLOSE: 0.8, aIMING_TYPE: 5, dIST_TO_SHOOT_TO_CENTER: 3,
+                    dIST_TO_SHOOT_NO_OFFSET: 3, sHPERE_FRIENDY_FIRE_SIZE: -1, cOEF_IF_MOVE: 1.7, tIME_COEF_IF_MOVE: 1.5, bOT_MOVE_IF_DELTA: 0.01,
                     nEXT_SHOT_MISS_CHANCE_100: 100, nEXT_SHOT_MISS_Y_OFFSET: 1, aNYTIME_LIGHT_WHEN_AIM_100: -1, aNY_PART_SHOOT_TIME: 30,
                     wEAPON_ROOT_OFFSET: 0.35, mIN_DAMAGE_TO_GET_HIT_AFFETS: 1, mAX_AIM_TIME: 1.5, oFFSET_RECAL_ANYWAY_TIME: 1, y_TOP_OFFSET_COEF: 0.001,
                     y_BOTTOM_OFFSET_COEF: 0.015, bASE_SHIEF_STATIONARY_GRENADE: 1.1, xZ_COEF_STATIONARY_GRENADE: 0.8, dEAD_BODY_LOOK_PERIOD: 8,
