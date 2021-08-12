@@ -1,0 +1,181 @@
+﻿using Generator.Models.Output.Difficulty;
+
+namespace Generator.Helpers
+{
+    public static class EasyHelper
+    {
+        public static Lay GenerateLay()
+        {
+            return new Lay(cHECK_SHOOT_WHEN_LAYING: false, dELTA_LAY_CHECK: 2, dELTA_GETUP: 2.7, dELTA_AFTER_GETUP: 10,
+                    cLEAR_POINTS_OF_SCARE_SEC: 20, mAX_LAY_TIME: 35, dELTA_WANT_LAY_CHECL_SEC: 5, aTTACK_LAY_CHANCE: 25,
+                    dIST_TO_COVER_TO_LAY: 3.5, dIST_TO_COVER_TO_LAY_SQRT: 12.25, dIST_GRASS_TERRAIN_SQRT: 0.160000011, dIST_ENEMY_NULL_DANGER_LAY: 15,
+                    dIST_ENEMY_NULL_DANGER_LAY_SQRT: 225, dIST_ENEMY_GETUP_LAY: 10, dIST_ENEMY_GETUP_LAY_SQRT: 100, dIST_ENEMY_CAN_LAY: 15,
+                    dIST_ENEMY_CAN_LAY_SQRT: 225, lAY_AIM: 0.6, mIN_CAN_LAY_DIST_SQRT: 121, mIN_CAN_LAY_DIST: 11,
+                    mAX_CAN_LAY_DIST_SQRT: 40000, mAX_CAN_LAY_DIST: 200, lAY_CHANCE_DANGER: 40, dAMAGE_TIME_TO_GETUP: 3);
+        }
+
+        public static Core GenerateCore()
+        {
+            return new Core(visibleAngle: 130, visibleDistance: 110, gainSightCoef: 0.2,
+                    scatteringPerMeter: 0.12, scatteringClosePerMeter: 0.12, damageCoeff: 1, hearingSense: 1.05,
+                    canRun: true, canGrenade: true, aimingType: "normal", pistolFireDistancePref: 35,
+                    shotgunFireDistancePref: 50, rifleFireDistancePref: 100, accuratySpeed: 0.3, waitInCoverBetweenShotsSec: 1.5);
+        }
+
+        public static Scattering GenerateScattering()
+        {
+            return new Scattering(minScatter: 0.015, workingScatter: 0.15, maxScatter: 0.3,
+                    speedUp: 0.6, speedUpAim: 1.8, speedDown: -0.2, toSlowBotSpeed: 1.8, toLowBotSpeed: 2.8, toUpBotSpeed: 4.3,
+                    movingSlowCoef: 1.4, toLowBotAngularSpeed: 140, toStopBotAngularSpeed: 80, fromShot: 0.001, tracerCoef: 1.3,
+                    handDamageScatteringMinMax: 0.7, handDamageAccuracySpeed: 1.3, bloodFall: 1.45, caution: 0.03, toCaution: 0.6,
+                    recoilControlCoefShootDone: 0.0003, recoilControlCoefShootDoneAuto: 0.00015, aMPLITUDE_FACTOR: 0.015,
+                    aMPLITUDE_SPEED: 0.001, dIST_FROM_OLD_POINT_TO_NOT_AIM: 15, dIST_FROM_OLD_POINT_TO_NOT_AIM_SQRT: 225,
+                    dIST_NOT_TO_SHOOT: 0.3, poseChnageCoef: 0.1, layFactor: 0.1, recoilYCoef: 0.0005, recoilYCoefSppedDown: -0.52, recoilYMax: 1);
+        }
+
+        public static Boss GenerateBoss()
+        {
+            return new Boss(bOSS_DIST_TO_WARNING: 34, bOSS_DIST_TO_WARNING_SQRT: 1156, bOSS_DIST_TO_WARNING_OUT: 43,
+                    bOSS_DIST_TO_WARNING_OUT_SQRT: 1849, bOSS_DIST_TO_SHOOT: 16, bOSS_DIST_TO_SHOOT_SQRT: 256, cHANCE_TO_SEND_GRENADE_100: 100,
+                    mAX_DIST_COVER_BOSS: 25, mAX_DIST_COVER_BOSS_SQRT: 625, mAX_DIST_DECIDER_TO_SEND: 35, mAX_DIST_DECIDER_TO_SEND_SQRT: 1225,
+                    tIME_AFTER_LOSE: 15, tIME_AFTER_LOSE_DELTA: 60, pERSONS_SEND: 2, dELTA_SEARCH_TIME: 18,
+                    cOVER_TO_SEND: true, wAIT_NO_ATTACK_SAVAGE: 10, cHANCE_USE_RESERVE_PATROL_100: 50, kILLA_Y_DELTA_TO_BE_ENEMY_BOSS: 5,
+                    kILLA_DITANCE_TO_BE_ENEMY_BOSS: 45, kILLA_START_SEARCH_SEC: 40, kILLA_CONTUTION_TIME: 5, kILLA_CLOSE_ATTACK_DIST: 8,
+                    kILLA_MIDDLE_ATTACK_DIST: 22, kILLA_LARGE_ATTACK_DIST: 41, kILLA_SEARCH_METERS: 30, kILLA_DEF_DIST_SQRT: 225,
+                    kILLA_SEARCH_SEC_STOP_AFTER_COMING: 25, kILLA_DIST_TO_GO_TO_SUPPRESS: 6, kILLA_AFTER_GRENADE_SUPPRESS_DELAY: 2,
+                    kILLA_CLOSEATTACK_TIMES: 3, kILLA_CLOSEATTACK_DELAY: 10, kILLA_HOLD_DELAY: 5, kILLA_BULLET_TO_RELOAD: 15,
+                    sHALL_WARN: true, kILLA_ENEMIES_TO_ATTACK: 3, kILLA_ONE_IS_CLOSE: 30, kILLA_TRIGGER_DOWN_DELAY: 1, kILLA_WAIT_IN_COVER_COEF: 1,
+                    kOJANIY_DIST_WHEN_READY: 40, kOJANIY_DIST_TO_BE_ENEMY: 200, kOJANIY_MIN_DIST_TO_LOOT: 20, kOJANIY_MIN_DIST_TO_LOOT_SQRT: 400,
+                    kOJANIY_DIST_ENEMY_TOO_CLOSE: 17, kOJANIY_MANY_ENEMIES_COEF: 1.5);
+        }
+
+        public static Mind GenerateMind()
+        {
+            return new Mind(hOW_WORK_OVER_DEAD_BODY: 2, mIN_SHOOTS_TIME: 2, mAX_SHOOTS_TIME: 4,
+                    tIME_LEAVE_MAP: 23, tIME_TO_RUN_TO_COVER_CAUSE_SHOOT_SEC: 15, dAMAGE_REDUCTION_TIME_SEC: 20, mIN_DAMAGE_SCARE: 20,
+                    cHANCE_TO_RUN_CAUSE_DAMAGE_0_100: 35, tIME_TO_FORGOR_ABOUT_ENEMY_SEC: 52, tIME_TO_FIND_ENEMY: 22, mAX_AGGRO_BOT_DIST: 100,
+                    hIT_POINT_DETECTION: 4, dANGER_POINT_CHOOSE_COEF: 1, sIMPLE_POINT_CHOOSE_COEF: 0.4, lASTSEEN_POINT_CHOOSE_COEF: 0.2,
+                    cOVER_DIST_COEF: 1.5, dIST_TO_FOUND_SQRT: 400, mAX_AGGRO_BOT_DIST_SQR: 10000, dIST_TO_STOP_RUN_ENEMY: 15,
+                    eNEMY_LOOK_AT_ME_ANG: 15, mIN_START_AGGRESION_COEF: 1, mAX_START_AGGRESION_COEF: 3, bULLET_FEEL_DIST: 360,
+                    bULLET_FEEL_CLOSE_SDIST: 1, aTTACK_IMMEDIATLY_CHANCE_0_100: 40, cHANCE_FUCK_YOU_ON_CONTACT_100: 10, fRIEND_DEAD_AGR_LOW: -0.2,
+                    fRIEND_AGR_KILL: 0.2, lAST_ENEMY_LOOK_TO: 40, cAN_RECIVE_PLAYER_REQUESTS: true, cAN_TAKE_ITEMS: true,
+                    cAN_USE_MEDS: true, sUSPETION_POINT_CHANCE_ADD100: 0, aMBUSH_WHEN_UNDER_FIRE: true, aMBUSH_WHEN_UNDER_FIRE_TIME_RESIST: 60,
+                    aTTACK_ENEMY_IF_PROTECT_DELTA_LAST_TIME_SEEN: 1.5, hOLD_IF_PROTECT_DELTA_LAST_TIME_SEEN: 8.5, fIND_COVER_TO_GET_POSITION_WITH_SHOOT: 2,
+                    pROTECT_TIME_REAL: true, cHANCE_SHOOT_WHEN_WARN_PLAYER_100: 25, cAN_PANIC_IS_PROTECT: false, nO_RUN_AWAY_FOR_SAFE: false,
+                    pART_PERCENT_TO_HEAL: 0.65, pROTECT_DELTA_HEAL_SEC: 10, cAN_STAND_BY: true, cAN_THROW_REQUESTS: true,
+                    gROUP_ANY_PHRASE_DELAY: 4, gROUP_EXACTLY_PHRASE_DELAY: 4, dIST_TO_ENEMY_YO_CAN_HEAL: 30, cHANCE_TO_STAY_WHEN_WARN_PLAYER_100: 80,
+                    dOG_FIGHT_OUT: 6, dOG_FIGHT_IN: 3, sHOOT_INSTEAD_DOG_FIGHT: 9, pISTOL_SHOTGUN_AMBUSH_DIST: 60,
+                    sTANDART_AMBUSH_DIST: 200, aI_POWER_COEF: 120, cOVER_SECONDS_AFTER_LOSE_VISION: 10, cOVER_SELF_ALWAYS_IF_DAMAGED: false,
+                    sEC_TO_MORE_DIST_TO_RUN: 10, hEAL_DELAY_SEC: 5, hIT_DELAY_WHEN_HAVE_SMT: -1, hIT_DELAY_WHEN_PEACE: -1,
+                    tALK_WITH_QUERY: true, wILL_PERSUE_AXEMAN: true);
+        }
+
+        internal static Hearing GenerateHearing()
+        {
+            return new Hearing(bOT_CLOSE_PANIC_DIST: 2, cHANCE_TO_HEAR_SIMPLE_SOUND_0_1: 0.45,
+                    dISPERSION_COEF: 1.6, cLOSE_DIST: 10, fAR_DIST: 30, sOUND_DIR_DEEFREE: 30, dIST_PLACE_TO_FIND_POINT: 70,
+                    dEAD_BODY_SOUND_RAD: 30, lOOK_ONLY_DANGER: false, rESET_TIMER_DIST: 17, hEAR_DELAY_WHEN_PEACE: 0.85,
+                    hEAR_DELAY_WHEN_HAVE_SMT: 0.56, lOOK_ONLY_DANGER_DELTA: 9);
+        }
+
+        public static Patrol GeneratePatrol()
+        {
+            return new Patrol(dEAD_BODY_LOOK_PERIOD: 8, lOOK_TIME_BASE: 12, cAN_CHOOSE_RESERV: true,
+                    tRY_CHOOSE_RESERV_WAY_ON_START: false, cAN_LOOK_TO_DEADBODIES: true, cAN_FRIENDLY_TILT: true,
+                    cAN_HARD_AIM: true, rESERVE_TIME_STAY: 72, fRIEND_SEARCH_SEC: 12, tALK_DELAY: 1.1,
+                    mIN_TALK_DELAY: 35, tALK_DELAY_BIG: 15.1, cHANGE_WAY_TIME: 125.1, mIN_DIST_TO_CLOSE_TALK: 5,
+                    vISION_DIST_COEF_PEACE: 0.5, mIN_DIST_TO_CLOSE_TALK_SQR: 25, cHANCE_TO_CUT_WAY_0_100: 75, cUT_WAY_MIN_0_1: 0.4,
+                    cUT_WAY_MAX_0_1: 0.65, cHANCE_TO_CHANGE_WAY_0_100: 50, cHANCE_TO_SHOOT_DEADBODY: 52, sUSPETION_PLACE_LIFETIME: 7,
+                    rESERVE_OUT_TIME: 30, cLOSE_TO_SELECT_RESERV_WAY: 25, mAX_YDIST_TO_START_WARN_REQUEST_TO_REQUESTER: 5);
+        }
+
+        public static Cover GenerateCover()
+        {
+            return new Cover(rETURN_TO_ATTACK_AFTER_AMBUSH_MIN: 20, rETURN_TO_ATTACK_AFTER_AMBUSH_MAX: 50,
+                    sOUND_TO_GET_SPOTTED: 2, tIME_TO_MOVE_TO_COVER: 15, mAX_DIST_OF_COVER: 4, cHANGE_RUN_TO_COVER_SEC: 5,
+                    cHANGE_RUN_TO_COVER_SEC_GREANDE: 0.6, mIN_DIST_TO_ENEMY: 9, dIST_CANT_CHANGE_WAY: 5, dIST_CHECK_SFETY: 9,
+                    tIME_CHECK_SAFE: 2, hIDE_TO_COVER_TIME: 1.5, mAX_DIST_OF_COVER_SQR: 16, dIST_CANT_CHANGE_WAY_SQR: 25,
+                    sPOTTED_COVERS_RADIUS: 3, lOOK_LAST_ENEMY_POS_MOVING: 1.5, lOOK_TO_HIT_POINT_IF_LAST_ENEMY: 3, lOOK_LAST_ENEMY_POS_LOOKAROUND: 45,
+                    oFFSET_LOOK_ALONG_WALL_ANG: 20, sPOTTED_GRENADE_RADIUS: 16, mAX_SPOTTED_TIME_SEC: 45, wAIT_INT_COVER_FINDING_ENEMY: 2,
+                    cLOSE_DIST_POINT_SQRT: 4, dELTA_SEEN_FROM_COVE_LAST_POS: 15, mOVE_TO_COVER_WHEN_TARGET: false, rUN_COVER_IF_CAN_AND_NO_ENEMIES: false,
+                    sPOTTED_GRENADE_TIME: 7, dEPENDS_Y_DIST_TO_BOT: false, rUN_IF_FAR: 10, rUN_IF_FAR_SQRT: 225,
+                    sTAY_IF_FAR: 25, sTAY_IF_FAR_SQRT: 625, cHECK_COVER_ENEMY_LOOK: true, sHOOT_NEAR_TO_LEAVE: 2,
+                    sHOOT_NEAR_SEC_PERIOD: 0.5, hITS_TO_LEAVE_COVER: 1, hITS_TO_LEAVE_COVER_UNKNOWN: 1, dOG_FIGHT_AFTER_LEAVE: 4,
+                    nOT_LOOK_AT_WALL_IS_DANGER: true, mIN_DEFENCE_LEVEL: 22, gOOD_DIST_TO_POINT_COEF: 1.8, eNEMY_DIST_TO_GO_OUT: 1,
+                    sTATIONARY_WEAPON_NO_ENEMY_GETUP: 20, sTATIONARY_WEAPON_MAX_DIST_TO_USE: 25);
+        }
+
+        public static Change GenerateChange()
+        {
+            return new Change(sMOKE_VISION_DIST: 0.6, sMOKE_GAIN_SIGHT: 1.6, sMOKE_SCATTERING: 1.6,
+                    sMOKE_PRECICING: 1.6, sMOKE_HEARING: 1, sMOKE_ACCURATY: 1.6, sMOKE_LAY_CHANCE: 1.6,
+                    fLASH_VISION_DIST: 0.05, fLASH_GAIN_SIGHT: 1.8, fLASH_SCATTERING: 1.6, fLASH_PRECICING: 1.6,
+                    fLASH_HEARING: 1, fLASH_ACCURATY: 1.6, fLASH_LAY_CHANCE: 1, sTUN_HEARING: 0.01);
+        }
+
+        public static Grenade GenerateGrenade()
+        {
+            return new Grenade(dELTA_NEXT_ATTEMPT_FROM_COVER: 5, dELTA_NEXT_ATTEMPT: 10, mIN_DIST_NOT_TO_THROW: 8,
+                    nEAR_DELTA_THROW_TIME_SEC: 2, mIN_THROW_GRENADE_DIST: 12, mIN_THROW_GRENADE_DIST_SQRT: 144, mIN_DIST_NOT_TO_THROW_SQR: 64,
+                    rUN_AWAY: 22, rUN_AWAY_SQR: 484, aDD_GRENADE_AS_DANGER: 65, aDD_GRENADE_AS_DANGER_SQR: 4225,
+                    cHANCE_TO_NOTIFY_ENEMY_GR_100: 99, grenadePerMeter: 0.2, rEQUEST_DIST_MUST_THROW_SQRT: 4, rEQUEST_DIST_MUST_THROW: 2,
+                    bEWARE_TYPE: 2, sHOOT_TO_SMOKE_CHANCE_100: 30, cHANCE_RUN_FLASHED_100: 0, mAX_FLASHED_DIST_TO_SHOOT: 10,
+                    mAX_FLASHED_DIST_TO_SHOOT_SQRT: 100, fLASH_GRENADE_TIME_COEF: 0.3, sIZE_SPOTTED_COEF: 2, bE_ATTENTION_COEF: 4,
+                    tIME_SHOOT_TO_FLASH: 4, cLOSE_TO_SMOKE_TO_SHOOT: 5, cLOSE_TO_SMOKE_TO_SHOOT_SQRT: 25, cLOSE_TO_SMOKE_TIME_DELTA: 7,
+                    sMOKE_CHECK_DELTA: 1, dELTA_GRENADE_START_TIME: 0.7, aMBUSH_IF_SMOKE_IN_ZONE_100: 40, aMBUSH_IF_SMOKE_RETURN_TO_ATTACK_SEC: 30,
+                    nO_RUN_FROM_AI_GRENADES: false, mAX_THROW_POWER: 15.7, grenadePrecision: 0.3, sTOP_WHEN_THROW_GRENADE: true,
+                    wAIT_TIME_TURN_AWAY: 0.2, sMOKE_SUPPRESS_DELTA: 20, dAMAGE_GRENADE_SUPPRESS_DELTA: 8, sTUN_SUPPRESS_DELTA: 9,
+                    cHEAT_START_GRENADE_PLACE: false, cAN_THROW_STRAIGHT_CONTACT: true, sTRAIGHT_CONTACT_DELTA_SEC: -1, aNG_TYPE: 4);
+        }
+
+        public static Move GenerateMove()
+        {
+            return new Move(bASE_ROTATE_SPEED: 270, rEACH_DIST: 0.5, rEACH_DIST_RUN: 0.8, sTART_SLOW_DIST: 1.5,
+                    bASESTART_SLOW_DIST: 1.1, sLOW_COEF: 7, dIST_TO_CAN_CHANGE_WAY: 8, dIST_TO_START_RAYCAST: 15, bASE_START_SERACH: 35,
+                    uPDATE_TIME_RECAL_WAY: 7, fAR_DIST: 4, fAR_DIST_SQR: 16, dIST_TO_CAN_CHANGE_WAY_SQR: 64, dIST_TO_START_RAYCAST_SQR: 225,
+                    bASE_SQRT_START_SERACH: 1225, y_APPROXIMATION: 0.7, dELTA_LAST_SEEN_ENEMY: 20, rEACH_DIST_COVER: 2, rUN_TO_COVER_MIN: 2,
+                    cHANCE_TO_RUN_IF_NO_AMMO_0_100: 100, rUN_IF_CANT_SHOOT: false, rUN_IF_GAOL_FAR_THEN: 10, sEC_TO_CHANGE_TO_RUN: 3);
+        }
+
+        public static Shoot GenerateShoot()
+        {
+            return new Shoot(rECOIL_TIME_NORMALIZE: 2, rECOIL_PER_METER: 0.1, mAX_RECOIL_PER_METER: 0.2,
+                    hORIZONT_RECOIL_COEF: 0.4, wAIT_NEXT_SINGLE_SHOT: 0.3, wAIT_NEXT_SINGLE_SHOT_LONG_MAX: 3.3, wAIT_NEXT_SINGLE_SHOT_LONG_MIN: 0.8,
+                    mARKSMAN_DIST_SEK_COEF: 44, fINGER_HOLD_SINGLE_SHOT: 0.14, bASE_AUTOMATIC_TIME: 0.1, aUTOMATIC_FIRE_SCATTERING_COEF: 1.5,
+                    cHANCE_TO_CHANGE_TO_AUTOMATIC_FIRE_100: 76, fAR_DIST_ENEMY: 20, sHOOT_FROM_COVER: 4, fAR_DIST_ENEMY_SQR: 400,
+                    mAX_DIST_COEF: 1.35, rECOIL_DELTA_PRESS: 0.15, rUN_DIST_NO_AMMO: 25, rUN_DIST_NO_AMMO_SQRT: 625,
+                    cAN_SHOOTS_TIME_TO_AMBUSH: 333, nOT_TO_SEE_ENEMY_TO_WANT_RELOAD_PERCENT: 0.5, nOT_TO_SEE_ENEMY_TO_WANT_RELOAD_SEC: 2,
+                    rELOAD_PECNET_NO_ENEMY: 0.6, cHANCE_TO_CHANGE_WEAPON: 0, cHANCE_TO_CHANGE_WEAPON_WITH_HELMET: 0,
+                    lOW_DIST_TO_CHANGE_WEAPON: 10, fAR_DIST_TO_CHANGE_WEAPON: 50, sUPPRESS_BY_SHOOT_TIME: 6, sUPPRESS_TRIGGERS_DOWN: 3,
+                    wAIT_NEXT_STATIONARY_GRENADE: 1, fINGER_HOLD_STATIONARY_GRENADE: 0.3);
+        }
+
+        public static Look GenerateLook()
+        {
+            return new Look(oLD_TIME_POINT: 11, wAIT_NEW_SENSOR: 2.1,wAIT_NEW__LOOK_SENSOR: 7.8, lOOK_AROUND_DELTA: 1.1,
+                    mAX_VISION_GRASS_METERS: 0.4, mAX_VISION_GRASS_METERS_FLARE: 7,mAX_VISION_GRASS_METERS_OPT: 0.9090909,
+                    mAX_VISION_GRASS_METERS_FLARE_OPT: 0.125, lightOnVisionDistance: 30,
+                    fAR_DISTANCE: 160, farDeltaTimeSec: 3, mIDDLE_DIST: 90, middleDeltaTimeSec: 1, closeDeltaTimeSec: 0.1,
+                    pOSIBLE_VISION_SPACE: 1.2, gOAL_TO_FULL_DISSAPEAR: 0.25, gOAL_TO_FULL_DISSAPEAR_SHOOT: 0.0001, bODY_DELTA_TIME_SEARCH_SEC: 1.7,
+                    cOME_TO_BODY_DIST: 1.2, mARKSMAN_VISIBLE_DIST_COEF: 1.15, vISIBLE_DISNACE_WITH_LIGHT: 43, eNEMY_LIGHT_ADD: 45,
+                    eNEMY_LIGHT_START_DIST: 40, cAN_LOOK_TO_WALL: false, dIST_NOT_TO_IGNORE_WALL: 15, dIST_CHECK_WALL: 20,
+                    lOOK_LAST_POSENEMY_IF_NO_DANGER_SEC: 25, mIN_LOOK_AROUD_TIME: 20, oPTIMIZE_TO_ONLY_BODY: true);
+        }
+
+        public static Aiming GenerateAiming()
+        {
+            return new Aiming(mAX_AIM_PRECICING: 4, bETTER_PRECICING_COEF: 0.7, rECALC_DIST: 0.7, rECALC_SQR_DIST: 0.48999998,
+                    cOEF_FROM_COVER: 0.8, pANIC_COEF: 1.2, pANIC_ACCURATY_COEF: 1.2, hARD_AIM: 0.75, pANIC_TIME: 2, rECALC_MUST_TIME: 3,
+                    dAMAGE_PANIC_TIME: 15, dANGER_UP_POINT: 1.3, mAX_AIMING_UPGRADE_BY_TIME: 0.85, dAMAGE_TO_DISCARD_AIM_0_100: 100,
+                    mIN_TIME_DISCARD_AIM_SEC: 2.9, mAX_TIME_DISCARD_AIM_SEC: 3.2, xZ_COEF: 0.75, sHOOT_TO_CHANGE_PRIORITY: 5525,
+                    bOTTOM_COEF: 0.3, fIRST_CONTACT_ADD_SEC: 0.1, fIRST_CONTACT_ADD_CHANCE_100: 80, bASE_HIT_AFFECTION_DELAY_SEC: 1.77,
+                    bASE_HIT_AFFECTION_MIN_ANG: 14, bASE_HIT_AFFECTION_MAX_ANG: 28, bASE_SHIEF: 1, sCATTERING_HAVE_DAMAGE_COEF: 2,
+                    sCATTERING_DIST_MODIF: 0.7, sCATTERING_DIST_MODIF_CLOSE: 0.85, aIMING_TYPE: 5, dIST_TO_SHOOT_TO_CENTER: 3,
+                    dIST_TO_SHOOT_NO_OFFSET: 3, sHPERE_FRIENDY_FIRE_SIZE: -1, cOEF_IF_MOVE: 1.9, tIME_COEF_IF_MOVE: 1.5, bOT_MOVE_IF_DELTA: 0.01,
+                    nEXT_SHOT_MISS_CHANCE_100: 100, nEXT_SHOT_MISS_Y_OFFSET: 1, aNYTIME_LIGHT_WHEN_AIM_100: -1, aNY_PART_SHOOT_TIME: 30,
+                    wEAPON_ROOT_OFFSET: 0.35, mIN_DAMAGE_TO_GET_HIT_AFFETS: 1, mAX_AIM_TIME: 1.5, oFFSET_RECAL_ANYWAY_TIME: 1, y_TOP_OFFSET_COEF: 0.001,
+                    y_BOTTOM_OFFSET_COEF: 0.015, bASE_SHIEF_STATIONARY_GRENADE: 1.1, xZ_COEF_STATIONARY_GRENADE: 0.8, dEAD_BODY_LOOK_PERIOD: 8,
+                    cAN_HARD_AIM: true);
+        }
+    }
+}
