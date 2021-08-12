@@ -17,8 +17,8 @@ namespace Generator.Helpers
 
         public static Core GenerateCore()
         {
-            return new Core(visibleAngle: 140, visibleDistance: 130, gainSightCoef: 0.1,
-                    scatteringPerMeter: 0.1, scatteringClosePerMeter: 0.1, damageCoeff: 1, hearingSense: 2.85,
+            return new Core(visibleAngle: 130, visibleDistance: 120, gainSightCoef: 0.2,
+                    scatteringPerMeter: 0.1, scatteringClosePerMeter: 0.1, damageCoeff: 1, hearingSense: 1.85,
                     canRun: true, canGrenade: true, aimingType: "normal", pistolFireDistancePref: 35,
                     shotgunFireDistancePref: 50, rifleFireDistancePref: 100, accuratySpeed: 0.3, waitInCoverBetweenShotsSec: 1.5);
         }
