@@ -43,6 +43,13 @@ namespace Generator
                 try
                 {
                     var bots = ParseJson(json, file);
+
+                    if (bots == null || bots.Count == 0)
+                    {
+                        Console.WriteLine($"no bots found, skipping file: {splitFile.Last()}");
+                        continue;
+                    }
+
                     Console.WriteLine($"parsing: {bots.Count} bots in file {splitFile.Last()}");
                     foreach (var bot in bots)
                     {
