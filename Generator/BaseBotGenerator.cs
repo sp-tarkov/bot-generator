@@ -48,7 +48,7 @@ namespace Generator
                 {
                     AddVisualAppearanceItems(bot, rawParsedBot);
                     AddName(bot, rawParsedBot.Info.Nickname);
-
+                    AddVoice(bot, rawParsedBot);
                 }
             }
 
@@ -57,6 +57,18 @@ namespace Generator
 
 
             return rawBots;
+        }
+
+        private void AddVoice(Bot bot, Datum rawParsedBot)
+        {
+            if (bot.botType == BotType.assault || bot.botType == BotType.marksman)
+            {
+                if (rawParsedBot.Info.Voice.StartsWith("scav", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    bot.appearance.voice.AddUnique(rawParsedBot.Info.Voice);
+                }
+            }
+            
         }
 
         private void AddDifficulties(Bot bot, List<Datum> rawParsedBots)
@@ -103,22 +115,21 @@ namespace Generator
             botToUpdate.health.BodyParts.RightLeg.max = firstBotOfDesiredType.Health.BodyParts.RightLeg.Health.Maximum;
         }
 
-        private void AddVisualAppearanceItems(Bot finalAssaultBot, Datum bot)
+        private void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
         {
-            finalAssaultBot.appearance.head.AddUnique(bot.Customization.Head);
-            finalAssaultBot.appearance.body.AddUnique(bot.Customization.Body);
-            finalAssaultBot.appearance.hands.AddUnique(bot.Customization.Hands);
-            finalAssaultBot.appearance.feet.AddUnique(bot.Customization.Feet);
-            finalAssaultBot.appearance.voice.AddUnique(bot.Info.Voice);
+            botToUpdate.appearance.head.AddUnique(rawBot.Customization.Head);
+            botToUpdate.appearance.body.AddUnique(rawBot.Customization.Body);
+            botToUpdate.appearance.hands.AddUnique(rawBot.Customization.Hands);
+            botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet);
         }
 
-        private void AddName(Bot finalAssaultBot, string nickName)
+        private void AddName(Bot botToUpdate, string nickName)
         {
             var name = nickName.Split();
-            finalAssaultBot.firstName.AddUnique(name[0]);
+            botToUpdate.firstName.AddUnique(name[0]);
             if (name.Length > 1)
             {
-                finalAssaultBot.lastName.AddUnique(name[1]);
+                botToUpdate.lastName.AddUnique(name[1]);
             }
         }
     }
