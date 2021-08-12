@@ -39,7 +39,7 @@ namespace Generator
             }
 
             stopwatch.Stop();
-            LoggingHelpers.LogToConsole($"Time taken to generate gear: {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+            LoggingHelpers.LogToConsole($"Finished processing bot gear. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
             return _baseBots;
         }
@@ -118,7 +118,7 @@ namespace Generator
                 case BotType.assault:
                     bot.chances.mods = new Mods(muzzle: 18, barrel: 100, handguard: 100, stock: 66, magazine: 100,
                         mount: 15, flashlight: 100, tactical_001: 99, tactical_002: 0, tactical_003: 0,
-                        mount_000: 15, pistol_grip: 97, tactical: 87, scope: 17, reciever: 92,
+                        mount_000: 56, pistol_grip: 97, tactical: 87, scope: 17, reciever: 92,
                         sight_rear: 56, charge: 13, mount_001: 0, equipment: 30, gas_block: 100,
                         launcher: 0, sight_front: 25, stock_000: 0, foregrip: 0, tactical_000: 0,
                         nvg: 0, pistol_grip_akms: 100, stock_akms: 100, equipment_000: 0, equipment_001: 0,

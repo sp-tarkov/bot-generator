@@ -53,7 +53,7 @@ namespace Generator
             }
 
             stopwatch.Stop();
-            LoggingHelpers.LogToConsole($"Time taken to generate base bot files: {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+            LoggingHelpers.LogToConsole($"Finished processing bot base. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
 
             return rawBots;

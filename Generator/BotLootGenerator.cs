@@ -37,7 +37,7 @@ namespace Generator
             }
 
             stopwatch.Stop();
-            LoggingHelpers.LogToConsole($"Time taken to generate loot: {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+            LoggingHelpers.LogToConsole($"Finished processing bot loot. Took: {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
             return _botsWithGear;
         }
