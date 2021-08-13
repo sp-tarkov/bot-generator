@@ -2,6 +2,7 @@
 using Generator.Models.Input;
 using Generator.Models.Output;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,22 +13,18 @@ namespace Generator
 {
     internal class BotParser
     {
-        private readonly string _workingPath;
         private readonly string _dumpPath;
-        private readonly string[] _botTypes;
 
-        public BotParser(string workingPath, string dumpPath, string[] botTypes)
+        public BotParser(string dumpPath, string[] botTypes)
         {
-            _workingPath = workingPath;
             _dumpPath = dumpPath;
-            _botTypes = botTypes;
         }
 
         public List<Datum> Parse()
         {
             var stopwatch = Stopwatch.StartNew();
 
-            var failedFiles = 0;
+            var failedFilesCount = 0;
             CreateDirIfDoesntExist(_dumpPath);
 
             var botFiles = Directory.GetFiles(_dumpPath, "*.json", SearchOption.TopDirectoryOnly).ToList();
@@ -37,16 +34,18 @@ namespace Generator
             foreach (var file in botFiles)
             {
                 var splitFile = file.Split("\\");
-                failedFiles++;
+
 
                 var json = File.ReadAllText(file);
                 try
                 {
+                    json = PruneMalformedBsgJson(json, splitFile.Last());
+
                     var bots = ParseJson(json, file);
 
                     if (bots == null || bots.Count == 0)
                     {
-                        Console.WriteLine($"no bots found, skipping file: {splitFile.Last()}");
+                        Console.WriteLine($"skipping file: {splitFile.Last()}. no bots found, ");
                         continue;
                     }
 
@@ -54,23 +53,39 @@ namespace Generator
                     foreach (var bot in bots)
                     {
                         parsedBots.Add(bot);
-                    } 
+                    }
                 }
                 catch (JsonException jex)
                 {
-                    
+                    failedFilesCount++;
                     Console.WriteLine($"JSON Error message: {jex.Message} || file: {splitFile.Last()}");
-                    continue;
                 }
             }
 
             stopwatch.Stop();
-
-            Console.WriteLine($"Parsed: {parsedBots.Count} Failed: {failedFiles}. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
-
-
+            LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBots.Count} Failed: {failedFilesCount}. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
             return parsedBots;
+        }
+
+        private string PruneMalformedBsgJson(string json, string fileName)
+        {
+            // Bsg send json where an item has a location of 1 but it should be an object with x/y/z coords
+            var o = JObject.Parse(json);
+            var jItemsToReplace = o.SelectTokens("$.data[*].Inventory.items[?(@.location == 1)].location");
+            //var jItemsToReplace = o.SelectTokens("$.data[*].Inventory.items[?(@.location == 1 && @.slotId == 'cartridges')].location");
+
+            if (jItemsToReplace != null && jItemsToReplace.Any())
+            {
+                LoggingHelpers.LogToConsole($"file {fileName} has {jItemsToReplace.Count()} json issues, cleaning up.");
+                foreach (var item in jItemsToReplace)
+                {
+                    var obj = new { x = 1, y = 0, r = 0 };
+                    item.Replace(JToken.FromObject(obj));
+                }
+            }
+
+            return o.ToString();
         }
 
         private void CreateDirIfDoesntExist(string path)
