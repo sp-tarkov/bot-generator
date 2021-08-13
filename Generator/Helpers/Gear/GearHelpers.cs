@@ -111,9 +111,9 @@ namespace Generator.Helpers.Gear
         }
 
         private static void AddItemToDictionary(
-    Item itemToAdd,
-    List<Item> modsToAdd,
-    Dictionary<string, Dictionary<string, List<string>>> itemsWithModsDict)
+            Item itemToAdd,
+            List<Item> modsToAdd,
+            Dictionary<string, Dictionary<string, List<string>>> itemsWithModsDict)
         {
             // item key already exists, need to merge mods
             if (itemsWithModsDict.ContainsKey(itemToAdd._tpl))
@@ -149,9 +149,7 @@ namespace Generator.Helpers.Gear
                     var modToUpdate = modItems[modItem.slotId];
                     modToUpdate.Add(modItem._tpl);
                 }
-
             }
-            var result = JsonConvert.SerializeObject(itemsWithModsDict, Formatting.Indented);
         }
 
 
@@ -163,7 +161,6 @@ namespace Generator.Helpers.Gear
             foreach (var itemToAdd in item.Value)
             {
                 cartridges.AddUnique(itemToAdd);
-
             }
         }
 
