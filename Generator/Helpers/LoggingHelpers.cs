@@ -11,7 +11,18 @@ namespace Generator.Helpers
 
         public static void LogToConsole(string message)
         {
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Black;
+
             Console.WriteLine(message);
+
+            ResetConsoleColours();
+        }
+
+        private static void ResetConsoleColours()
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
