@@ -1,42 +1,98 @@
 ﻿using Generator.Models;
+using Generator.Models.Input;
 using Generator.Models.Output;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Generator.Helpers.Gear
 {
     public static class GearChanceHelpers
     {
-        public static void AddModChances(Bot bot)
+        public static void CalculateModChances(Bot bot, List<Datum> baseBots)
         {
-            switch (bot.botType)
+            int totalBotsCount = baseBots.Count;
+            int muzzleCount = 0, barrelCount = 0, handguardCount = 0, stockCount = 0, magazineCount = 0,
+                mountCount = 0, flashlightCount = 0, tactical001Count = 0, tactical002Count = 0, tactical003Count =0,
+                mount000Count = 0, pistolGripCount = 0, tacticalCount = 0, scopeCount = 0, recieverCount = 0,
+                sightRearCount = 0, chargeCount = 0, mount001Count = 0, equipmentCount = 0, gasBlockCount=0,
+                launcherCount = 0, sightFrontCount = 0, stock000Count = 0, foregripCount = 0, tactical000Count = 0,
+                nvgCount = 0, pistolGripAkmsCount = 0, stockAkmsCount = 0, equipment000Count = 0, equipment001Count = 0,
+                equipment002Count = 0, bipodCount = 0;
+
+            foreach (var baseBot in baseBots)
             {
-                case BotType.assault:
-                    bot.chances.mods = new Mods(muzzle: 18, barrel: 100, handguard: 100, stock: 66, magazine: 100,
-                        mount: 15, flashlight: 100, tactical_001: 99, tactical_002: 0, tactical_003: 0,
-                        mount_000: 56, pistol_grip: 97, tactical: 87, scope: 17, reciever: 92,
-                        sight_rear: 56, charge: 13, mount_001: 0, equipment: 30, gas_block: 100,
-                        launcher: 0, sight_front: 25, stock_000: 0, foregrip: 0, tactical_000: 0,
-                        nvg: 0, pistol_grip_akms: 100, stock_akms: 100, equipment_000: 0, equipment_001: 0,
-                        equipment_002: 0, bipod: 0);
-                    break;
-                case BotType.pmcBot:
-                    bot.chances.mods = new Mods(muzzle: 67, barrel: 100, handguard: 97, stock: 81, magazine: 100,
-                        mount: 35, flashlight: 100, tactical_001: 9, tactical_002: 0, tactical_003: 0,
-                        mount_000: 28, pistol_grip: 97, tactical: 32, scope: 57, reciever: 100,
-                        sight_rear: 58, charge: 81, mount_001: 38, equipment: 0, gas_block: 100,
-                        launcher: 0, sight_front: 65, stock_000: 100, foregrip: 30, tactical_000: 18,
-                        nvg: 25, pistol_grip_akms: 97, stock_akms: 0, equipment_000: 0, equipment_001: 0,
-                        equipment_002: 0, bipod: 0);
-                    break;
-                case BotType.marksman:
-                    bot.chances.mods = new Mods(muzzle: 0, barrel: 100, handguard: 0, stock: 73, magazine: 100,
-                        mount: 100, flashlight: 0, tactical_001: 0, tactical_002: 0, tactical_003: 0,
-                        mount_000: 0, pistol_grip: 0, tactical: 33, scope: 89, reciever: 0,
-                        sight_rear: 17, charge: 0, mount_001: 0, equipment: 0, gas_block: 0,
-                        launcher: 0, sight_front: 25, stock_000: 0, foregrip: 0, tactical_000: 33,
-                        nvg: 100, pistol_grip_akms: 0, stock_akms: 0, equipment_000: 0, equipment_001: 0,
-                        equipment_002: 0, bipod: 0);
-                    break;
+                muzzleCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_muzzle");
+                barrelCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_barrel");
+                handguardCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_handguard");
+                stockCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_stock");
+                magazineCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_magazine");
+                mountCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount");
+                flashlightCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_flashlight");
+                tactical001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical_001");
+                tactical002Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical_002");
+                tactical003Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical_003");
+                mount000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_000");
+                pistolGripCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_pistol_grip");
+                tacticalCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical");
+                scopeCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_scope");
+                recieverCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_reciever");
+                sightRearCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_sight_rear");
+                chargeCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_charge");
+                mount001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_001");
+                equipmentCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment");
+                gasBlockCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_gas_block");
+                launcherCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_launcher");
+                sightFrontCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_sight_front");
+                stock000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_stock_000");
+                foregripCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_foregrip");
+                tactical000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical_000");
+                nvgCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_nvg");
+                pistolGripAkmsCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_pistol_grip_akms");
+                stockAkmsCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_stock_akms");
+                equipment000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment_000");
+                equipment001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment_001");
+                equipment002Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment_002");
+                bipodCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_bipod");
             }
+
+            bot.chances.mods = new Mods(
+                GetPercent(totalBotsCount, muzzleCount),
+                GetPercent(totalBotsCount, barrelCount),
+                GetPercent(totalBotsCount, handguardCount),
+                GetPercent(totalBotsCount, stockCount),
+                GetPercent(totalBotsCount, magazineCount),
+                GetPercent(totalBotsCount, mountCount),
+                GetPercent(totalBotsCount, flashlightCount),
+                GetPercent(totalBotsCount, tactical001Count),
+                GetPercent(totalBotsCount, tactical002Count),
+                GetPercent(totalBotsCount, tactical003Count),
+                GetPercent(totalBotsCount, mount000Count),
+                GetPercent(totalBotsCount, pistolGripCount),
+                GetPercent(totalBotsCount, tacticalCount),
+                GetPercent(totalBotsCount, scopeCount),
+                GetPercent(totalBotsCount, recieverCount),
+                GetPercent(totalBotsCount, sightRearCount),
+                GetPercent(totalBotsCount, chargeCount),
+                GetPercent(totalBotsCount, mount001Count),
+                GetPercent(totalBotsCount, equipmentCount),
+                GetPercent(totalBotsCount, gasBlockCount),
+                GetPercent(totalBotsCount, launcherCount),
+                GetPercent(totalBotsCount, sightFrontCount),
+                GetPercent(totalBotsCount, stock000Count),
+                GetPercent(totalBotsCount, foregripCount),
+                GetPercent(totalBotsCount, tactical000Count),
+                GetPercent(totalBotsCount, nvgCount),
+                GetPercent(totalBotsCount, pistolGripAkmsCount),
+                GetPercent(totalBotsCount, stockAkmsCount),
+                GetPercent(totalBotsCount, equipment000Count),
+                GetPercent(totalBotsCount, equipment001Count),
+                GetPercent(totalBotsCount, equipment002Count),
+                GetPercent(totalBotsCount, bipodCount));
+        }
+
+        private static Mods CalculateModChances(List<Datum> baseBots)
+        {
+            throw new System.NotImplementedException();
         }
 
         public static void AddGenerationChances(Bot bot)
@@ -51,21 +107,51 @@ namespace Generator.Helpers.Gear
             }
         }
 
-        public static void AddEquipmentChances(Bot bot)
+        public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)
         {
-            switch (bot.botType)
+            var totalBotsCount = baseBots.Count;
+            int headwearCount = 0, earCount = 0, faceCoverCount = 0,armorVestCount = 0, eyeWearCount = 0, armBandCount = 0,
+                tacticalVestCount = 0, backpackCount = 0, firstPrimaryCount = 0, secondPrimaryCount = 0, holsterCount = 0,
+                scabbardCount = 0, pocketsCount = 0, securedContainerCount = 0;
+
+            foreach (var baseBot in baseBots)
             {
-                case BotType.assault:
-                    bot.chances.equipment = new EquipmentChances(73, 0, 62, 28, 36, 0, 100, 38, 95, 0, 5, 72, 100, 100);
-                    break;
-                case BotType.pmcBot:
-                    bot.chances.equipment = new EquipmentChances(89, 56, 58, 49, 84, 0, 100, 58, 100, 0, 18, 0, 100, 100);
-                    break;
-                case BotType.marksman:
-                    bot.chances.equipment = new EquipmentChances(8, 8, 8, 42, 0, 0, 100, 25, 100, 0, 0, 33, 100, 100);
-                    break;
+                headwearCount += baseBot.Inventory.items.Count(x=> x.slotId == "Headwear");
+                earCount += baseBot.Inventory.items.Count(x => x.slotId == "Earpiece");
+                faceCoverCount += baseBot.Inventory.items.Count(x => x.slotId == "FaceCover");
+                armorVestCount += baseBot.Inventory.items.Count(x => x.slotId == "ArmorVest");
+                eyeWearCount += baseBot.Inventory.items.Count(x => x.slotId == "Eyewear");
+                armBandCount += baseBot.Inventory.items.Count(x => x.slotId == "ArmBand");
+                tacticalVestCount += baseBot.Inventory.items.Count(x => x.slotId == "TacticalVest");
+                backpackCount += baseBot.Inventory.items.Count(x => x.slotId == "Backpack");
+                firstPrimaryCount += baseBot.Inventory.items.Count(x => x.slotId == "FirstPrimaryWeapon");
+                secondPrimaryCount += baseBot.Inventory.items.Count(x => x.slotId == "SecondPrimaryWeapon");
+                holsterCount += baseBot.Inventory.items.Count(x => x.slotId == "Holster");
+                scabbardCount += baseBot.Inventory.items.Count(x => x.slotId == "Scabbard");
+                pocketsCount += baseBot.Inventory.items.Count(x => x.slotId == "Pockets");
+                securedContainerCount += baseBot.Inventory.items.Count(x => x.slotId == "SecuredContainer");
             }
+
+            bot.chances.equipment = new EquipmentChances(
+                GetPercent(totalBotsCount, headwearCount),
+                GetPercent(totalBotsCount, earCount),
+                GetPercent(totalBotsCount, faceCoverCount),
+                GetPercent(totalBotsCount, armorVestCount),
+                GetPercent(totalBotsCount, eyeWearCount),
+                GetPercent(totalBotsCount, armBandCount),
+                GetPercent(totalBotsCount, tacticalVestCount),
+                GetPercent(totalBotsCount, backpackCount),
+                GetPercent(totalBotsCount, firstPrimaryCount),
+                GetPercent(totalBotsCount, secondPrimaryCount),
+                GetPercent(totalBotsCount, holsterCount),
+                GetPercent(totalBotsCount, scabbardCount),
+                GetPercent(totalBotsCount, pocketsCount),
+                GetPercent(totalBotsCount, securedContainerCount));
         }
 
+        private static int GetPercent(int total, int count)
+        {
+            return ((200 * count) + 1) / (total * 2);
+        }
     }
 }

@@ -27,11 +27,14 @@ namespace Generator
 
             foreach (var bot in _baseBots)
             {
-                GearChanceHelpers.AddEquipmentChances(bot);
+                var rawParsedBotOfCurrentType = _rawParsedBots
+                    .Where(x => x.Info.Settings.Role.Equals(bot.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                GearChanceHelpers.CalculateEquipmentChances(bot, rawParsedBotOfCurrentType);
                 GearChanceHelpers.AddGenerationChances(bot);
-                GearChanceHelpers.AddModChances(bot);
+                GearChanceHelpers.CalculateModChances(bot, rawParsedBotOfCurrentType);
 
-                foreach (var rawParsedBot in _rawParsedBots.Where(x => x.Info.Settings.Role.Equals(bot.botType.ToString(), StringComparison.OrdinalIgnoreCase)))
+                foreach (var rawParsedBot in rawParsedBotOfCurrentType)
                 {
                     GearHelpers.AddEquippedGear(bot, rawParsedBot);
                     GearHelpers.AddEquippedMods(bot, rawParsedBot);
