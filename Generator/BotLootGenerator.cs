@@ -1,6 +1,7 @@
 ﻿using Generator.Helpers;
 using Generator.Models.Input;
 using Generator.Models.Output;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,16 +25,19 @@ namespace Generator
             LoggingHelpers.LogToConsole("Started processing bot loot");
 
             // Iterate over assault/raider etc
-            foreach (var bot in _botsWithGear)
+            foreach (var botToUpdate in _botsWithGear)
             {
-                foreach (var rawParsedBot in _rawParsedBots)
+                var rawBotsOfSameType = _rawParsedBots
+                    .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                foreach (var rawParsedBot in rawBotsOfSameType)
                 {
-                    AddPocketLoot(bot, rawParsedBot);
+                    AddPocketLoot(botToUpdate, rawParsedBot);
                 }
 
-                AddTacticalVestLoot(bot, _rawParsedBots);
-                AddBackbackLoot(bot, _rawParsedBots);
-                AddSecureContainerLoot(bot, _rawParsedBots);
+                AddTacticalVestLoot(botToUpdate, rawBotsOfSameType);
+                AddBackbackLoot(botToUpdate, rawBotsOfSameType);
+                AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
             }
 
             stopwatch.Stop();
@@ -53,8 +57,6 @@ namespace Generator
             var backpackItems = GetItemsStoredInEquipmentItem(bots, "Backpack");
             finalAssaultBot.inventory.items.Backpack.AddRange(backpackItems);
         }
-
-        
 
         private void AddSecureContainerLoot(Bot finalAssaultBot, List<Datum> bots)
         {
