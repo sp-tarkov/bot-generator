@@ -36,39 +36,29 @@ namespace Generator
 
             foreach (var botToUpdate in rawBots)
             {
-                var rawBotData = _rawParsedBots
+                var rawBotsOfSameType = _rawParsedBots
                     .Where(x => string.Equals(x.Info.Settings.Role, botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase)).ToList();
-                UpdateBodyPartHealth(botToUpdate, rawBotData);
-            }
 
-            foreach (var bot in rawBots)
-            {
-                AddDifficulties(bot, _rawParsedBots);
-                foreach (var rawParsedBot in _rawParsedBots)
+                UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
+                AddDifficulties(botToUpdate, rawBotsOfSameType);
+
+                foreach (var rawParsedBot in rawBotsOfSameType)
                 {
-                    AddVisualAppearanceItems(bot, rawParsedBot);
-                    AddName(bot, rawParsedBot.Info.Nickname);
-                    AddVoice(bot, rawParsedBot);
+                    AddVisualAppearanceItems(botToUpdate, rawParsedBot);
+                    AddName(botToUpdate, rawParsedBot);
+                    AddVoice(botToUpdate, rawParsedBot);
                 }
             }
 
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot base. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-
             return rawBots;
         }
 
         private void AddVoice(Bot bot, Datum rawParsedBot)
         {
-            if (bot.botType == BotType.assault || bot.botType == BotType.marksman)
-            {
-                if (rawParsedBot.Info.Voice.StartsWith("scav", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    bot.appearance.voice.AddUnique(rawParsedBot.Info.Voice);
-                }
-            }
-            
+            bot.appearance.voice.AddUnique(rawParsedBot.Info.Voice);
         }
 
         private void AddDifficulties(Bot bot, List<Datum> rawParsedBots)
@@ -89,10 +79,10 @@ namespace Generator
 
         private void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawParsedBots)
         {
-            var firstBotOfDesiredType = rawParsedBots.FirstOrDefault(x => x.Info.Settings.Role == botToUpdate.botType.ToString());
+            var firstBotOfDesiredType = rawParsedBots.FirstOrDefault();
             if (firstBotOfDesiredType == null)
             {
-                LoggingHelpers.LogToConsole($"bottype of: {botToUpdate.botType} not found, unable to update body part health.");
+                LoggingHelpers.LogToConsole($"bot type of: {botToUpdate.botType} not found, unable to update body part health.");
                 return;
             }
 
@@ -126,9 +116,9 @@ namespace Generator
             botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet);
         }
 
-        private void AddName(Bot botToUpdate, string nickName)
+        private void AddName(Bot botToUpdate, Datum rawBot)
         {
-            var name = nickName.Split();
+            var name = rawBot.Info.Nickname.Split();
             botToUpdate.firstName.AddUnique(name[0]);
             if (name.Length > 1)
             {
