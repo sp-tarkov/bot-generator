@@ -1,81 +1,64 @@
 ﻿using Generator.Models.Output;
+using Generator.Models.Output.Difficulty;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Generator.Helpers
 {
     public static class DifficultyHelper
     {
-        public static void AddAssaultDifficulties(Bot bot)
+        private static readonly string[] _difficulties = new[] { "easy", "normal", "hard", "impossible" };
+
+        public static void AddDifficultySettings(Bot bot, List<string> difficultyFilePaths)
         {
-            bot.difficulty.easy = new Models.Output.Difficulty.DifficultySettings
+            // Read bot setting files from assets folder that match this bots type
+            // Save into dictionary with difficulty as key
+            var difficultySettingsJsons = new Dictionary<string, DifficultySettings>();
+            foreach (var path in difficultyFilePaths.Where(x=>x.Contains(bot.botType.ToString())))
             {
-                Lay = EasyHelper.GenerateLay(),
-                Aiming = EasyHelper.GenerateAiming(),
-                Look = EasyHelper.GenerateLook(),
-                Shoot = EasyHelper.GenerateShoot(),
-                Move = EasyHelper.GenerateMove(),
-                Grenade = EasyHelper.GenerateGrenade(),
-                Change = EasyHelper.GenerateChange(),
-                Cover = EasyHelper.GenerateCover(),
-                Patrol = EasyHelper.GeneratePatrol(),
-                Hearing = EasyHelper.GenerateHearing(),
-                Mind = EasyHelper.GenerateMind(),
-                Boss = EasyHelper.GenerateBoss(),
-                Core = EasyHelper.GenerateCore(),
-                Scattering = EasyHelper.GenerateScattering()
-            };
+                var json = File.ReadAllText(path);
+                var serialisedObject = JsonConvert.DeserializeObject<DifficultySettings>(json);
 
-            bot.difficulty.normal = new Models.Output.Difficulty.DifficultySettings(){
-                Lay = NormalHelper.GenerateLay(),
-                Aiming = NormalHelper.GenerateAiming(),
-                Look = NormalHelper.GenerateLook(),
-                Shoot = NormalHelper.GenerateShoot(),
-                Move = NormalHelper.GenerateMove(),
-                Grenade = NormalHelper.GenerateGrenade(),
-                Change = NormalHelper.GenerateChange(),
-                Cover = NormalHelper.GenerateCover(),
-                Patrol = NormalHelper.GeneratePatrol(),
-                Hearing = NormalHelper.GenerateHearing(),
-                Mind = NormalHelper.GenerateMind(),
-                Boss = NormalHelper.GenerateBoss(),
-                Core = NormalHelper.GenerateCore(),
-                Scattering = NormalHelper.GenerateScattering()
-            };
+                var difficultyOfFile = GetFileDifficultyFromPath(path);
+                difficultySettingsJsons.Add(difficultyOfFile, serialisedObject);
+            }
 
-            bot.difficulty.hard = new Models.Output.Difficulty.DifficultySettings()
+            // Find each difficulty in dictionary and save into bot
+            foreach (var difficulty in _difficulties)
             {
-                Lay = HardHelper.GenerateLay(),
-                Aiming = HardHelper.GenerateAiming(),
-                Look = HardHelper.GenerateLook(),
-                Shoot = HardHelper.GenerateShoot(),
-                Move = HardHelper.GenerateMove(),
-                Grenade = HardHelper.GenerateGrenade(),
-                Change = HardHelper.GenerateChange(),
-                Cover = HardHelper.GenerateCover(),
-                Patrol = HardHelper.GeneratePatrol(),
-                Hearing = HardHelper.GenerateHearing(),
-                Mind = HardHelper.GenerateMind(),
-                Boss = HardHelper.GenerateBoss(),
-                Core = HardHelper.GenerateCore(),
-                Scattering = HardHelper.GenerateScattering()
-            };
-            bot.difficulty.impossible = new Models.Output.Difficulty.DifficultySettings()
-            {
-                Lay = ImpossibleHelper.GenerateLay(),
-                Aiming = ImpossibleHelper.GenerateAiming(),
-                Look = ImpossibleHelper.GenerateLook(),
-                Shoot = ImpossibleHelper.GenerateShoot(),
-                Move = ImpossibleHelper.GenerateMove(),
-                Grenade = ImpossibleHelper.GenerateGrenade(),
-                Change = ImpossibleHelper.GenerateChange(),
-                Cover = ImpossibleHelper.GenerateCover(),
-                Patrol = ImpossibleHelper.GeneratePatrol(),
-                Hearing = ImpossibleHelper.GenerateHearing(),
-                Mind = ImpossibleHelper.GenerateMind(),
-                Boss = ImpossibleHelper.GenerateBoss(),
-                Core = ImpossibleHelper.GenerateCore(),
-                Scattering = ImpossibleHelper.GenerateScattering()
-            };
+                var settings = difficultySettingsJsons.FirstOrDefault(x => x.Key.Contains(difficulty));
+
+                SaveSettingsIntoBotFile(bot, difficulty, settings.Value);
+            }
         }
 
+        private static string GetFileDifficultyFromPath(string path)
+        {
+            // Split path into parts and find the last part (filename)
+            // Split filename and take the first part (difficulty, easy/normal etc)
+            var splitPath = path.Split("\\");
+            return splitPath.Last().Split("_").First();
+        }
+
+        private static void SaveSettingsIntoBotFile(Bot bot, string difficulty, DifficultySettings settings)
+        {
+            switch (difficulty)
+            {
+                case "easy":
+                    bot.difficulty.easy = settings;
+                    break;
+                case "normal":
+                    bot.difficulty.normal = settings;
+                    break;
+                case "hard":
+                    bot.difficulty.hard = settings;
+                    break;
+                case "impossible":
+                    bot.difficulty.impossible = settings;
+                    break;
+            }
+        }
     }
 }
