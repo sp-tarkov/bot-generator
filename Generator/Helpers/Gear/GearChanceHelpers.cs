@@ -12,9 +12,9 @@ namespace Generator.Helpers.Gear
         {
             int totalBotsCount = baseBots.Count;
             int muzzleCount = 0, barrelCount = 0, handguardCount = 0, stockCount = 0, magazineCount = 0,
-                mountCount = 0, flashlightCount = 0, tactical001Count = 0, tactical002Count = 0, tactical003Count =0,
+                mountCount = 0, flashlightCount = 0, tactical001Count = 0, tactical002Count = 0, tactical003Count = 0,
                 mount000Count = 0, pistolGripCount = 0, tacticalCount = 0, scopeCount = 0, recieverCount = 0,
-                sightRearCount = 0, chargeCount = 0, mount001Count = 0, equipmentCount = 0, gasBlockCount=0,
+                sightRearCount = 0, chargeCount = 0, mount001Count = 0, equipmentCount = 0, gasBlockCount = 0,
                 launcherCount = 0, sightFrontCount = 0, stock000Count = 0, foregripCount = 0, tactical000Count = 0,
                 nvgCount = 0, pistolGripAkmsCount = 0, stockAkmsCount = 0, equipment000Count = 0, equipment001Count = 0,
                 equipment002Count = 0, bipodCount = 0;
@@ -110,13 +110,13 @@ namespace Generator.Helpers.Gear
         public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)
         {
             var totalBotsCount = baseBots.Count;
-            int headwearCount = 0, earCount = 0, faceCoverCount = 0,armorVestCount = 0, eyeWearCount = 0, armBandCount = 0,
+            int headwearCount = 0, earCount = 0, faceCoverCount = 0, armorVestCount = 0, eyeWearCount = 0, armBandCount = 0,
                 tacticalVestCount = 0, backpackCount = 0, firstPrimaryCount = 0, secondPrimaryCount = 0, holsterCount = 0,
                 scabbardCount = 0, pocketsCount = 0, securedContainerCount = 0;
 
             foreach (var baseBot in baseBots)
             {
-                headwearCount += baseBot.Inventory.items.Count(x=> x.slotId == "Headwear");
+                headwearCount += baseBot.Inventory.items.Count(x => x.slotId == "Headwear");
                 earCount += baseBot.Inventory.items.Count(x => x.slotId == "Earpiece");
                 faceCoverCount += baseBot.Inventory.items.Count(x => x.slotId == "FaceCover");
                 armorVestCount += baseBot.Inventory.items.Count(x => x.slotId == "ArmorVest");
@@ -133,20 +133,20 @@ namespace Generator.Helpers.Gear
             }
 
             bot.chances.equipment = new EquipmentChances(
-                GetPercent(totalBotsCount, headwearCount),
-                GetPercent(totalBotsCount, earCount),
-                GetPercent(totalBotsCount, faceCoverCount),
-                GetPercent(totalBotsCount, armorVestCount),
-                GetPercent(totalBotsCount, eyeWearCount),
-                GetPercent(totalBotsCount, armBandCount),
-                GetPercent(totalBotsCount, tacticalVestCount),
-                GetPercent(totalBotsCount, backpackCount),
-                GetPercent(totalBotsCount, firstPrimaryCount),
-                GetPercent(totalBotsCount, secondPrimaryCount),
-                GetPercent(totalBotsCount, holsterCount),
-                GetPercent(totalBotsCount, scabbardCount),
-                GetPercent(totalBotsCount, pocketsCount),
-                GetPercent(totalBotsCount, securedContainerCount));
+                  GetPercent(totalBotsCount, headwearCount),
+                  GetPercent(totalBotsCount, earCount),
+                  GetPercent(totalBotsCount, faceCoverCount),
+                  GetPercent(totalBotsCount, armorVestCount),
+                  GetPercent(totalBotsCount, eyeWearCount),
+                  GetPercent(totalBotsCount, armBandCount),
+                  GetPercent(totalBotsCount, tacticalVestCount),
+                  GetPercent(totalBotsCount, backpackCount),
+                  GetPercent(totalBotsCount, firstPrimaryCount),
+                  GetPercent(totalBotsCount, secondPrimaryCount),
+                  GetPercent(totalBotsCount, holsterCount),
+                  GetPercent(totalBotsCount, scabbardCount),
+                  GetPercent(totalBotsCount, pocketsCount),
+                  GetPercent(totalBotsCount, securedContainerCount));
         }
 
         private static int GetPercent(int total, int count)

@@ -5,6 +5,7 @@ using Generator.Models.Output;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace Generator
@@ -12,10 +13,12 @@ namespace Generator
     public class BaseBotGenerator
     {
         private readonly List<Datum> _rawParsedBots;
+        private readonly string _workingPath;
 
-        public BaseBotGenerator(List<Datum> parsedBots)
+        public BaseBotGenerator(List<Datum> parsedBots, string workingPath)
         {
             _rawParsedBots = parsedBots;
+            _workingPath = workingPath;
         }
 
         public List<Bot> AddBaseDetails()
@@ -40,7 +43,7 @@ namespace Generator
                     .Where(x => string.Equals(x.Info.Settings.Role, botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase)).ToList();
 
                 UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
-                AddDifficulties(botToUpdate, rawBotsOfSameType);
+                AddDifficulties(botToUpdate, _workingPath);
 
                 foreach (var rawParsedBot in rawBotsOfSameType)
                 {
@@ -61,20 +64,14 @@ namespace Generator
             bot.appearance.voice.AddUnique(rawParsedBot.Info.Voice);
         }
 
-        private void AddDifficulties(Bot bot, List<Datum> rawParsedBots)
+        private void AddDifficulties(Bot bot, string workingPath)
         {
-            switch (bot.botType)
-            {
-                case BotType.assault:
-                    DifficultyHelper.AddAssaultDifficulties(bot);
-                    break;
-                case BotType.pmcBot:
-                    break;
-                case BotType.marksman:
-                    break;
-                default:
-                    break;
-            }
+            var botFiles = Directory
+                .GetFiles($"{workingPath}//Assets", "*.txt", SearchOption.TopDirectoryOnly)
+                .Where(x => x.Contains(bot.botType.ToString()))
+                .ToList();
+
+            DifficultyHelper.AddDifficultySettings(bot, botFiles);
         }
 
         private void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawParsedBots)
