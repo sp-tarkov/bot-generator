@@ -54,6 +54,12 @@ namespace Generator
                 var rawBotsOfSameType = _rawParsedBots
                     .Where(x => string.Equals(x.Info.Settings.Role, botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase)).ToList();
 
+                if (rawBotsOfSameType.Count == 0)
+                {
+                    Console.WriteLine($"no bots of type {botToUpdate.botType.ToString()}");
+                    break;
+                }
+
                 UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
                 AddDifficulties(botToUpdate, _workingPath);
                 AddExperience(botToUpdate, rawBotsOfSameType);
