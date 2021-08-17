@@ -15,6 +15,7 @@ namespace Generator
         private readonly List<Datum> _rawParsedBots;
         private readonly string _workingPath;
 
+        //TODO: pass in bot types and use those to create the clases in rawBots list
         public BaseBotGenerator(List<Datum> parsedBots, string workingPath)
         {
             _rawParsedBots = parsedBots;
