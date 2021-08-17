@@ -7,7 +7,16 @@ namespace Generator
         static void Main(string[] args)
         {
             //TODO: pass these into functions to act as whitelist
-            string[] botTypes = { "assault", "marksman", "pmcbot", "bossbully", "bosskilla" };
+            string[] botTypes = { 
+                "assault",
+                "marksman",
+                "pmcbot",
+                "bossbully",
+                "bossgluhar",
+                "bosskilla",
+                "bosskojaniy",
+                "bosssanitar"
+            };
 
             // Read raw bot dumps from live and turn into c# objects
             var workingPath = Directory.GetCurrentDirectory();

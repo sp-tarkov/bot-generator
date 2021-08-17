@@ -30,11 +30,23 @@ namespace Generator
             var raiderBot = new Bot(BotType.pmcBot);
             var marksmanBot = new Bot(BotType.marksman);
 
+            var bossbully = new Bot(BotType.bossbully);
+            var bossgluharBot = new Bot(BotType.bossgluhar);
+            var bosskillaBot = new Bot(BotType.bosskilla);
+            var bosskojaniyBot = new Bot(BotType.bosskojaniy);
+            var bosssanitarBot = new Bot(BotType.bosssanitar);
+
             var rawBots = new List<Bot>
             {
                 assaultBot,
                 raiderBot,
-                marksmanBot
+                marksmanBot,
+
+                bossbully,
+                bossgluharBot,
+                bosskillaBot,
+                bosskojaniyBot,
+                bosssanitarBot
             };
 
             foreach (var botToUpdate in rawBots)
