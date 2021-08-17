@@ -109,14 +109,12 @@ namespace Generator.Models.Output
     {
         public Skills()
         {
-            Common = new Common();
+            Common = new Dictionary<string, MinMax>();
         }
 
-        public Common Common { get; set; }
+        public Dictionary<string, MinMax> Common { get; set; }
     }
-    public class Common
-    {
-    }
+
 
     public class Chances
     {
