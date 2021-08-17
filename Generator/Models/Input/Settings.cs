@@ -200,9 +200,17 @@ namespace Generator.Models.Input
 
     public class Skills
     {
-        public List<object> Common { get; set; }
+        public List<Common> Common { get; set; }
         public List<object> Mastering { get; set; }
         public int Points { get; set; }
+    }
+
+    public class Common
+    {
+        public string Id { get; set; }
+        public int Progress { get; set; }
+        public int PointsEarnedDuringSession { get; set; }
+        public int LastAccess { get; set; }
     }
 
     public class SessionCounters
