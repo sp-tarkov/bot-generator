@@ -44,6 +44,9 @@ namespace Generator
 
                 UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
                 AddDifficulties(botToUpdate, _workingPath);
+                AddExperience(botToUpdate, rawBotsOfSameType);
+                AddStandingForKill(botToUpdate, rawBotsOfSameType);
+                AddSkills(botToUpdate, rawBotsOfSameType);
 
                 foreach (var rawParsedBot in rawBotsOfSameType)
                 {
@@ -57,6 +60,31 @@ namespace Generator
             LoggingHelpers.LogToConsole($"Finished processing bot base. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
             return rawBots;
+        }
+
+        private void AddSkills(Bot botToUpdate, List<Datum> rawBotsOfSameType)
+        {
+            var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
+
+            foreach (var skill in firstBotOfDesiredType.Skills.Common)
+            {
+                botToUpdate.skills.Common.Add(skill.Id, new MinMax(skill.Progress, skill.Progress));
+            }
+        }
+
+        private void AddStandingForKill(Bot botToUpdate, List<Datum> rawBotsOfSameType)
+        {
+            var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
+
+            botToUpdate.experience.standingForKill = firstBotOfDesiredType.Info.Settings.StandingForKill;
+        }
+
+        private void AddExperience(Bot botToUpdate, List<Datum> rawBotsOfSameType)
+        {
+            var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
+
+            botToUpdate.experience.reward.min = firstBotOfDesiredType.Info.Settings.Experience;
+            botToUpdate.experience.reward.max = firstBotOfDesiredType.Info.Settings.Experience;
         }
 
         private void AddVoice(Bot bot, Datum rawParsedBot)
