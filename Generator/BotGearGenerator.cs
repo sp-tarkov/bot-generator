@@ -25,20 +25,26 @@ namespace Generator
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot gear");
 
-            foreach (var bot in _baseBots)
+            foreach (var botToUpdate in _baseBots)
             {
                 var rawParsedBotOfCurrentType = _rawParsedBots
-                    .Where(x => x.Info.Settings.Role.Equals(bot.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                    .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
                     .ToList();
-                GearChanceHelpers.CalculateEquipmentChances(bot, rawParsedBotOfCurrentType);
-                GearChanceHelpers.AddGenerationChances(bot);
-                GearChanceHelpers.CalculateModChances(bot, rawParsedBotOfCurrentType);
+
+                if (rawParsedBotOfCurrentType.Count == 0)
+                {
+                    break;
+                }
+
+                GearChanceHelpers.CalculateEquipmentChances(botToUpdate, rawParsedBotOfCurrentType);
+                GearChanceHelpers.AddGenerationChances(botToUpdate);
+                GearChanceHelpers.CalculateModChances(botToUpdate, rawParsedBotOfCurrentType);
 
                 foreach (var rawParsedBot in rawParsedBotOfCurrentType)
                 {
-                    GearHelpers.AddEquippedGear(bot, rawParsedBot);
-                    GearHelpers.AddEquippedMods(bot, rawParsedBot);
-                    GearHelpers.AddCartridges(bot, rawParsedBot);
+                    GearHelpers.AddEquippedGear(botToUpdate, rawParsedBot);
+                    GearHelpers.AddEquippedMods(botToUpdate, rawParsedBot);
+                    GearHelpers.AddCartridges(botToUpdate, rawParsedBot);
                 }
             }
 

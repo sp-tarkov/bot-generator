@@ -30,6 +30,12 @@ namespace Generator
                 var rawBotsOfSameType = _rawParsedBots
                     .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
                     .ToList();
+
+                if (rawBotsOfSameType.Count == 0)
+                {
+                    break;
+                }
+
                 foreach (var rawParsedBot in rawBotsOfSameType)
                 {
                     AddPocketLoot(botToUpdate, rawParsedBot);

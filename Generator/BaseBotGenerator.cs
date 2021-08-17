@@ -39,15 +39,15 @@ namespace Generator
 
             var rawBots = new List<Bot>
             {
-                assaultBot,
-                raiderBot,
-                marksmanBot,
+               assaultBot,
+               raiderBot,
+               marksmanBot,
 
-                bossbully,
-                bossgluharBot,
-                bosskillaBot,
-                bosskojaniyBot,
-                bosssanitarBot
+               bossbully,
+               bossgluharBot,
+               bosskillaBot,
+               bosskojaniyBot,
+               bosssanitarBot
             };
 
             foreach (var botToUpdate in rawBots)
@@ -57,9 +57,11 @@ namespace Generator
 
                 if (rawBotsOfSameType.Count == 0)
                 {
-                    Console.WriteLine($"no bots of type {botToUpdate.botType.ToString()}");
+                    LoggingHelpers.LogToConsole($"no bots of type {botToUpdate.botType}", ConsoleColor.DarkRed);
                     break;
                 }
+
+                LoggingHelpers.LogToConsole($"Found {rawBotsOfSameType.Count} bots of type: {botToUpdate.botType}");
 
                 UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
                 AddDifficulties(botToUpdate, _workingPath);

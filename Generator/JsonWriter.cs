@@ -24,6 +24,11 @@ namespace Generator
 
             foreach (var bot in bots)
             {
+                if (bot.appearance.body.Count == 0) // only process files that have data in them, no body = no dumps
+                {
+                    Helpers.LoggingHelpers.LogToConsole($"Unable to process bot type: {bot.botType}, skipping", ConsoleColor.DarkRed);
+                    continue;
+                }
                 var output = JsonConvert.SerializeObject(bot, Formatting.Indented);
                 Console.WriteLine($"Writing json file {bot.botType} to {outputPath}");
                 File.WriteAllText($"{outputPath}\\{bot.botType}.json", output);
