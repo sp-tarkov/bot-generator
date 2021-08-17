@@ -97,7 +97,7 @@ namespace Generator
         {
             var botFiles = Directory
                 .GetFiles($"{workingPath}//Assets", "*.txt", SearchOption.TopDirectoryOnly)
-                .Where(x => x.Contains(bot.botType.ToString()))
+                .Where(x => x.Contains(bot.botType.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
 
             DifficultyHelper.AddDifficultySettings(bot, botFiles);
