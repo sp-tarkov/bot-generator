@@ -90,11 +90,6 @@ namespace Generator.Helpers.Gear
                 GetPercent(totalBotsCount, bipodCount));
         }
 
-        private static Mods CalculateModChances(List<Datum> baseBots)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public static void AddGenerationChances(Bot bot)
         {
             switch (bot.botType)
@@ -102,7 +97,7 @@ namespace Generator.Helpers.Gear
                 case BotType.assault:
                 case BotType.pmcBot:
                 case BotType.marksman:
-                    bot.generation = new GenerationChances(0, 1, 1, 2, 0, 3, 2, 4, 0, 5);
+                    bot.generation = new GenerationChances(0, 1, 1, 2, 0, 3, 2, 4, 0, 5); //TODO get dynamically
                     break;
             }
         }
