@@ -30,6 +30,13 @@ namespace Generator.Helpers
             {
                 var settings = difficultySettingsJsons.FirstOrDefault(x => x.Key.Contains(difficulty));
 
+                // No difficulty settings found, find any settings file and use that
+                // This is required for many bot types that only have 'normal' difficulty settings
+                if (settings.Key == null)
+                {
+                    settings = difficultySettingsJsons.FirstOrDefault(x => x.Key != null);
+                }
+
                 SaveSettingsIntoBotFile(bot, difficulty, settings.Value);
             }
         }
