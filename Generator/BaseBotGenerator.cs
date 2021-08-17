@@ -77,6 +77,7 @@ namespace Generator
             var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
 
             botToUpdate.experience.standingForKill = firstBotOfDesiredType.Info.Settings.StandingForKill;
+            botToUpdate.experience.aggressorBonus = firstBotOfDesiredType.Info.Settings.AggressorBonus;
         }
 
         private void AddExperience(Bot botToUpdate, List<Datum> rawBotsOfSameType)
