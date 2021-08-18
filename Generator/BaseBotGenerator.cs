@@ -63,7 +63,7 @@ namespace Generator
                 if (rawBotsOfSameType.Count == 0)
                 {
                     LoggingHelpers.LogToConsole($"no bots of type {botToUpdate.botType}", ConsoleColor.DarkRed);
-                    break;
+                    continue;
                 }
 
                 LoggingHelpers.LogToConsole($"Found {rawBotsOfSameType.Count} bots of type: {botToUpdate.botType}");

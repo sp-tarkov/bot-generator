@@ -33,7 +33,7 @@ namespace Generator
 
                 if (rawParsedBotOfCurrentType.Count == 0)
                 {
-                    break;
+                    continue;
                 }
 
                 GearChanceHelpers.CalculateEquipmentChances(botToUpdate, rawParsedBotOfCurrentType);

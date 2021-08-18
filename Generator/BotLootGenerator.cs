@@ -33,7 +33,7 @@ namespace Generator
 
                 if (rawBotsOfSameType.Count == 0)
                 {
-                    break;
+                    continue;
                 }
 
                 foreach (var rawParsedBot in rawBotsOfSameType)
