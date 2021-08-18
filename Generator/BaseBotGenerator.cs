@@ -27,28 +27,33 @@ namespace Generator
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot base");
 
-            var assaultBot = new Bot(BotType.assault);
-            var raiderBot = new Bot(BotType.pmcBot);
-            var marksmanBot = new Bot(BotType.marksman);
-
-            var bossbully = new Bot(BotType.bossbully);
-            var bossgluharBot = new Bot(BotType.bossgluhar);
-            var bosskillaBot = new Bot(BotType.bosskilla);
-            var bosskojaniyBot = new Bot(BotType.bosskojaniy);
-            var bosssanitarBot = new Bot(BotType.bosssanitar);
-
             var rawBots = new List<Bot>
             {
-               assaultBot,
-               raiderBot,
-               marksmanBot,
+            new Bot(BotType.assault),
+            new Bot(BotType.pmcBot),
+            new Bot(BotType.marksman),
 
-               bossbully,
-               bossgluharBot,
-               bosskillaBot,
-               bosskojaniyBot,
-               bosssanitarBot
-            };
+            new Bot(BotType.bossbully),
+            new Bot(BotType.bossgluhar),
+            new Bot(BotType.bosskilla),
+            new Bot(BotType.bosskojaniy),
+            new Bot(BotType.bosssanitar),
+
+            new Bot(BotType.bossstormtrooper),
+
+            new Bot(BotType.followerbully),
+            new Bot(BotType.followergluharassault),
+            new Bot(BotType.followergluharscout),
+            new Bot(BotType.followergluharsecurity),
+            new Bot(BotType.followergluharsnipe),
+            new Bot(BotType.followerkojaniy),
+            new Bot(BotType.followersanitar),
+            new Bot(BotType.followerstormtrooper),
+
+            new Bot(BotType.cursedassault),
+            new Bot(BotType.sectantpriest),
+            new Bot(BotType.sectantwarrior),
+        };
 
             foreach (var botToUpdate in rawBots)
             {

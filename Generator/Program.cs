@@ -16,6 +16,8 @@ namespace Generator
                 "bosskilla",
                 "bosskojaniy",
                 "bosssanitar",
+                "bossstormtrooper",
+
                 "followerbully",
                 "followergluharassault",
                 "followergluharscout",
@@ -23,7 +25,12 @@ namespace Generator
                 "followergluharsnipe",
                 "followerkojaniy",
                 "followersanitar",
-                "cursedassault"
+                "followerstormtrooper",
+
+                "cursedassault",
+
+                "sectantpriest",
+                "sectantwarrior",
             };
 
             // Read raw bot dumps from live and turn into c# objects
