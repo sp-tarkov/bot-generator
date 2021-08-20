@@ -20,15 +20,8 @@ namespace Generator.Helpers.Gear
                 equipment002Count = 0, bipodCount = 0, mount002Count = 0, mount004Count = 0, triggerCount = 0,
                 hammerCount = 0, catchCount = 0, stock001Count = 0, muzzle000Count = 0, mount003Count = 0;
 
-            var mods = new List<string>();
             foreach (var baseBot in baseBots)
             {
-                var modsToAdd = baseBot.Inventory.items.Where(x => x.slotId?.StartsWith("mod_") == true);
-                foreach (var item in modsToAdd)
-                {
-                    mods.AddUnique(item.slotId);
-                }
-                
                 muzzleCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_muzzle");
                 barrelCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_barrel");
                 handguardCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_handguard");
