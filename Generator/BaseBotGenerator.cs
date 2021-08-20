@@ -29,34 +29,15 @@ namespace Generator
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot base");
 
-            var rawBots = new List<Bot>
+            // Create a list of bot objects ready to be hydrated
+            var rawBots = new List<Bot>();
+            foreach (var botType in _botTypes)
             {
-            new Bot(BotType.assault),
-            new Bot(BotType.pmcBot),
-            new Bot(BotType.marksman),
+                var typeToAdd = (BotType)Enum.Parse(typeof(BotType), botType);
+                rawBots.Add(new Bot(typeToAdd));
+            }
 
-            new Bot(BotType.bossbully),
-            new Bot(BotType.bossgluhar),
-            new Bot(BotType.bosskilla),
-            new Bot(BotType.bosskojaniy),
-            new Bot(BotType.bosssanitar),
-
-            new Bot(BotType.bossstormtrooper),
-
-            new Bot(BotType.followerbully),
-            new Bot(BotType.followergluharassault),
-            new Bot(BotType.followergluharscout),
-            new Bot(BotType.followergluharsecurity),
-            new Bot(BotType.followergluharsnipe),
-            new Bot(BotType.followerkojaniy),
-            new Bot(BotType.followersanitar),
-            new Bot(BotType.followerstormtrooper),
-
-            new Bot(BotType.cursedassault),
-            new Bot(BotType.sectantpriest),
-            new Bot(BotType.sectantwarrior),
-        };
-
+            // Iterate over each bot type wejust made and put some data into them
             foreach (var botToUpdate in rawBots)
             {
                 var rawBotsOfSameType = _rawParsedBots
