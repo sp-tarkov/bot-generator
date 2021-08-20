@@ -17,10 +17,18 @@ namespace Generator.Helpers.Gear
                 sightRearCount = 0, chargeCount = 0, mount001Count = 0, equipmentCount = 0, gasBlockCount = 0,
                 launcherCount = 0, sightFrontCount = 0, stock000Count = 0, foregripCount = 0, tactical000Count = 0,
                 nvgCount = 0, pistolGripAkmsCount = 0, stockAkmsCount = 0, equipment000Count = 0, equipment001Count = 0,
-                equipment002Count = 0, bipodCount = 0;
+                equipment002Count = 0, bipodCount = 0, mount002Count = 0, mount004Count = 0, triggerCount = 0,
+                hammerCount = 0, catchCount = 0, stock001Count = 0, muzzle000Count = 0, mount003Count = 0;
 
+            var mods = new List<string>();
             foreach (var baseBot in baseBots)
             {
+                var modsToAdd = baseBot.Inventory.items.Where(x => x.slotId?.StartsWith("mod_") == true);
+                foreach (var item in modsToAdd)
+                {
+                    mods.AddUnique(item.slotId);
+                }
+                
                 muzzleCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_muzzle");
                 barrelCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_barrel");
                 handguardCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_handguard");
@@ -53,6 +61,14 @@ namespace Generator.Helpers.Gear
                 equipment001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment_001");
                 equipment002Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment_002");
                 bipodCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_bipod");
+                mount002Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_002");
+                mount004Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_004");
+                triggerCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_trigger");
+                hammerCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_hammer");
+                catchCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_catch");
+                stock001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_stock_001");
+                muzzle000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_muzzle_000");
+                mount003Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_003");
             }
 
             bot.chances.mods = new Mods(
@@ -87,7 +103,15 @@ namespace Generator.Helpers.Gear
                 GetPercent(totalBotsCount, equipment000Count),
                 GetPercent(totalBotsCount, equipment001Count),
                 GetPercent(totalBotsCount, equipment002Count),
-                GetPercent(totalBotsCount, bipodCount));
+                GetPercent(totalBotsCount, bipodCount),
+                GetPercent(totalBotsCount, mount002Count),
+                GetPercent(totalBotsCount, mount004Count),
+                GetPercent(totalBotsCount, triggerCount),
+                GetPercent(totalBotsCount, hammerCount),
+                GetPercent(totalBotsCount, catchCount),
+                GetPercent(totalBotsCount, stock001Count),
+                GetPercent(totalBotsCount, muzzle000Count),
+                GetPercent(totalBotsCount, mount003Count));
         }
 
         public static void AddGenerationChances(Bot bot)

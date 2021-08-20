@@ -179,7 +179,9 @@ namespace Generator.Models.Output
             int charge, int mount_001, int equipment, int gas_block,
             int launcher, int sight_front, int stock_000, int foregrip,
             int tactical_000, int nvg, int pistol_grip_akms, int stock_akms,
-            int equipment_000, int equipment_001, int equipment_002, int bipod)
+            int equipment_000, int equipment_001, int equipment_002, int bipod,
+            int mount_002, int mount_004, int trigger, int hammer, int _catch,
+            int stock_001, int muzzle_000, int mount_003)
         {
             mod_muzzle = muzzle;
             mod_barrel = barrel;
@@ -213,40 +215,58 @@ namespace Generator.Models.Output
             mod_equipment_001 = equipment_001;
             mod_equipment_002 = equipment_002;
             mod_bipod = bipod;
+            mod_mount_002 = mount_002;
+            mod_mount_004 = mount_004;
+            mod_trigger = trigger;
+            mod_hammer = hammer;
+            mod_catch = _catch;
+            mod_stock_001 = stock_001;
+            mod_muzzle_000 = muzzle_000;
+            mod_mount_003 = mount_003;
+
+
         }
 
         public int mod_muzzle { get; set; }
+        public int mod_mount { get; set; }
         public int mod_barrel { get; set; }
         public int mod_handguard { get; set; }
         public int mod_stock { get; set; }
-        public int mod_magazine { get; set; }
-        public int mod_mount { get; set; }
         public int mod_flashlight { get; set; }
         public int mod_tactical_001 { get; set; }
         public int mod_tactical_002 { get; set; }
         public int mod_tactical_003 { get; set; }
         public int mod_mount_000 { get; set; }
+        public int mod_magazine { get; set; }
         public int mod_pistol_grip { get; set; }
-        public int mod_tactical { get; set; }
-        public int mod_scope { get; set; }
-        public int mod_reciever { get; set; }
-        public int mod_sight_rear { get; set; }
-        public int mod_charge { get; set; }
-        public int mod_mount_001 { get; set; }
-        public int mod_equipment { get; set; }
         public int mod_gas_block { get; set; }
+        public int mod_reciever { get; set; }
+        public int mod_charge { get; set; }
+        public int mod_sight_rear { get; set; }
         public int mod_launcher { get; set; }
-        public int mod_sight_front { get; set; }
+        public int mod_equipment { get; set; }
+        public int mod_scope { get; set; }
+        public int mod_mount_001 { get; set; }
+        public int mod_mount_002 { get; set; }
+        public int mod_mount_004 { get; set; }
+        public int mod_tactical { get; set; }
         public int mod_stock_000 { get; set; }
-        public int mod_foregrip { get; set; }
-        public int mod_tactical_000 { get; set; }
-        public int mod_nvg { get; set; }
+        public int mod_sight_front { get; set; }
         public int mod_pistol_grip_akms { get; set; }
         public int mod_stock_akms { get; set; }
+        public int mod_foregrip { get; set; }
+        public int mod_tactical_000 { get; set; }
+        public int mod_nvg { get; set; }       
         public int mod_equipment_000 { get; set; }
         public int mod_equipment_001 { get; set; }
         public int mod_equipment_002 { get; set; }
         public int mod_bipod { get; set; }
+        public int mod_trigger { get; set; }
+        public int mod_hammer { get; set; }
+        public int mod_catch { get; set; }
+        public int mod_stock_001 { get; set; }
+        public int mod_muzzle_000 { get; set; }
+        public int mod_mount_003 { get; set; }
     }
 
     public class GenerationChances
