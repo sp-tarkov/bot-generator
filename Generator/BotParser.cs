@@ -28,7 +28,7 @@ namespace Generator
             CreateDirIfDoesntExist(_dumpPath);
 
             var botFiles = Directory.GetFiles(_dumpPath, "*.json", SearchOption.TopDirectoryOnly).ToList();
-            Console.WriteLine($"{botFiles.Count} files found");
+            Console.WriteLine($"{botFiles.Count} bot dump files found");
 
             var parsedBots = new List<Datum>();
             foreach (var file in botFiles)
@@ -63,7 +63,7 @@ namespace Generator
             }
 
             stopwatch.Stop();
-            LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBots.Count} Failed: {failedFilesCount}. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+            LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBots.Count} bots. Failed: {failedFilesCount}. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
             return parsedBots;
         }
