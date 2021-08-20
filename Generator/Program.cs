@@ -10,7 +10,7 @@ namespace Generator
             string[] botTypes = {
                 "assault",
                 "marksman",
-                "pmcbot",
+                "pmcBot",
                 "bossbully",
                 "bossgluhar",
                 "bosskilla",
