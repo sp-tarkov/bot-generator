@@ -6,7 +6,7 @@ namespace Generator
     {
         static void Main(string[] args)
         {
-            //TODO: pass these into functions to act as whitelist
+            // Create list of bots we want to process
             string[] botTypes = {
                 "assault",
                 "marksman",
@@ -22,7 +22,7 @@ namespace Generator
                 "followergluharassault",
                 "followergluharscout",
                 "followergluharsecurity",
-                "followergluharsnipe",
+                //"followergluharsnipe",
                 "followerkojaniy",
                 "followersanitar",
                 //"followerstormtrooper",
@@ -33,10 +33,9 @@ namespace Generator
                 "sectantwarrior",
             };
 
-            // Read raw bot dumps from live and turn into c# objects
+            // Read raw bot dumps and turn into c# objects
             var workingPath = Directory.GetCurrentDirectory();
             var dumpPath = $"{workingPath}//dumps";
-
             var botParser = new BotParser(dumpPath);
             var parsedBots = botParser.Parse();
 
@@ -51,11 +50,11 @@ namespace Generator
             var baseBotGenerator = new BaseBotGenerator(parsedBots, workingPath, botTypes);
             var baseBots = baseBotGenerator.AddBaseDetails();
 
-            // Add weapons/armor to bot
+            // Add weapons/armor to bots
             var botGearGenerator = new BotGearGenerator(baseBots, parsedBots);
             var botsWithGear = botGearGenerator.AddGear();
 
-            // Add loot to bot
+            // Add loot to bots
             var botLootGenerator = new BotLootGenerator(botsWithGear, parsedBots);
             var botsWithGearAndLoot = botLootGenerator.AddLoot();
 
