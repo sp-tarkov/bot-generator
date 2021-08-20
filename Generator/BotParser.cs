@@ -15,7 +15,7 @@ namespace Generator
     {
         private readonly string _dumpPath;
 
-        public BotParser(string dumpPath, string[] botTypes)
+        public BotParser(string dumpPath)
         {
             _dumpPath = dumpPath;
         }

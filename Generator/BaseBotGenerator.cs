@@ -14,12 +14,14 @@ namespace Generator
     {
         private readonly List<Datum> _rawParsedBots;
         private readonly string _workingPath;
+        private readonly string[] _botTypes;
 
         //TODO: pass in bot types and use those to create the clases in rawBots list
-        public BaseBotGenerator(List<Datum> parsedBots, string workingPath)
+        public BaseBotGenerator(List<Datum> parsedBots, string workingPath, string[] botTypes)
         {
             _rawParsedBots = parsedBots;
             _workingPath = workingPath;
+            _botTypes = botTypes;
         }
 
         public List<Bot> AddBaseDetails()

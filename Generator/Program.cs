@@ -16,7 +16,7 @@ namespace Generator
                 "bosskilla",
                 "bosskojaniy",
                 "bosssanitar",
-                "bossstormtrooper",
+                //"bossstormtrooper",
 
                 "followerbully",
                 "followergluharassault",
@@ -25,7 +25,7 @@ namespace Generator
                 "followergluharsnipe",
                 "followerkojaniy",
                 "followersanitar",
-                "followerstormtrooper",
+                //"followerstormtrooper",
 
                 "cursedassault",
 
@@ -36,7 +36,8 @@ namespace Generator
             // Read raw bot dumps from live and turn into c# objects
             var workingPath = Directory.GetCurrentDirectory();
             var dumpPath = $"{workingPath}//dumps";
-            var botParser = new BotParser(dumpPath, botTypes);
+
+            var botParser = new BotParser(dumpPath);
             var parsedBots = botParser.Parse();
 
             if (parsedBots.Count == 0)
@@ -47,7 +48,7 @@ namespace Generator
             }
 
             // Generate the base bot class and add basic details (health/body part hp etc)
-            var baseBotGenerator = new BaseBotGenerator(parsedBots, workingPath);
+            var baseBotGenerator = new BaseBotGenerator(parsedBots, workingPath, botTypes);
             var baseBots = baseBotGenerator.AddBaseDetails();
 
             // Add weapons/armor to bot
