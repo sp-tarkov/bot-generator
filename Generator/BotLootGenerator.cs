@@ -1,4 +1,6 @@
-﻿using Generator.Helpers;
+﻿using Common;
+using Common.Extensions;
+using Generator.Helpers;
 using Generator.Models.Input;
 using Generator.Models.Output;
 using System;

@@ -1,6 +1,5 @@
-﻿using Generator.Helpers;
+﻿using Common;
 using Generator.Models.Input;
-using Generator.Models.Output;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -25,7 +24,7 @@ namespace Generator
             var stopwatch = Stopwatch.StartNew();
 
             var failedFilesCount = 0;
-            CreateDirIfDoesntExist(_dumpPath);
+            DiskHelpers.CreateDirIfDoesntExist(_dumpPath);
 
             var botFiles = Directory.GetFiles(_dumpPath, "*.json", SearchOption.TopDirectoryOnly).ToList();
             Console.WriteLine($"{botFiles.Count} bot dump files found");
@@ -86,15 +85,6 @@ namespace Generator
             }
 
             return o.ToString();
-        }
-
-        private void CreateDirIfDoesntExist(string path)
-        {
-            if (!Directory.Exists($"{path}"))
-            {
-                //create dump dir
-                Directory.CreateDirectory($"{path}");
-            }
         }
 
         private static List<Datum> ParseJson(string json, string file)

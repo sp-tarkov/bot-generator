@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Common;
 
 namespace Generator
 {
@@ -20,13 +21,13 @@ namespace Generator
         public void WriteJson(List<Bot> bots)
         {
             var outputPath = $"{_workingPath}\\{_outputFolderName}";
-            CreateDirIfDoesntExist(outputPath);
+            DiskHelpers.CreateDirIfDoesntExist(outputPath);
 
             foreach (var bot in bots)
             {
                 if (bot.appearance.body.Count == 0) // only process files that have data in them, no body = no dumps
                 {
-                    Helpers.LoggingHelpers.LogToConsole($"Unable to process bot type: {bot.botType}, skipping", ConsoleColor.DarkRed);
+                    LoggingHelpers.LogToConsole($"Unable to process bot type: {bot.botType}, skipping", ConsoleColor.DarkRed);
                     continue;
                 }
                 var output = JsonConvert.SerializeObject(bot, Formatting.Indented);
@@ -35,15 +36,6 @@ namespace Generator
                 Console.WriteLine($"file {bot.botType} written to {outputPath}");
             }
             
-        }
-
-        private void CreateDirIfDoesntExist(string path)
-        {
-            if (!Directory.Exists($"{path}"))
-            {
-                //create dump dir
-                Directory.CreateDirectory($"{path}");
-            }
         }
     }
 }

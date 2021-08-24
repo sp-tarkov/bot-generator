@@ -1,4 +1,5 @@
-﻿using Generator.Models.Input;
+﻿using Common.Extensions;
+using Generator.Models.Input;
 using Generator.Models.Output;
 using Newtonsoft.Json;
 using System.Collections.Generic;

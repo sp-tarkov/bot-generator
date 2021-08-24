@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Common;
+using System.IO;
 
 namespace Generator
 {
@@ -41,8 +42,8 @@ namespace Generator
 
             if (parsedBots.Count == 0)
             {
-                Helpers.LoggingHelpers.LogToConsole("no bots found, unable to continue");
-                Helpers.LoggingHelpers.LogToConsole("Check your dumps are in 'Generator\\bin\\Debug\\netcoreapp3.1\\dumps' and start with 'resp.' NOT 'req.'");
+                LoggingHelpers.LogToConsole("no bots found, unable to continue");
+                LoggingHelpers.LogToConsole("Check your dumps are in 'Generator\\bin\\Debug\\netcoreapp3.1\\dumps' and start with 'resp.' NOT 'req.'");
                 return;
             }
 
