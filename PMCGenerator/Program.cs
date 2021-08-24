@@ -21,11 +21,12 @@ namespace PMCGenerator
             var presetFiles = GetPresetFileList(presetPath);
 
             // Parse into list of strongly typed objects
-            var parsedPresets = new Presets();
+            var parsedPresets = new List<Presets>();
             foreach (var presetFile in presetFiles)
             {
                 var json = File.ReadAllText(presetFile);
-                parsedPresets = JsonConvert.DeserializeObject<Presets>(json);
+                var parsedFile = JsonConvert.DeserializeObject<Presets>(json);
+                parsedPresets.Add(parsedFile);
             }
 
             // Create flat lists of weapons + list of mods
@@ -33,23 +34,23 @@ namespace PMCGenerator
             var flatModList = GetModsFromRawFile(parsedPresets);
 
             // Add weapon mods to output
-            var output = new { FirstPrimaryWeapon = new List<string>(), Mods = new Dictionary<string, Dictionary<string, List<string>>>() };
+            var output = new { FirstPrimaryWeapon = new List<string>(), mods = new Dictionary<string, Dictionary<string, List<string>>>() };
             output.FirstPrimaryWeapon.AddRange(flatWeaponsList.Select(x => x.TemplateId).Distinct());
-            var mods = output.Mods;
+
             foreach (var weapon in flatWeaponsList)
             {
                 // add weapon if its not already here
-                if (!mods.ContainsKey(weapon.TemplateId))
+                if (!output.mods.ContainsKey(weapon.TemplateId))
                 {
                     // Add weapon to dictionary
-                    mods.Add(weapon.TemplateId, new Dictionary<string, List<string>>());
+                    output.mods.Add(weapon.TemplateId, new Dictionary<string, List<string>>());
                 }
 
                 // Get mods types for this gun, top level
                 var uniqueModSlots = flatModList.Where(x => x.ParentId == weapon.Id).Select(x => x.SlotId).Distinct().ToList();
                 foreach (var modSlotId in uniqueModSlots)
                 {
-                    Dictionary<string, List<string>> weaponModsToModify = mods[weapon.TemplateId];
+                    Dictionary<string, List<string>> weaponModsToModify = output.mods[weapon.TemplateId];
 
                     if (!weaponModsToModify.ContainsKey(modSlotId))
                     {
@@ -58,7 +59,7 @@ namespace PMCGenerator
                 }
 
                 var modsForWeapon = flatModList.Where(x => x.ParentId == weapon.Id).ToList();
-                Dictionary<string, List<string>> weaponMods = mods[weapon.TemplateId];
+                Dictionary<string, List<string>> weaponMods = output.mods[weapon.TemplateId];
 
                 foreach (var mod in modsForWeapon)
                 {
@@ -71,15 +72,15 @@ namespace PMCGenerator
                         && !flatWeaponsList.Any(y => y.Id == x.ParentId)).ToList())
             {
                 // No parent tempalte id found, create and add mods details
-                if (!mods.ContainsKey(mod.ParentTemplateId))
+                if (!output.mods.ContainsKey(mod.ParentTemplateId))
                 {
                     var templateIdsList = new List<string>{mod.TemplateId};
                     var subtype = new Dictionary<string, List<string>>{{ mod.SlotId, templateIdsList } };
-                    mods.Add(mod.ParentTemplateId, subtype);
+                    output.mods.Add(mod.ParentTemplateId, subtype);
                 }
 
                 //Add subtype to item
-                var subtypeToAddTo = mods[mod.ParentTemplateId];
+                var subtypeToAddTo = output.mods[mod.ParentTemplateId];
                 // No subtype, add it
                 if (!subtypeToAddTo.ContainsKey(mod.SlotId))
                 {
@@ -100,26 +101,30 @@ namespace PMCGenerator
             CreateJsonFile(outputPath, outputJson);
         }
 
-        private static List<ModDetails> GetModsFromRawFile(Presets parsedPresets)
+        private static List<ModDetails> GetModsFromRawFile(List<Presets> parsedPresets)
         {
             List <ModDetails> result = new List<ModDetails>();
-            foreach (var item in parsedPresets.weaponbuilds)
+            foreach (var file in parsedPresets)
             {
-                Weapon weapon = item.Value;
-
-                // Loop over weapons mods
-                foreach (var mod in weapon.items)
+                foreach (var item in file.weaponbuilds)
                 {
-                    // Skip items with no parent (this is the weapon itself, first item in list)
-                    if (mod.parentId == null)
-                    {
-                        continue;
-                    }
+                    Weapon weapon = item.Value;
 
-                    Module parentMod = GetModsParent(parsedPresets, mod.parentId);
-                    result.Add(new ModDetails(mod.slotId, mod._id, mod._tpl, mod.parentId, parentMod._tpl));
+                    // Loop over weapons mods
+                    foreach (var mod in weapon.items)
+                    {
+                        // Skip items with no parent (this is the weapon itself, first item in list)
+                        if (mod.parentId == null)
+                        {
+                            continue;
+                        }
+
+                        Module parentMod = GetModsParent(file, mod.parentId);
+                        result.Add(new ModDetails(mod.slotId, mod._id, mod._tpl, mod.parentId, parentMod._tpl));
+                    }
                 }
             }
+            
 
             return result;
         }
@@ -142,14 +147,18 @@ namespace PMCGenerator
             return null;
         }
 
-        private static List<WeaponDetails> GetWeaponsFromRawFile(Presets parsedPresets)
+        private static List<WeaponDetails> GetWeaponsFromRawFile(List<Presets> parsedPresets)
         {
             var result = new List<WeaponDetails>();
-            foreach (var item in parsedPresets.weaponbuilds)
+            foreach (var file in parsedPresets)
             {
-                Weapon weapon = item.Value;
-                result.Add(new WeaponDetails(item.Key, weapon.items[0]._id, weapon.items[0]._tpl));
+                foreach (var item in file.weaponbuilds)
+                {
+                    Weapon weapon = item.Value;
+                    result.Add(new WeaponDetails(item.Key, weapon.items[0]._id, weapon.items[0]._tpl));
+                }
             }
+            
 
             return result;
         }
