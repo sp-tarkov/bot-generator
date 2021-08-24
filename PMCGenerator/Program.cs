@@ -2,7 +2,6 @@
 using Common.Extensions;
 using Newtonsoft.Json;
 using PMCGenerator.Models;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,30 +13,24 @@ namespace PMCGenerator
     {
         static void Main(string[] args)
         {
-            // take a list of preset files and spit out a drop-in-replacement mod list
-
             var presetPath = CreateInputFolder();
 
             var presetFiles = GetPresetFileList(presetPath);
 
             // Parse into list of strongly typed objects
-            var parsedPresets = new List<Presets>();
-            foreach (var presetFile in presetFiles)
-            {
-                var json = File.ReadAllText(presetFile);
-                var parsedFile = JsonConvert.DeserializeObject<Presets>(json);
-                parsedPresets.Add(parsedFile);
-            }
+            var parsedPresets = ParsePresetJsons(presetFiles);
 
             // Create flat lists of weapons + list of mods
-            var flatWeaponsList = GetWeaponsFromRawFile(parsedPresets);
+            var flatPrimaryWeaponsList = GetWeaponsFromRawFile(parsedPresets);
+            var flatSecondaryWeaponsList = GetSecondaryWeaponsFromRawFile(parsedPresets);
             var flatModList = GetModsFromRawFile(parsedPresets);
 
             // Add weapon mods to output
-            var output = new { FirstPrimaryWeapon = new List<string>(), mods = new Dictionary<string, Dictionary<string, List<string>>>() };
-            output.FirstPrimaryWeapon.AddRange(flatWeaponsList.Select(x => x.TemplateId).Distinct());
+            var output = new { FirstPrimaryWeapon = new List<string>(), Holster = new List<string>(), mods = new Dictionary<string, Dictionary<string, List<string>>>() };
+            output.FirstPrimaryWeapon.AddRange(flatPrimaryWeaponsList.Select(x => x.TemplateId).Distinct());
+            output.Holster.AddRange(flatSecondaryWeaponsList.Select(x => x.TemplateId).Distinct());
 
-            foreach (var weapon in flatWeaponsList)
+            foreach (var weapon in flatPrimaryWeaponsList)
             {
                 // add weapon if its not already here
                 if (!output.mods.ContainsKey(weapon.TemplateId))
@@ -69,7 +62,7 @@ namespace PMCGenerator
 
             // Get mods where parent is not weapon and add to output
             foreach (var mod in flatModList.Where(x => x.ParentId != null 
-                        && !flatWeaponsList.Any(y => y.Id == x.ParentId)).ToList())
+                        && !flatPrimaryWeaponsList.Any(y => y.Id == x.ParentId)).ToList())
             {
                 // No parent tempalte id found, create and add mods details
                 if (!output.mods.ContainsKey(mod.ParentTemplateId))
@@ -101,6 +94,26 @@ namespace PMCGenerator
             CreateJsonFile(outputPath, outputJson);
         }
 
+        private static List<Presets> ParsePresetJsons(List<string> presetFiles)
+        {
+            var result = new List<Presets>();
+            foreach (var presetFile in presetFiles)
+            {
+                var json = File.ReadAllText(presetFile);
+                var parsedFile = JsonConvert.DeserializeObject<Presets>(json);
+                result.Add(parsedFile);
+            }
+
+            int count = 0;
+            foreach (var file in result)
+            {
+                count += file.weaponbuilds.Count;
+            }
+            LoggingHelpers.LogToConsole($"{count} presets parsed");
+
+            return result;
+        }
+
         private static List<ModDetails> GetModsFromRawFile(List<Presets> parsedPresets)
         {
             List <ModDetails> result = new List<ModDetails>();
@@ -120,7 +133,10 @@ namespace PMCGenerator
                         }
 
                         Module parentMod = GetModsParent(file, mod.parentId);
-                        result.Add(new ModDetails(mod.slotId, mod._id, mod._tpl, mod.parentId, parentMod._tpl));
+                        if (parentMod != null)
+                        {
+                            result.Add(new ModDetails(mod.slotId, mod._id, mod._tpl, mod.parentId, parentMod._tpl));
+                        }
                     }
                 }
             }
@@ -152,13 +168,29 @@ namespace PMCGenerator
             var result = new List<WeaponDetails>();
             foreach (var file in parsedPresets)
             {
-                foreach (var item in file.weaponbuilds)
+                foreach (var item in file.weaponbuilds.Where(x=> !x.Key.Contains("pistol")))
                 {
                     Weapon weapon = item.Value;
                     result.Add(new WeaponDetails(item.Key, weapon.items[0]._id, weapon.items[0]._tpl));
                 }
             }
             
+
+            return result;
+        }
+
+        private static List<WeaponDetails> GetSecondaryWeaponsFromRawFile(List<Presets> parsedPresets)
+        {
+            var result = new List<WeaponDetails>();
+            foreach (var file in parsedPresets)
+            {
+                foreach (var item in file.weaponbuilds.Where(x => x.Key.Contains("pistol")))
+                {
+                    Weapon weapon = item.Value;
+                    result.Add(new WeaponDetails(item.Key, weapon.items[0]._id, weapon.items[0]._tpl));
+                }
+            }
+
 
             return result;
         }
@@ -177,7 +209,7 @@ namespace PMCGenerator
         private static List<string> GetPresetFileList(string presetPath)
         {
             var presetFiles = Directory.GetFiles(presetPath, "*.json", SearchOption.TopDirectoryOnly).ToList();
-            Console.WriteLine($"{presetFiles.Count} preset files found");
+            LoggingHelpers.LogToConsole($"{presetFiles.Count} preset files found");
 
             return presetFiles;
         }
