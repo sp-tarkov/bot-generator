@@ -20,6 +20,9 @@ namespace PMCGenerator
             // Create flat lists of weapons + list of mods
             var flatPrimaryWeaponsList = GetWeaponsFromRawFile(parsedPresets);
             var flatSecondaryWeaponsList = GetSecondaryWeaponsFromRawFile(parsedPresets);
+
+            var flatAllWeaponsList = CombinePrimaryAndSecondaryWeapons(flatPrimaryWeaponsList, flatSecondaryWeaponsList);
+
             var flatModList = GetModsFromRawFile(parsedPresets);
 
             // Add weapon mods to output
@@ -27,10 +30,12 @@ namespace PMCGenerator
                 FirstPrimaryWeapon = new List<string>(),
                 Holster = new List<string>(),
                 mods = new Dictionary<string, Dictionary<string, List<string>>>() };
+
             output.FirstPrimaryWeapon.AddRange(flatPrimaryWeaponsList.Select(x => x.TemplateId).Distinct());
             output.Holster.AddRange(flatSecondaryWeaponsList.Select(x => x.TemplateId).Distinct());
 
-            foreach (var weapon in flatPrimaryWeaponsList)
+            // Loop over each gun
+            foreach (var weapon in flatAllWeaponsList)
             {
                 // add weapon if its not already here
                 if (!output.mods.ContainsKey(weapon.TemplateId))
@@ -109,6 +114,14 @@ namespace PMCGenerator
             CreateJsonFile(outputPath, outputJson);
         }
 
+        private static List<WeaponDetails> CombinePrimaryAndSecondaryWeapons(List<WeaponDetails> flatPrimaryWeaponsList, List<WeaponDetails> flatSecondaryWeaponsList)
+        {
+            var result = new List<WeaponDetails>();
+            result.AddRange(flatPrimaryWeaponsList);
+            result.AddRange(flatSecondaryWeaponsList);
+
+            return result;
+        }
         /// <summary>
         /// Get a strongly typed dictionary of BSGs items library
         /// </summary>
