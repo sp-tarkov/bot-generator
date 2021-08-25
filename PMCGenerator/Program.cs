@@ -44,7 +44,7 @@ namespace PMCGenerator
                     output.mods.Add(weapon.TemplateId, new Dictionary<string, List<string>>());
                 }
 
-                // Get mods types for this gun, top level
+                // Get top level mods types for this gun
                 var uniqueModSlots = flatModList.Where(x => x.ParentId == weapon.Id).Select(x => x.SlotId).Distinct().ToList();
                 var chamberedBulletModItemName = "patron_in_weapon";
                 uniqueModSlots.AddUnique(chamberedBulletModItemName);
@@ -59,24 +59,22 @@ namespace PMCGenerator
                 }
 
                 // Add compatible bullets to weapons gun chamber
-                var modItemToAddBulletsTo = output.mods[weapon.TemplateId].FirstOrDefault(x=> x.Key == chamberedBulletModItemName);
+                var modItemToAddBulletsTo = output.mods[weapon.TemplateId].FirstOrDefault(x => x.Key == chamberedBulletModItemName);
+                var compatibleBullets = GetCompatibileBullets(itemLibrary, weapon);
+                modItemToAddBulletsTo.Value.AddUniqueRange(compatibleBullets);
 
-                foreach (var bullet in GetCompatibileBullets(itemLibrary, weapon))
-                {
-                    if (BulletHelpers.BulletIsOnBlackList(bullet))
-                    {
-                        continue;
-                    }
-
-                    modItemToAddBulletsTo.Value.AddUnique(bullet);
-                }
-                
                 // Add compatabible mods to weapon
                 var modsForWeapon = flatModList.Where(x => x.ParentId == weapon.Id).ToList();
                 Dictionary<string, List<string>> weaponMods = output.mods[weapon.TemplateId];
                 foreach (var mod in modsForWeapon)
                 {
                     weaponMods[mod.SlotId].AddUnique(mod.TemplateId);
+                    
+                    if (mod.SlotId == "mod_magazine")
+                    {
+                        // add special mod item for magazine that gives info on what cartridges can be used
+                        AddCartridgeItemToModListWithCompatibileCartridges(output.mods, compatibleBullets, mod);
+                    }
                 }
             }
 
@@ -122,6 +120,27 @@ namespace PMCGenerator
 
             return result;
         }
+
+        private static void AddCartridgeItemToModListWithCompatibileCartridges(Dictionary<string, Dictionary<string, List<string>>> mods, List<string> compatibiltBullets, ModDetails mod)
+        {
+            var cartridges = new Dictionary<string, List<string>>
+                        {
+                            { "cartridges", compatibiltBullets }
+                        };
+            if (!mods.ContainsKey(mod.TemplateId))
+            {
+                mods.Add(mod.TemplateId, cartridges); // no item at all, create fresh
+            }
+            else
+            {
+                // Item exists, iterate over bullets and add if they dont exist
+                foreach (var bullet in compatibiltBullets)
+                {
+                    mods[mod.TemplateId]["cartridges"].AddUnique(bullet);
+                }
+            }
+        }
+
         /// <summary>
         /// Get a strongly typed dictionary of BSGs items library
         /// </summary>
@@ -136,6 +155,9 @@ namespace PMCGenerator
 
         }
 
+        /// <summary>
+        /// Get combatible bullets for weapon that are not blacklisted
+        /// </summary>
         private static List<string> GetCompatibileBullets(Dictionary<string, Item> itemLibrary, WeaponDetails weapon)
         {
             // Lookup weapon in itemdb
@@ -144,11 +166,27 @@ namespace PMCGenerator
             // Find the guns chamber and the bullets it can use
             var bullets = weaponInLibrary._props.Chambers.FirstOrDefault()?._props.filters[0]?.filter.ToList();
 
-            // return bullets or return default ammo type
-            return bullets ?? new List<string>
+            // no bullets found, return the default bullet the gun can use
+            if (bullets == null)
+            {
+                return new List<string>
                 {
                     weaponInLibrary._props.defAmmo
                 };
+            }
+
+            var nonBlacklistedBullets = new List<string>();
+            foreach (var bullet in bullets)
+            {
+                if (BulletHelpers.BulletIsOnBlackList(bullet))
+                {
+                    continue;
+                }
+
+                nonBlacklistedBullets.AddUnique(bullet);
+            }
+
+            return nonBlacklistedBullets;
         }
 
         /// <summary>
