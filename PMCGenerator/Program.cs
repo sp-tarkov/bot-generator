@@ -43,7 +43,8 @@ namespace PMCGenerator
 
                 // Get mods types for this gun, top level
                 var uniqueModSlots = flatModList.Where(x => x.ParentId == weapon.Id).Select(x => x.SlotId).Distinct().ToList();
-                uniqueModSlots.AddUnique("patron_in_weapon"); // Add bullet in chamber item
+                var chamberedBulletModItemName = "patron_in_weapon";
+                uniqueModSlots.AddUnique(chamberedBulletModItemName);
                 foreach (var modSlotId in uniqueModSlots)
                 {
                     Dictionary<string, List<string>> weaponModsToModify = output.mods[weapon.TemplateId];
@@ -55,10 +56,9 @@ namespace PMCGenerator
                 }
 
                 // Add compatible bullets to weapons gun chamber
-                var modItemToAddBulletsTo = output.mods[weapon.TemplateId].FirstOrDefault(x=> x.Key == "patron_in_weapon");
-                var bulletTemplateIds = GetCompatibileBullets(itemLibrary, weapon);
+                var modItemToAddBulletsTo = output.mods[weapon.TemplateId].FirstOrDefault(x=> x.Key == chamberedBulletModItemName);
 
-                foreach (var bullet in bulletTemplateIds)
+                foreach (var bullet in GetCompatibileBullets(itemLibrary, weapon))
                 {
                     if (BulletHelpers.BulletIsOnBlackList(bullet))
                     {
@@ -68,7 +68,6 @@ namespace PMCGenerator
                     modItemToAddBulletsTo.Value.AddUnique(bullet);
                 }
                 
-
                 // Add compatabible mods to weapon
                 var modsForWeapon = flatModList.Where(x => x.ParentId == weapon.Id).ToList();
                 Dictionary<string, List<string>> weaponMods = output.mods[weapon.TemplateId];
@@ -76,7 +75,6 @@ namespace PMCGenerator
                 {
                     weaponMods[mod.SlotId].AddUnique(mod.TemplateId);
                 }
-
             }
 
             // Get mods where parent is not weapon and add to output
@@ -120,9 +118,7 @@ namespace PMCGenerator
             var workingPath = Directory.GetCurrentDirectory();
 
             var itemsLibraryJson = File.ReadAllText(workingPath + "\\input" + "\\items.json");
-            var itemsLibrary = JsonConvert.DeserializeObject<Dictionary<string, Item>>(itemsLibraryJson);
-
-            return itemsLibrary;
+            return JsonConvert.DeserializeObject<Dictionary<string, Item>>(itemsLibraryJson);
 
         }
 
@@ -134,16 +130,11 @@ namespace PMCGenerator
             // Find the guns chamber and the bullets it can use
             var bullets = weaponInLibrary._props.Chambers.FirstOrDefault()?._props.filters[0]?.filter.ToList();
 
-            // no chamber found, return default ammo type
-            if (bullets == null)
-            {
-                return new List<string>
+            // return bullets or return default ammo type
+            return bullets ?? new List<string>
                 {
                     weaponInLibrary._props.defAmmo
                 };
-            }
-
-            return bullets;
         }
 
         private static List<Presets> ParsePresetJsons(List<string> presetFiles)
@@ -227,7 +218,6 @@ namespace PMCGenerator
                 }
             }
             
-
             return result;
         }
 
@@ -242,7 +232,6 @@ namespace PMCGenerator
                     result.Add(new WeaponDetails(item.Key, weapon.items[0]._id, weapon.items[0]._tpl));
                 }
             }
-
 
             return result;
         }
