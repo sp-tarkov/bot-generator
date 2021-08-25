@@ -13,7 +13,9 @@ namespace PMCGenerator
     {
         static void Main(string[] args)
         {
-            var presetPath = CreateInputFolder();
+            var itemLibrary = GetItemLibraryFileAndParse();
+
+            var presetPath = CreateInputFolder("presets");
 
             var presetFiles = GetPresetFileList(presetPath);
 
@@ -41,6 +43,7 @@ namespace PMCGenerator
 
                 // Get mods types for this gun, top level
                 var uniqueModSlots = flatModList.Where(x => x.ParentId == weapon.Id).Select(x => x.SlotId).Distinct().ToList();
+                uniqueModSlots.AddUnique("patron_in_weapon"); // Add bullet in chamber item
                 foreach (var modSlotId in uniqueModSlots)
                 {
                     Dictionary<string, List<string>> weaponModsToModify = output.mods[weapon.TemplateId];
@@ -51,13 +54,29 @@ namespace PMCGenerator
                     }
                 }
 
+                // Add compatible bullets to weapons gun chamber
+                var modItemToAddBulletsTo = output.mods[weapon.TemplateId].FirstOrDefault(x=> x.Key == "patron_in_weapon");
+                var bulletTemplateIds = GetCompatibileBullets(itemLibrary, weapon);
+
+                foreach (var bullet in bulletTemplateIds)
+                {
+                    if (BulletHelpers.BulletIsOnBlackList(bullet))
+                    {
+                        continue;
+                    }
+
+                    modItemToAddBulletsTo.Value.AddUnique(bullet);
+                }
+                
+
+                // Add compatabible mods to weapon
                 var modsForWeapon = flatModList.Where(x => x.ParentId == weapon.Id).ToList();
                 Dictionary<string, List<string>> weaponMods = output.mods[weapon.TemplateId];
-
                 foreach (var mod in modsForWeapon)
                 {
                     weaponMods[mod.SlotId].AddUnique(mod.TemplateId);
                 }
+
             }
 
             // Get mods where parent is not weapon and add to output
@@ -92,6 +111,39 @@ namespace PMCGenerator
             var outputJson = JsonConvert.SerializeObject(output, Formatting.Indented);
 
             CreateJsonFile(outputPath, outputJson);
+        }
+
+        private static Dictionary<string, Item> GetItemLibraryFileAndParse()
+        {
+            CreateInputFolder(string.Empty);
+
+            var workingPath = Directory.GetCurrentDirectory();
+
+            var itemsLibraryJson = File.ReadAllText(workingPath + "\\input" + "\\items.json");
+            var itemsLibrary = JsonConvert.DeserializeObject<Dictionary<string, Item>>(itemsLibraryJson);
+
+            return itemsLibrary;
+
+        }
+
+        private static List<string> GetCompatibileBullets(Dictionary<string, Item> itemLibrary, WeaponDetails weapon)
+        {
+            // Lookup weapon in itemdb
+            var weaponInLibrary = itemLibrary[weapon.TemplateId];
+
+            // Find the guns chamber and the bullets it can use
+            var bullets = weaponInLibrary._props.Chambers.FirstOrDefault()?._props.filters[0]?.filter.ToList();
+
+            // no chamber found, return default ammo type
+            if (bullets == null)
+            {
+                return new List<string>
+                {
+                    weaponInLibrary._props.defAmmo
+                };
+            }
+
+            return bullets;
         }
 
         private static List<Presets> ParsePresetJsons(List<string> presetFiles)
@@ -217,10 +269,10 @@ namespace PMCGenerator
         /// <summary>
         /// Create folder structure to read from
         /// </summary>
-        private static string CreateInputFolder()
+        private static string CreateInputFolder(string folder)
         {
             var workingPath = Directory.GetCurrentDirectory();
-            var presetPath = $"{workingPath}//input//presets";
+            var presetPath = $"{workingPath}//input//{folder}";
             DiskHelpers.CreateDirIfDoesntExist(presetPath);
 
             return presetPath;
