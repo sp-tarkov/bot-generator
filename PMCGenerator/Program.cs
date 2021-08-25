@@ -13,14 +13,9 @@ namespace PMCGenerator
     {
         static void Main(string[] args)
         {
-            var itemLibrary = GetItemLibraryFileAndParse();
+            var itemLibrary = GetItemLibrary();
 
-            var presetPath = CreateInputFolder("presets");
-
-            var presetFiles = GetPresetFileList(presetPath);
-
-            // Parse into list of strongly typed objects
-            var parsedPresets = ParsePresetJsons(presetFiles);
+            var parsedPresets = GetPresets();
 
             // Create flat lists of weapons + list of mods
             var flatPrimaryWeaponsList = GetWeaponsFromRawFile(parsedPresets);
@@ -114,7 +109,10 @@ namespace PMCGenerator
             CreateJsonFile(outputPath, outputJson);
         }
 
-        private static Dictionary<string, Item> GetItemLibraryFileAndParse()
+        /// <summary>
+        /// Get a strongly typed dictionary of BSGs items library
+        /// </summary>
+        private static Dictionary<string, Item> GetItemLibrary()
         {
             CreateInputFolder(string.Empty);
 
@@ -140,8 +138,14 @@ namespace PMCGenerator
                 };
         }
 
-        private static List<Presets> ParsePresetJsons(List<string> presetFiles)
+        /// <summary>
+        /// Get a list of all the presets in the input/presets folder and return as a list of strongly typed objects
+        /// </summary>
+        private static List<Presets> GetPresets()
         {
+            var presetPath = CreateInputFolder("presets");
+            var presetFiles = GetPresetFileList(presetPath);
+
             var result = new List<Presets>();
             foreach (var presetFile in presetFiles)
             {
