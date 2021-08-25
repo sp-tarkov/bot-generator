@@ -28,7 +28,10 @@ namespace PMCGenerator
             var flatModList = GetModsFromRawFile(parsedPresets);
 
             // Add weapon mods to output
-            var output = new { FirstPrimaryWeapon = new List<string>(), Holster = new List<string>(), mods = new Dictionary<string, Dictionary<string, List<string>>>() };
+            var output = new {
+                FirstPrimaryWeapon = new List<string>(),
+                Holster = new List<string>(),
+                mods = new Dictionary<string, Dictionary<string, List<string>>>() };
             output.FirstPrimaryWeapon.AddRange(flatPrimaryWeaponsList.Select(x => x.TemplateId).Distinct());
             output.Holster.AddRange(flatSecondaryWeaponsList.Select(x => x.TemplateId).Distinct());
 
