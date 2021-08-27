@@ -26,7 +26,8 @@ namespace Common
         "5cadf6ddae9215051e1c23b2", // 12.7x55 mm PS12
         "5ea2a8e200685063ec28c05a", // .45 acp rip
         "5fbe3ffdf8b6a877a729ea82", // .300 aac bcp fmj
-        "5e023e6e34d52a55c3304f71" // 7.62x51 tcw sp
+        "5e023e6e34d52a55c3304f71", // 7.62x51mm tcw sp
+        "5e023e88277cce2b522ff2b1"  // 7.62x51 ultra nosler
     };
 
         public static bool BulletIsOnBlackList(string bullet)
