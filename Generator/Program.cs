@@ -59,9 +59,13 @@ namespace Generator
             var botLootGenerator = new BotLootGenerator(botsWithGear, parsedBots);
             var botsWithGearAndLoot = botLootGenerator.AddLoot();
 
+            // Add mod/equipment chances
+            var botChancesGenerator = new BotChancesGenerator(botsWithGearAndLoot, parsedBots);
+            var botsWithGearAndLootAndChances = botChancesGenerator.AddChances();
+
             // Output bot to json file
             var jsonWriter = new JsonWriter(workingPath, "output");
-            jsonWriter.WriteJson(botsWithGearAndLoot);
+            jsonWriter.WriteJson(botsWithGearAndLootAndChances);
         }
     }
 }

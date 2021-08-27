@@ -1,5 +1,4 @@
 ﻿using Common;
-using Generator.Helpers;
 using Generator.Helpers.Gear;
 using Generator.Models.Input;
 using Generator.Models.Output;
@@ -10,23 +9,23 @@ using System.Linq;
 
 namespace Generator
 {
-    public class BotGearGenerator
+    internal class BotChancesGenerator
     {
-        private readonly List<Bot> _baseBots;
+        private readonly List<Bot> _bots;
         private readonly List<Datum> _rawParsedBots;
 
-        public BotGearGenerator(List<Bot> baseBots, List<Datum> parsedBots)
+        public BotChancesGenerator(List<Bot> botsWithGearAndLoot, List<Datum> parsedBots)
         {
-            _baseBots = baseBots;
+            _bots = botsWithGearAndLoot;
             _rawParsedBots = parsedBots;
         }
 
-        internal List<Bot> AddGear()
+        internal List<Bot> AddChances()
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot gear");
 
-            foreach (var botToUpdate in _baseBots)
+            foreach (var botToUpdate in _bots)
             {
                 var rawParsedBotOfCurrentType = _rawParsedBots
                     .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
@@ -37,18 +36,15 @@ namespace Generator
                     continue;
                 }
 
-                foreach (var rawParsedBot in rawParsedBotOfCurrentType)
-                {
-                    GearHelpers.AddEquippedGear(botToUpdate, rawParsedBot);
-                    GearHelpers.AddEquippedMods(botToUpdate, rawParsedBot);
-                    GearHelpers.AddCartridges(botToUpdate, rawParsedBot);
-                }
+                GearChanceHelpers.CalculateEquipmentChances(botToUpdate, rawParsedBotOfCurrentType);
+                GearChanceHelpers.AddGenerationChances(botToUpdate);
+                GearChanceHelpers.CalculateModChances(botToUpdate, rawParsedBotOfCurrentType);
             }
 
             stopwatch.Stop();
-            LoggingHelpers.LogToConsole($"Finished processing bot gear. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+            LoggingHelpers.LogToConsole($"Finished processing bot chances. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-            return _baseBots;
+            return _bots;
         }
     }
 }
