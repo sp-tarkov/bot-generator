@@ -13,6 +13,7 @@ namespace Generator.Models.Output
             health = new Health();
             skills = new Skills();
             inventory = new Inventory();
+            specialLoot = new List<string>();
             firstName = new List<string>();
             lastName = new List<string>();
             difficulty = new Difficulty.Difficulty();
@@ -27,6 +28,7 @@ namespace Generator.Models.Output
         public Health health { get; set; }
         public Skills skills { get; set; }
         public Inventory inventory { get; set; }
+        public List<string> specialLoot { get; set; }
         public List<string> firstName { get; set; }
         public List<string> lastName { get; set; }
         public Difficulty.Difficulty difficulty { get; set;}

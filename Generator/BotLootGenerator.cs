@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Extensions;
 using Generator.Helpers;
+using Generator.Helpers.Gear;
 using Generator.Models.Input;
 using Generator.Models.Output;
 using System;
@@ -46,12 +47,22 @@ namespace Generator
                 AddTacticalVestLoot(botToUpdate, rawBotsOfSameType);
                 AddBackbackLoot(botToUpdate, rawBotsOfSameType);
                 AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
+                AddSpecialLoot(botToUpdate);
             }
 
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot loot. Took: {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
             return _botsWithGear;
+        }
+
+        private void AddPocketLoot(Bot finalBot, Datum bot)
+        {
+            // pocket loot
+            foreach (var lootItem in bot.Inventory.items.Where(x => x?.slotId?.StartsWith("pocket") == true))
+            {
+                finalBot.inventory.items.Pockets.AddUnique(lootItem._tpl);
+            }
         }
 
         private void AddTacticalVestLoot(Bot finalAssaultBot, List<Datum> bots)
@@ -72,13 +83,9 @@ namespace Generator
             finalAssaultBot.inventory.items.SecuredContainer.AddRange(tacVestItems);
         }
 
-        private void AddPocketLoot(Bot finalBot, Datum bot)
+        private void AddSpecialLoot(Bot botToUpdate)
         {
-            // pocket loot
-            foreach (var lootItem in bot.Inventory.items.Where(x => x?.slotId?.StartsWith("pocket") == true))
-            {
-                finalBot.inventory.items.Pockets.AddUnique(lootItem._tpl);
-            }
+            botToUpdate.specialLoot.AddRange(SpecialLootHelper.GetSpecialLootForBotType(botToUpdate.botType));
         }
 
         private List<string> GetItemsStoredInEquipmentItem(List<Datum> bots, string containerName)
