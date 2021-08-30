@@ -109,7 +109,7 @@ namespace Generator.Helpers.Gear
 
         public static void AddGenerationChances(Bot bot)
         {
-            bot.generation = new GenerationChances(bot.specialLoot.Count > 0 ? 1 : 0 , bot.specialLoot.Count, 1, 2, 0, 3, 2, 4, 0, 5); //TODO get dynamically
+            bot.generation = new GenerationChances(bot.inventory.items.SpecialLoot.Count > 0 ? 1 : 0 , bot.inventory.items.SpecialLoot.Count, 1, 2, 0, 3, 2, 4, 0, 5); //TODO get dynamically
         }
         public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)
         {

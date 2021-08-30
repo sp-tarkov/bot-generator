@@ -60,11 +60,13 @@ namespace Generator.Models.Output
             Pockets = new List<string>();
             Backpack = new List<string>();
             SecuredContainer = new List<string>();
+            SpecialLoot = new List<string>();
         }
 
         public List<string> TacticalVest { get; set; }
         public List<string> Pockets { get; set; }
         public List<string> Backpack { get; set; }
         public List<string> SecuredContainer { get; set; }
+        public List<string> SpecialLoot { get; set; }
     }
 }

@@ -85,7 +85,7 @@ namespace Generator
 
         private void AddSpecialLoot(Bot botToUpdate)
         {
-            botToUpdate.specialLoot.AddRange(SpecialLootHelper.GetSpecialLootForBotType(botToUpdate.botType));
+            botToUpdate.inventory.items.SpecialLoot.AddRange(SpecialLootHelper.GetSpecialLootForBotType(botToUpdate.botType));
         }
 
         private List<string> GetItemsStoredInEquipmentItem(List<Datum> bots, string containerName)
