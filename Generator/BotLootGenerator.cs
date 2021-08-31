@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Generator
 {
@@ -28,15 +29,15 @@ namespace Generator
             LoggingHelpers.LogToConsole("Started processing bot loot");
 
             // Iterate over assault/raider etc
-            foreach (var botToUpdate in _botsWithGear)
+            Parallel.ForEach(_botsWithGear, botToUpdate =>
             {
                 var rawBotsOfSameType = _rawParsedBots
-                    .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                                        .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                                        .ToList();
 
                 if (rawBotsOfSameType.Count == 0)
                 {
-                    continue;
+                    return;
                 }
 
                 foreach (var rawParsedBot in rawBotsOfSameType)
@@ -48,7 +49,7 @@ namespace Generator
                 AddBackbackLoot(botToUpdate, rawBotsOfSameType);
                 AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
                 AddSpecialLoot(botToUpdate);
-            }
+            });
 
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot loot. Took: {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");

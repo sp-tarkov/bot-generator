@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Generator
 {
@@ -30,22 +31,20 @@ namespace Generator
             Console.WriteLine($"{botFiles.Count} bot dump files found");
 
             var parsedBots = new List<Datum>();
-            foreach (var file in botFiles)
-            {
+            Parallel.ForEach(botFiles, file => {
                 var splitFile = file.Split("\\");
-
 
                 var json = File.ReadAllText(file);
                 try
                 {
                     json = PruneMalformedBsgJson(json, splitFile.Last());
 
-                    var bots = ParseJson(json, file);
+                    var bots = ParseJson(json);
 
                     if (bots == null || bots.Count == 0)
                     {
                         Console.WriteLine($"skipping file: {splitFile.Last()}. no bots found, ");
-                        continue;
+                        return;
                     }
 
                     Console.WriteLine($"parsing: {bots.Count} bots in file {splitFile.Last()}");
@@ -59,7 +58,7 @@ namespace Generator
                     failedFilesCount++;
                     Console.WriteLine($"JSON Error message: {jex.Message} || file: {splitFile.Last()}");
                 }
-            }
+            });
 
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBots.Count} bots. Failed: {failedFilesCount}. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
@@ -87,10 +86,10 @@ namespace Generator
             return o.ToString();
         }
 
-        private static List<Datum> ParseJson(string json, string file)
+        private static List<Datum> ParseJson(string json)
         {
-            //Console.WriteLine($"parsing file {file}");
-            var serialisedObject = JsonConvert.DeserializeObject<Models.Input.Root>(json);
+            var serialisedObject = JsonConvert.DeserializeObject<Root>(json);
+
             return serialisedObject.data;
         }
     }
