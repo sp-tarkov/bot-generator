@@ -1,4 +1,5 @@
-﻿using Generator.Models;
+﻿using Common.Models;
+using Generator.Models;
 using System.Collections.Generic;
 
 namespace Generator.Helpers.Gear
@@ -58,6 +59,11 @@ namespace Generator.Helpers.Gear
             "5a0eee1486f77402aa773226"  // "Health Resort east wing room 328 key"
         };
 
+        public static IEnumerable<string> GetGenericBossKeys()
+        {
+            return _genericBossKeys;
+        }
+
         public static IEnumerable<string> GetSpecialLootForBotType(BotType botType)
         {
             var results = new List<string>();
@@ -70,20 +76,15 @@ namespace Generator.Helpers.Gear
                 case BotType.marksman:
                     break;
                 case BotType.bossbully:
-                    results.AddRange(_genericBossKeys);
                     break;
                 case BotType.bossgluhar:
-                    results.AddRange(_genericBossKeys);
                     break;
                 case BotType.bosskilla:
-                    results.AddRange(_genericBossKeys);
                     break;
                 case BotType.bosskojaniy:
-                    results.AddRange(_genericBossKeys);
                     results.Add("5d08d21286f774736e7c94c3"); // Shturman's stash key
                     break;
                 case BotType.bosssanitar:
-                    results.AddRange(_genericBossKeys);
                     results.Add("5efde6b4f5448336730dbd61"); // Keycard with a blue marking
                     break;
                 case BotType.bossstormtrooper:

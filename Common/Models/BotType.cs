@@ -1,4 +1,4 @@
-﻿namespace Generator.Models
+﻿namespace Common.Models
 {
     public enum BotType
     {
@@ -21,6 +21,7 @@
         followerstormtrooper = 17,
         cursedassault = 18,
         sectantpriest = 19,
-        sectantwarrior = 20
+        sectantwarrior = 20,
+        usec = 21
     }
 }

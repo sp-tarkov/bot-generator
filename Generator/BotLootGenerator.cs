@@ -65,16 +65,22 @@ namespace Generator
             }
         }
 
-        private void AddTacticalVestLoot(Bot finalAssaultBot, List<Datum> bots)
+        private void AddTacticalVestLoot(Bot finalBot, List<Datum> bots)
         {
             var tacVestItems = GetItemsStoredInEquipmentItem(bots, "TacticalVest");
-            finalAssaultBot.inventory.items.TacticalVest.AddRange(tacVestItems);
+            finalBot.inventory.items.TacticalVest.AddRange(tacVestItems);
         }
 
-        private void AddBackbackLoot(Bot finalAssaultBot, List<Datum> bots)
+        private void AddBackbackLoot(Bot finalBot, List<Datum> bots)
         {
+            // add generic keys to bosses
+            if (finalBot.botType.IsBoss())
+            {
+                finalBot.inventory.items.Backpack.AddRange(SpecialLootHelper.GetGenericBossKeys());
+            }
+
             var backpackItems = GetItemsStoredInEquipmentItem(bots, "Backpack");
-            finalAssaultBot.inventory.items.Backpack.AddRange(backpackItems);
+            finalBot.inventory.items.Backpack.AddRange(backpackItems);
         }
 
         private void AddSecureContainerLoot(Bot finalAssaultBot, List<Datum> bots)
