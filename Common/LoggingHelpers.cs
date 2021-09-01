@@ -14,9 +14,9 @@ namespace Common
             Console.BackgroundColor = backgroundColour;
             Console.ForegroundColor = ConsoleColor.Black;
 
-            Console.WriteLine(message);
-
+            Console.Write(message);
             ResetConsoleColours();
+            Console.WriteLine();
         }
 
         private static void ResetConsoleColours()
