@@ -5,6 +5,7 @@ using PMCGenerator.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Common.Models;
 
 namespace PMCGenerator
 {
