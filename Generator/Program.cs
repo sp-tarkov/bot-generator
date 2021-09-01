@@ -51,7 +51,7 @@ namespace Generator
             // Generate the base bot class and add basic details (health/body part hp etc)
             var baseBotGenerator = new BaseBotGenerator(parsedBots, workingPath, botTypes);
             var baseBots = baseBotGenerator.AddBaseDetails();
-
+            
             // Add weapons/armor to bots
             var botGearGenerator = new BotGearGenerator(baseBots, parsedBots);
             var botsWithGear = botGearGenerator.AddGear();

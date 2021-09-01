@@ -1,5 +1,4 @@
-﻿using Generator.Models;
-using Generator.Models.Input;
+﻿using Generator.Models.Input;
 using Generator.Models.Output;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +38,7 @@ namespace Generator.Helpers.Gear
                     var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
                     var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
 
-                    if ((inventoryItem.slotId?.StartsWith("mod_") ?? false) && (parentTemplate?._props?.Slots?.FirstOrDefault(s => s._name == inventoryItem.slotId)?._required ?? false))
+                    if ((inventoryItem.slotId?.StartsWith("mod_") ?? false) && !(parentTemplate?._props?.Slots?.FirstOrDefault(s => s._name == inventoryItem.slotId)?._required ?? false))
                     {
                         if (modCounts.ContainsKey(inventoryItem.slotId))
                         {
@@ -74,46 +73,6 @@ namespace Generator.Helpers.Gear
                         }
                     }
                 }
-                // muzzleCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_muzzle");
-                // barrelCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_barrel");
-                // handguardCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_handguard");
-                // stockCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_stock");
-                // magazineCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_magazine");
-                // mountCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount");
-                // flashlightCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_flashlight");
-                // tactical001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical_001");
-                // tactical002Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical_002");
-                // tactical003Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical_003");
-                // mount000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_000");
-                // pistolGripCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_pistol_grip");
-                // tacticalCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical");
-                // scopeCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_scope");
-                // recieverCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_reciever");
-                // sightRearCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_sight_rear");
-                // chargeCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_charge");
-                // mount001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_001");
-                // equipmentCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment");
-                // gasBlockCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_gas_block");
-                // launcherCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_launcher");
-                // sightFrontCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_sight_front");
-                // stock000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_stock_000");
-                // foregripCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_foregrip");
-                // tactical000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_tactical_000");
-                // nvgCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_nvg");
-                // pistolGripAkmsCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_pistol_grip_akms");
-                // stockAkmsCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_stock_akms");
-                // equipment000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment_000");
-                // equipment001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment_001");
-                // equipment002Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_equipment_002");
-                // bipodCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_bipod");
-                // mount002Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_002");
-                // mount004Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_004");
-                // triggerCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_trigger");
-                // hammerCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_hammer");
-                // catchCount += baseBot.Inventory.items.Count(x => x.slotId == "mod_catch");
-                // stock001Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_stock_001");
-                // muzzle000Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_muzzle_000");
-                // mount003Count += baseBot.Inventory.items.Count(x => x.slotId == "mod_mount_003");
             }
 
             bot.chances.mods = slotCounts.ToDictionary(
