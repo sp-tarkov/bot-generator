@@ -1,7 +1,7 @@
 ﻿using Common;
 using Common.Extensions;
+using Common.Models;
 using Generator.Helpers;
-using Generator.Models;
 using Generator.Models.Input;
 using Generator.Models.Output;
 using System;

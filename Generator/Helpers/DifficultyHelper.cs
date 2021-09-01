@@ -16,7 +16,7 @@ namespace Generator.Helpers
             // Read bot setting files from assets folder that match this bots type
             // Save into dictionary with difficulty as key
             var difficultySettingsJsons = new Dictionary<string, DifficultySettings>();
-            foreach (var path in difficultyFilePaths.Where(x=>x.Contains($"_{bot.botType.ToString()}", System.StringComparison.InvariantCultureIgnoreCase)))
+            foreach (var path in difficultyFilePaths.Where(x=>x.Contains($"_{bot.botType}", System.StringComparison.InvariantCultureIgnoreCase)))
             {
                 var json = File.ReadAllText(path);
                 var serialisedObject = JsonConvert.DeserializeObject<DifficultySettings>(json);
@@ -46,7 +46,7 @@ namespace Generator.Helpers
             // Split path into parts and find the last part (filename)
             // Split filename and take the first part (difficulty, easy/normal etc)
             var splitPath = path.Split("\\");
-            return splitPath.Last().Split("_").First();
+            return splitPath.Last().Split("_")[0];
         }
 
         private static void SaveSettingsIntoBotFile(Bot bot, string difficulty, DifficultySettings settings)

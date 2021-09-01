@@ -1,12 +1,14 @@
 ﻿using Common;
 using Common.Extensions;
 using Generator.Helpers;
+using Generator.Helpers.Gear;
 using Generator.Models.Input;
 using Generator.Models.Output;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Generator
 {
@@ -27,15 +29,15 @@ namespace Generator
             LoggingHelpers.LogToConsole("Started processing bot loot");
 
             // Iterate over assault/raider etc
-            foreach (var botToUpdate in _botsWithGear)
+            Parallel.ForEach(_botsWithGear, botToUpdate =>
             {
                 var rawBotsOfSameType = _rawParsedBots
-                    .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                                        .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                                        .ToList();
 
                 if (rawBotsOfSameType.Count == 0)
                 {
-                    continue;
+                    return;
                 }
 
                 foreach (var rawParsedBot in rawBotsOfSameType)
@@ -44,32 +46,15 @@ namespace Generator
                 }
 
                 AddTacticalVestLoot(botToUpdate, rawBotsOfSameType);
-                AddBackbackLoot(botToUpdate, rawBotsOfSameType);
+                AddBackpackLoot(botToUpdate, rawBotsOfSameType);
                 AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
-            }
+                AddSpecialLoot(botToUpdate);
+            });
 
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot loot. Took: {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
             return _botsWithGear;
-        }
-
-        private void AddTacticalVestLoot(Bot finalAssaultBot, List<Datum> bots)
-        {
-            var tacVestItems = GetItemsStoredInEquipmentItem(bots, "TacticalVest");
-            finalAssaultBot.inventory.items.TacticalVest.AddRange(tacVestItems);
-        }
-
-        private void AddBackbackLoot(Bot finalAssaultBot, List<Datum> bots)
-        {
-            var backpackItems = GetItemsStoredInEquipmentItem(bots, "Backpack");
-            finalAssaultBot.inventory.items.Backpack.AddRange(backpackItems);
-        }
-
-        private void AddSecureContainerLoot(Bot finalAssaultBot, List<Datum> bots)
-        {
-            var tacVestItems = GetItemsStoredInEquipmentItem(bots, "SecuredContainer");
-            finalAssaultBot.inventory.items.SecuredContainer.AddRange(tacVestItems);
         }
 
         private void AddPocketLoot(Bot finalBot, Datum bot)
@@ -79,6 +64,35 @@ namespace Generator
             {
                 finalBot.inventory.items.Pockets.AddUnique(lootItem._tpl);
             }
+        }
+
+        private void AddTacticalVestLoot(Bot finalBot, List<Datum> bots)
+        {
+            var tacVestItems = GetItemsStoredInEquipmentItem(bots, "TacticalVest");
+            finalBot.inventory.items.TacticalVest.AddRange(tacVestItems);
+        }
+
+        private void AddBackpackLoot(Bot finalBot, List<Datum> bots)
+        {
+            // add generic keys to bosses
+            if (finalBot.botType.IsBoss())
+            {
+                finalBot.inventory.items.Backpack.AddRange(SpecialLootHelper.GetGenericBossKeys());
+            }
+
+            var backpackItems = GetItemsStoredInEquipmentItem(bots, "Backpack");
+            finalBot.inventory.items.Backpack.AddRange(backpackItems);
+        }
+
+        private void AddSecureContainerLoot(Bot finalAssaultBot, List<Datum> bots)
+        {
+            var tacVestItems = GetItemsStoredInEquipmentItem(bots, "SecuredContainer");
+            finalAssaultBot.inventory.items.SecuredContainer.AddRange(tacVestItems);
+        }
+
+        private void AddSpecialLoot(Bot botToUpdate)
+        {
+            botToUpdate.inventory.items.SpecialLoot.AddRange(SpecialLootHelper.GetSpecialLootForBotType(botToUpdate.botType));
         }
 
         private List<string> GetItemsStoredInEquipmentItem(List<Datum> bots, string containerName)

@@ -12,5 +12,14 @@ namespace Common.Extensions
             if (!self.Contains(item))
                 self.Add(item);
         }
+
+        public static void AddUniqueRange(this IList<string> self, IList<string> itemsToAdd)
+        {
+            foreach (var item in itemsToAdd)
+            {
+                if (!self.Contains(item))
+                    self.Add(item);
+            }
+        }
     }
 }

@@ -123,16 +123,8 @@ namespace Generator.Helpers.Gear
 
         public static void AddGenerationChances(Bot bot)
         {
-            switch (bot.botType)
-            {
-                case BotType.assault:
-                case BotType.pmcBot:
-                case BotType.marksman:
-                    bot.generation = new GenerationChances(0, 1, 1, 2, 0, 3, 2, 4, 0, 5); //TODO get dynamically
-                    break;
-            }
+            bot.generation = new GenerationChances(bot.inventory.items.SpecialLoot.Count, bot.inventory.items.SpecialLoot.Count, 1, 2, 0, 3, 2, 4, 0, 5); //TODO get dynamically
         }
-
         public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)
         {
             // TODO: Convert to dynamic?
