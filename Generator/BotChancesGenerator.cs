@@ -9,25 +9,16 @@ using System.Linq;
 
 namespace Generator
 {
-    internal class BotChancesGenerator
+    public static class BotChancesGenerator
     {
-        private readonly List<Bot> _bots;
-        private readonly List<Datum> _rawParsedBots;
-
-        public BotChancesGenerator(List<Bot> botsWithGearAndLoot, List<Datum> parsedBots)
-        {
-            _bots = botsWithGearAndLoot;
-            _rawParsedBots = parsedBots;
-        }
-
-        internal List<Bot> AddChances()
+        public static IEnumerable<Bot> AddChances(this IEnumerable<Bot> botsWithGear, IEnumerable<Datum> parsedBots)
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot gear");
 
-            foreach (var botToUpdate in _bots)
+            foreach (var botToUpdate in botsWithGear)
             {
-                var rawParsedBotOfCurrentType = _rawParsedBots
+                var rawParsedBotOfCurrentType = parsedBots
                     .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
@@ -36,6 +27,7 @@ namespace Generator
                     continue;
                 }
 
+                // TODO: Add check to make sure incoming bot list has gear
                 GearChanceHelpers.CalculateEquipmentChances(botToUpdate, rawParsedBotOfCurrentType);
                 GearChanceHelpers.AddGenerationChances(botToUpdate);
                 GearChanceHelpers.CalculateModChances(botToUpdate, rawParsedBotOfCurrentType);
@@ -44,7 +36,7 @@ namespace Generator
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot chances. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-            return _bots;
+            return botsWithGear;
         }
     }
 }

@@ -12,28 +12,17 @@ using System.Linq;
 
 namespace Generator
 {
-    public class BaseBotGenerator
+    public static class BaseBotGenerator
     {
-        private readonly List<Datum> _rawParsedBots;
-        private readonly string _workingPath;
-        private readonly string[] _botTypes;
-
-        //TODO: pass in bot types and use those to create the clases in rawBots list
-        public BaseBotGenerator(List<Datum> parsedBots, string workingPath, string[] botTypes)
-        {
-            _rawParsedBots = parsedBots;
-            _workingPath = workingPath;
-            _botTypes = botTypes;
-        }
-
-        public List<Bot> AddBaseDetails()
+        //TODO: pass in bot types and use those to create the classes in rawBots list
+        public static IEnumerable<Bot> GenerateBaseDetails(IEnumerable<Datum> parsedBots, string workingPath, IEnumerable<string> botTypes)
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot base");
 
             // Create a list of bot objects ready to be hydrated
             var rawBots = new List<Bot>();
-            foreach (var botType in _botTypes)
+            foreach (var botType in botTypes)
             {
                 var typeToAdd = (BotType)Enum.Parse(typeof(BotType), botType);
                 rawBots.Add(new Bot(typeToAdd));
@@ -42,7 +31,7 @@ namespace Generator
             // Iterate over each bot type wejust made and put some data into them
             foreach (var botToUpdate in rawBots)
             {
-                var rawBotsOfSameType = _rawParsedBots
+                var rawBotsOfSameType = parsedBots
                     .Where(x => string.Equals(x.Info.Settings.Role, botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase)).ToList();
 
                 if (rawBotsOfSameType.Count == 0)
@@ -54,7 +43,7 @@ namespace Generator
                 LoggingHelpers.LogToConsole($"Found {rawBotsOfSameType.Count} bots of type: {botToUpdate.botType}");
 
                 UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
-                AddDifficulties(botToUpdate, _workingPath);
+                AddDifficulties(botToUpdate, workingPath);
                 AddExperience(botToUpdate, rawBotsOfSameType);
                 AddStandingForKill(botToUpdate, rawBotsOfSameType);
                 AddSkills(botToUpdate, rawBotsOfSameType);
@@ -73,7 +62,7 @@ namespace Generator
             return rawBots;
         }
 
-        private void AddSkills(Bot botToUpdate, List<Datum> rawBotsOfSameType)
+        private static void AddSkills(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
         {
             var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
 
@@ -83,7 +72,7 @@ namespace Generator
             }
         }
 
-        private void AddStandingForKill(Bot botToUpdate, List<Datum> rawBotsOfSameType)
+        private static void AddStandingForKill(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
         {
             var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
 
@@ -91,7 +80,7 @@ namespace Generator
             botToUpdate.experience.aggressorBonus = firstBotOfDesiredType.Info.Settings.AggressorBonus;
         }
 
-        private void AddExperience(Bot botToUpdate, List<Datum> rawBotsOfSameType)
+        private static void AddExperience(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
         {
             var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
 
@@ -99,12 +88,12 @@ namespace Generator
             botToUpdate.experience.reward.max = firstBotOfDesiredType.Info.Settings.Experience;
         }
 
-        private void AddVoice(Bot bot, Datum rawParsedBot)
+        private static void AddVoice(Bot bot, Datum rawParsedBot)
         {
             bot.appearance.voice.AddUnique(rawParsedBot.Info.Voice);
         }
 
-        private void AddDifficulties(Bot bot, string workingPath)
+        private static void AddDifficulties(Bot bot, string workingPath)
         {
             var botFiles = Directory
                 .GetFiles($"{workingPath}//Assets", "*.txt", SearchOption.TopDirectoryOnly)
@@ -114,7 +103,7 @@ namespace Generator
             DifficultyHelper.AddDifficultySettings(bot, botFiles);
         }
 
-        private void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawParsedBots)
+        private static void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawParsedBots)
         {
             var firstBotOfDesiredType = rawParsedBots.FirstOrDefault();
             if (firstBotOfDesiredType == null)
@@ -145,7 +134,7 @@ namespace Generator
             botToUpdate.health.BodyParts.RightLeg.max = firstBotOfDesiredType.Health.BodyParts.RightLeg.Health.Maximum;
         }
 
-        private void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
+        private static void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
         {
             botToUpdate.appearance.head.AddUnique(rawBot.Customization.Head);
             botToUpdate.appearance.body.AddUnique(rawBot.Customization.Body);
@@ -153,7 +142,7 @@ namespace Generator
             botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet);
         }
 
-        private void AddName(Bot botToUpdate, Datum rawBot)
+        private static void AddName(Bot botToUpdate, Datum rawBot)
         {
             var name = rawBot.Info.Nickname.Split();
             botToUpdate.firstName.AddUnique(name[0]);

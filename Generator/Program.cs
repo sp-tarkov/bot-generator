@@ -1,11 +1,12 @@
 ﻿using Common;
 using System.IO;
+using System.Linq;
 
 namespace Generator
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
             // Create list of bots we want to process
             string[] botTypes = {
@@ -48,25 +49,15 @@ namespace Generator
                 return;
             }
 
-            // Generate the base bot class and add basic details (health/body part hp etc)
-            var baseBotGenerator = new BaseBotGenerator(parsedBots, workingPath, botTypes);
-            var baseBots = baseBotGenerator.AddBaseDetails();
-            
-            // Add weapons/armor to bots
-            var botGearGenerator = new BotGearGenerator(baseBots, parsedBots);
-            var botsWithGear = botGearGenerator.AddGear();
-
-            // Add loot to bots
-            var botLootGenerator = new BotLootGenerator(botsWithGear, parsedBots);
-            var botsWithGearAndLoot = botLootGenerator.AddLoot();
-
-            // Add mod/equipment chances
-            var botChancesGenerator = new BotChancesGenerator(botsWithGearAndLoot, parsedBots);
-            var botsWithGearAndLootAndChances = botChancesGenerator.AddChances();
+            // Generate the base bot class with basic details (health/body part hp etc) and then append everything else
+            var bots = BaseBotGenerator.GenerateBaseDetails(parsedBots, workingPath, botTypes)
+                .AddGear(parsedBots) // Add weapons/armor
+                .AddLoot(parsedBots)
+                .AddChances(parsedBots); // Add mod/equipment chances
 
             // Output bot to json file
             var jsonWriter = new JsonWriter(workingPath, "output");
-            jsonWriter.WriteJson(botsWithGearAndLootAndChances);
+            jsonWriter.WriteJson(bots.ToList());
         }
     }
 }

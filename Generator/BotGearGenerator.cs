@@ -1,5 +1,4 @@
 ﻿using Common;
-using Generator.Helpers;
 using Generator.Helpers.Gear;
 using Generator.Models.Input;
 using Generator.Models.Output;
@@ -10,25 +9,16 @@ using System.Linq;
 
 namespace Generator
 {
-    public class BotGearGenerator
+    public static class BotGearGenerator
     {
-        private readonly List<Bot> _baseBots;
-        private readonly List<Datum> _rawParsedBots;
-
-        public BotGearGenerator(List<Bot> baseBots, List<Datum> parsedBots)
-        {
-            _baseBots = baseBots;
-            _rawParsedBots = parsedBots;
-        }
-
-        internal List<Bot> AddGear()
+        public static IEnumerable<Bot> AddGear(this IEnumerable<Bot> baseBots, IEnumerable<Datum> parsedBots)
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot gear");
 
-            foreach (var botToUpdate in _baseBots)
+            foreach (var botToUpdate in baseBots)
             {
-                var rawParsedBotOfCurrentType = _rawParsedBots
+                var rawParsedBotOfCurrentType = parsedBots
                     .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
@@ -48,7 +38,7 @@ namespace Generator
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot gear. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-            return _baseBots;
+            return baseBots;
         }
     }
 }

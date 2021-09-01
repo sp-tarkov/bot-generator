@@ -1,4 +1,5 @@
-﻿using Generator.Models.Input;
+﻿using System;
+using Generator.Models.Input;
 using Generator.Models.Output;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,7 +130,7 @@ namespace Generator.Helpers.Gear
 
         private static int GetPercent(int total, int count)
         {
-            return ((200 * count) + 1) / (total * 2);
+            return (int)Math.Ceiling((double)(((200 * count) + 1) / (total * 2)));
         }
     }
 }
