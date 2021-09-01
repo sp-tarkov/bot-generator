@@ -46,7 +46,7 @@ namespace Generator
                 }
 
                 AddTacticalVestLoot(botToUpdate, rawBotsOfSameType);
-                AddBackbackLoot(botToUpdate, rawBotsOfSameType);
+                AddBackpackLoot(botToUpdate, rawBotsOfSameType);
                 AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
                 AddSpecialLoot(botToUpdate);
             });
@@ -72,7 +72,7 @@ namespace Generator
             finalBot.inventory.items.TacticalVest.AddRange(tacVestItems);
         }
 
-        private void AddBackbackLoot(Bot finalBot, List<Datum> bots)
+        private void AddBackpackLoot(Bot finalBot, List<Datum> bots)
         {
             // add generic keys to bosses
             if (finalBot.botType.IsBoss())
