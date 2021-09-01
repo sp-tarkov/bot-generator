@@ -32,10 +32,9 @@ namespace Generator
                 }
                 var output = JsonConvert.SerializeObject(bot, Formatting.Indented);
                 Console.WriteLine($"Writing json file {bot.botType} to {outputPath}");
-                File.WriteAllText($"{outputPath}\\{bot.botType}.json", output);
+                File.WriteAllText($"{outputPath}\\{bot.botType.ToString().ToLower()}.json", output);
                 Console.WriteLine($"file {bot.botType} written to {outputPath}");
             }
-            
         }
     }
 }
