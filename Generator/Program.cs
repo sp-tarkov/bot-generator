@@ -17,6 +17,7 @@ namespace Generator
                 "bosskilla",
                 "bosskojaniy",
                 "bosssanitar",
+                "bosstagilla",
                 //"bossstormtrooper",
 
                 "followerbully",
