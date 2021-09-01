@@ -1,15 +1,22 @@
 ﻿using Common.Models;
+using System.Collections.Generic;
 
 namespace Common.Extensions
 {
     public static class EnumExtensions
     {
-        /// <summary>
-        /// Add a string to a list only if it doesnt already exist
-        /// </summary>
+        private static readonly List<BotType> bossTypes = new List<BotType>(){
+            BotType.bossbully,
+            BotType.bossgluhar,
+            BotType.bosskilla,
+            BotType.bosskojaniy,
+            BotType.bosssanitar,
+            BotType.bosstagilla
+            };
+
         public static bool IsBoss(this BotType self)
         {
-            return self.HasFlag(BotType.bossbully | BotType.bossgluhar | BotType.bosskilla | BotType.bosskojaniy | BotType.bosssanitar);
+            return bossTypes.Contains(self);
         }
     }
 }
