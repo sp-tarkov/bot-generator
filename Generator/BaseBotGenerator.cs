@@ -15,24 +15,24 @@ namespace Generator
     public static class BaseBotGenerator
     {
         //TODO: pass in bot types and use those to create the classes in rawBots list
-        public static IEnumerable<Bot> GenerateBaseDetails(IEnumerable<Datum> parsedBots, string workingPath, IEnumerable<string> botTypes)
+        public static IEnumerable<Bot> GenerateBaseDetails(IEnumerable<Datum> rawBots, string workingPath, IEnumerable<string> botTypes)
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot base");
 
             // Create a list of bot objects ready to be hydrated
-            var rawBots = new List<Bot>();
+            var baseBots = new List<Bot>();
             foreach (var botType in botTypes)
             {
                 var typeToAdd = (BotType)Enum.Parse(typeof(BotType), botType);
-                rawBots.Add(new Bot(typeToAdd));
+                baseBots.Add(new Bot(typeToAdd));
             }
 
             // Iterate over each bot type wejust made and put some data into them
-            foreach (var botToUpdate in rawBots)
+            foreach (var botToUpdate in baseBots)
             {
-                var rawBotsOfSameType = parsedBots
-                    .Where(x => string.Equals(x.Info.Settings.Role, botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase)).ToList();
+                var rawBotsOfSameType = rawBots.Where(x => string.Equals(x.Info.Settings.Role, botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                                                .ToList();
 
                 if (rawBotsOfSameType.Count == 0)
                 {
@@ -59,7 +59,7 @@ namespace Generator
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot base. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-            return rawBots;
+            return baseBots;
         }
 
         private static void AddSkills(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
@@ -88,9 +88,9 @@ namespace Generator
             botToUpdate.experience.reward.max = firstBotOfDesiredType.Info.Settings.Experience;
         }
 
-        private static void AddVoice(Bot bot, Datum rawParsedBot)
+        private static void AddVoice(Bot bot, Datum rawBot)
         {
-            bot.appearance.voice.AddUnique(rawParsedBot.Info.Voice);
+            bot.appearance.voice.AddUnique(rawBot.Info.Voice);
         }
 
         private static void AddDifficulties(Bot bot, string workingPath)
@@ -103,9 +103,9 @@ namespace Generator
             DifficultyHelper.AddDifficultySettings(bot, botFiles);
         }
 
-        private static void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawParsedBots)
+        private static void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawBots)
         {
-            var firstBotOfDesiredType = rawParsedBots.FirstOrDefault();
+            var firstBotOfDesiredType = rawBots.FirstOrDefault();
             if (firstBotOfDesiredType == null)
             {
                 LoggingHelpers.LogToConsole($"bot type of: {botToUpdate.botType} not found, unable to update body part health.");

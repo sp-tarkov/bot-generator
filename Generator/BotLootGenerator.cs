@@ -13,7 +13,7 @@ namespace Generator
 {
     public static class BotLootGenerator
     {
-        internal static IEnumerable<Bot> AddLoot(this IEnumerable<Bot> botsWithGear, IEnumerable<Datum> parsedBots)
+        internal static IEnumerable<Bot> AddLoot(this IEnumerable<Bot> botsWithGear, IEnumerable<Datum> rawBots)
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot loot");
@@ -21,7 +21,7 @@ namespace Generator
             // Iterate over assault/raider etc
             Parallel.ForEach(botsWithGear, botToUpdate =>
             {
-                var rawBotsOfSameType = parsedBots
+                var rawBotsOfSameType = rawBots
                                         .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
                                         .ToList();
 
@@ -47,22 +47,22 @@ namespace Generator
             return botsWithGear;
         }
 
-        private static void AddPocketLoot(Bot botToUpdate, Datum bot)
+        private static void AddPocketLoot(Bot botToUpdate, Datum rawBot)
         {
             // pocket loot
-            foreach (var lootItem in bot.Inventory.items.Where(x => x?.slotId?.StartsWith("pocket") == true))
+            foreach (var lootItem in rawBot.Inventory.items.Where(x => x?.slotId?.StartsWith("pocket") == true))
             {
                 botToUpdate.inventory.items.Pockets.AddUnique(lootItem._tpl);
             }
         }
 
-        private static void AddTacticalVestLoot(Bot botToUpdate, IEnumerable<Datum> bots)
+        private static void AddTacticalVestLoot(Bot botToUpdate, IEnumerable<Datum> rawBots)
         {
-            var tacVestItems = GetItemsStoredInEquipmentItem(bots, "TacticalVest");
+            var tacVestItems = GetItemsStoredInEquipmentItem(rawBots, "TacticalVest");
             botToUpdate.inventory.items.TacticalVest.AddRange(tacVestItems);
         }
 
-        private static void AddBackpackLoot(Bot botToUpdate, IEnumerable<Datum> bots)
+        private static void AddBackpackLoot(Bot botToUpdate, IEnumerable<Datum> rawBots)
         {
             // add generic keys to bosses
             if (botToUpdate.botType.IsBoss())
@@ -70,13 +70,13 @@ namespace Generator
                 botToUpdate.inventory.items.Backpack.AddRange(SpecialLootHelper.GetGenericBossKeys());
             }
 
-            var backpackItems = GetItemsStoredInEquipmentItem(bots, "Backpack");
+            var backpackItems = GetItemsStoredInEquipmentItem(rawBots, "Backpack");
             botToUpdate.inventory.items.Backpack.AddRange(backpackItems);
         }
 
-        private static void AddSecureContainerLoot(Bot botToUpdate, IEnumerable<Datum> bots)
+        private static void AddSecureContainerLoot(Bot botToUpdate, IEnumerable<Datum> rawBots)
         {
-            var tacVestItems = GetItemsStoredInEquipmentItem(bots, "SecuredContainer");
+            var tacVestItems = GetItemsStoredInEquipmentItem(rawBots, "SecuredContainer");
             botToUpdate.inventory.items.SecuredContainer.AddRange(tacVestItems);
         }
 
@@ -85,11 +85,11 @@ namespace Generator
             botToUpdate.inventory.items.SpecialLoot.AddRange(SpecialLootHelper.GetSpecialLootForBotType(botToUpdate.botType));
         }
 
-        private static IEnumerable<string> GetItemsStoredInEquipmentItem(IEnumerable<Datum> bots, string containerName)
+        private static IEnumerable<string> GetItemsStoredInEquipmentItem(IEnumerable<Datum> rawBots, string containerName)
         {
             var itemsStoredInContainer = new List<string>();
             var containers = new List<string>();
-            foreach (var bot in bots)
+            foreach (var bot in rawBots)
             {
                 // find the container type we want on this bot (backpack etc)
                 // Add to list

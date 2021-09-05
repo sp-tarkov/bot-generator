@@ -11,14 +11,14 @@ namespace Generator
 {
     public static class BotChancesGenerator
     {
-        public static IEnumerable<Bot> AddChances(this IEnumerable<Bot> botsWithGear, IEnumerable<Datum> parsedBots)
+        public static IEnumerable<Bot> AddChances(this IEnumerable<Bot> botsToUpdate, IEnumerable<Datum> rawBots)
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot gear");
 
-            foreach (var botToUpdate in botsWithGear)
+            foreach (var botToUpdate in botsToUpdate)
             {
-                var rawParsedBotOfCurrentType = parsedBots
+                var rawParsedBotOfCurrentType = rawBots
                     .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
@@ -36,7 +36,7 @@ namespace Generator
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot chances. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-            return botsWithGear;
+            return botsToUpdate;
         }
     }
 }

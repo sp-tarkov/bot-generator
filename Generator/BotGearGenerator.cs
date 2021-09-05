@@ -11,16 +11,15 @@ namespace Generator
 {
     public static class BotGearGenerator
     {
-        public static IEnumerable<Bot> AddGear(this IEnumerable<Bot> baseBots, IEnumerable<Datum> parsedBots)
+        public static IEnumerable<Bot> AddGear(this IEnumerable<Bot> baseBots, IEnumerable<Datum> rawBots)
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot gear");
 
             foreach (var botToUpdate in baseBots)
             {
-                var rawParsedBotOfCurrentType = parsedBots
-                    .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                var rawParsedBotOfCurrentType = rawBots.Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                                                        .ToList();
 
                 if (rawParsedBotOfCurrentType.Count == 0)
                 {

@@ -11,12 +11,12 @@ namespace Generator.Helpers
     {
         private static readonly string[] _difficulties = new[] { "easy", "normal", "hard", "impossible" };
 
-        public static void AddDifficultySettings(Bot bot, List<string> difficultyFilePaths)
+        public static void AddDifficultySettings(Bot botToUpdate, List<string> difficultyFilePaths)
         {
             // Read bot setting files from assets folder that match this bots type
             // Save into dictionary with difficulty as key
             var difficultySettingsJsons = new Dictionary<string, DifficultySettings>();
-            foreach (var path in difficultyFilePaths.Where(x=>x.Contains($"_{bot.botType}", System.StringComparison.InvariantCultureIgnoreCase)))
+            foreach (var path in difficultyFilePaths.Where(x=>x.Contains($"_{botToUpdate.botType}", System.StringComparison.InvariantCultureIgnoreCase)))
             {
                 var json = File.ReadAllText(path);
                 var serialisedObject = JsonConvert.DeserializeObject<DifficultySettings>(json);
@@ -37,7 +37,7 @@ namespace Generator.Helpers
                     settings = difficultySettingsJsons.FirstOrDefault(x => x.Key != null);
                 }
 
-                SaveSettingsIntoBotFile(bot, difficulty, settings.Value);
+                SaveSettingsIntoBotFile(botToUpdate, difficulty, settings.Value);
             }
         }
 
@@ -49,21 +49,21 @@ namespace Generator.Helpers
             return splitPath.Last().Split("_")[0];
         }
 
-        private static void SaveSettingsIntoBotFile(Bot bot, string difficulty, DifficultySettings settings)
+        private static void SaveSettingsIntoBotFile(Bot botToUpdate, string difficulty, DifficultySettings settings)
         {
             switch (difficulty)
             {
                 case "easy":
-                    bot.difficulty.easy = settings;
+                    botToUpdate.difficulty.easy = settings;
                     break;
                 case "normal":
-                    bot.difficulty.normal = settings;
+                    botToUpdate.difficulty.normal = settings;
                     break;
                 case "hard":
-                    bot.difficulty.hard = settings;
+                    botToUpdate.difficulty.hard = settings;
                     break;
                 case "impossible":
-                    bot.difficulty.impossible = settings;
+                    botToUpdate.difficulty.impossible = settings;
                     break;
             }
         }
