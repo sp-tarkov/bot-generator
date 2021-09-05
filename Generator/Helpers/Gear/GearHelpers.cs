@@ -33,7 +33,7 @@ namespace Generator.Helpers.Gear
             botToUpdate.inventory.mods = itemsWithModsDictionary;
         }
 
-        public static void AddEquippedGear(Bot finalAssaultBot, Datum bot)
+        public static void AddEquippedGear(Bot botToUpdate, Datum bot)
         {
             // add equipped gear
             foreach (var inventoryItem in bot.Inventory.items)
@@ -41,46 +41,46 @@ namespace Generator.Helpers.Gear
                 switch (inventoryItem.slotId?.ToLower())
                 {
                     case "headwear":
-                        finalAssaultBot.inventory.equipment.Headwear.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.Headwear.AddUnique(inventoryItem._tpl);
                         break;
                     case "earpiece":
-                        finalAssaultBot.inventory.equipment.Earpiece.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.Earpiece.AddUnique(inventoryItem._tpl);
                         break;
                     case "facecover":
-                        finalAssaultBot.inventory.equipment.FaceCover.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.FaceCover.AddUnique(inventoryItem._tpl);
                         break;
                     case "armorvest":
-                        finalAssaultBot.inventory.equipment.ArmorVest.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.ArmorVest.AddUnique(inventoryItem._tpl);
                         break;
                     case "eyewear":
-                        finalAssaultBot.inventory.equipment.Eyewear.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.Eyewear.AddUnique(inventoryItem._tpl);
                         break;
                     case "armband":
-                        finalAssaultBot.inventory.equipment.ArmBand.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.ArmBand.AddUnique(inventoryItem._tpl);
                         break;
                     case "tacticalvest":
-                        finalAssaultBot.inventory.equipment.TacticalVest.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.TacticalVest.AddUnique(inventoryItem._tpl);
                         break;
                     case "backpack":
-                        finalAssaultBot.inventory.equipment.Backpack.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.Backpack.AddUnique(inventoryItem._tpl);
                         break;
                     case "firstprimaryweapon":
-                        finalAssaultBot.inventory.equipment.FirstPrimaryWeapon.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.FirstPrimaryWeapon.AddUnique(inventoryItem._tpl);
                         break;
                     case "secondprimaryweapon":
-                        finalAssaultBot.inventory.equipment.SecondPrimaryWeapon.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.SecondPrimaryWeapon.AddUnique(inventoryItem._tpl);
                         break;
                     case "holster":
-                        finalAssaultBot.inventory.equipment.Holster.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.Holster.AddUnique(inventoryItem._tpl);
                         break;
                     case "scabbard":
-                        finalAssaultBot.inventory.equipment.Scabbard.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.Scabbard.AddUnique(inventoryItem._tpl);
                         break;
                     case "pockets":
-                        finalAssaultBot.inventory.equipment.Pockets.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.Pockets.AddUnique(inventoryItem._tpl);
                         break;
                     case "securedcontainer":
-                        finalAssaultBot.inventory.equipment.SecuredContainer.AddUnique(inventoryItem._tpl);
+                        botToUpdate.inventory.equipment.SecuredContainer.AddUnique(inventoryItem._tpl);
                         break;
                     default:
                         break;
@@ -199,6 +199,5 @@ namespace Generator.Helpers.Gear
 
             return itemsThatTakeCartridgesDict;
         }
-
     }
 }

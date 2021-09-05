@@ -47,37 +47,37 @@ namespace Generator
             return botsWithGear;
         }
 
-        private static void AddPocketLoot(Bot finalBot, Datum bot)
+        private static void AddPocketLoot(Bot botToUpdate, Datum bot)
         {
             // pocket loot
             foreach (var lootItem in bot.Inventory.items.Where(x => x?.slotId?.StartsWith("pocket") == true))
             {
-                finalBot.inventory.items.Pockets.AddUnique(lootItem._tpl);
+                botToUpdate.inventory.items.Pockets.AddUnique(lootItem._tpl);
             }
         }
 
-        private static void AddTacticalVestLoot(Bot finalBot, IEnumerable<Datum> bots)
+        private static void AddTacticalVestLoot(Bot botToUpdate, IEnumerable<Datum> bots)
         {
             var tacVestItems = GetItemsStoredInEquipmentItem(bots, "TacticalVest");
-            finalBot.inventory.items.TacticalVest.AddRange(tacVestItems);
+            botToUpdate.inventory.items.TacticalVest.AddRange(tacVestItems);
         }
 
-        private static void AddBackpackLoot(Bot finalBot, IEnumerable<Datum> bots)
+        private static void AddBackpackLoot(Bot botToUpdate, IEnumerable<Datum> bots)
         {
             // add generic keys to bosses
-            if (finalBot.botType.IsBoss())
+            if (botToUpdate.botType.IsBoss())
             {
-                finalBot.inventory.items.Backpack.AddRange(SpecialLootHelper.GetGenericBossKeys());
+                botToUpdate.inventory.items.Backpack.AddRange(SpecialLootHelper.GetGenericBossKeys());
             }
 
             var backpackItems = GetItemsStoredInEquipmentItem(bots, "Backpack");
-            finalBot.inventory.items.Backpack.AddRange(backpackItems);
+            botToUpdate.inventory.items.Backpack.AddRange(backpackItems);
         }
 
-        private static void AddSecureContainerLoot(Bot finalAssaultBot, IEnumerable<Datum> bots)
+        private static void AddSecureContainerLoot(Bot botToUpdate, IEnumerable<Datum> bots)
         {
             var tacVestItems = GetItemsStoredInEquipmentItem(bots, "SecuredContainer");
-            finalAssaultBot.inventory.items.SecuredContainer.AddRange(tacVestItems);
+            botToUpdate.inventory.items.SecuredContainer.AddRange(tacVestItems);
         }
 
         private static void AddSpecialLoot(Bot botToUpdate)
