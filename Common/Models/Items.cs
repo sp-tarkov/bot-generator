@@ -2,11 +2,6 @@
 
 namespace Common.Models
 {
-    public class ItemsLibRoot
-    {
-        public List<Dictionary<string, Item>> items { get; set; }
-    }
-
     public class Item
     {
         public string _id { get; set; }
