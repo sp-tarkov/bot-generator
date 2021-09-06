@@ -3,6 +3,7 @@ using Generator.Models.Input;
 using Generator.Models.Output;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Models;
 
 namespace Generator.Helpers.Gear
 {
@@ -83,8 +84,14 @@ namespace Generator.Helpers.Gear
 
         public static void AddGenerationChances(Bot bot)
         {
-            bot.generation = new GenerationChances(bot.inventory.items.SpecialLoot.Count, bot.inventory.items.SpecialLoot.Count, 1, 2, 0, 3, 2, 4, 0, 5); //TODO get dynamically
+            bot.generation = new GenerationChances(
+                bot.inventory.items.SpecialLoot.Count, bot.inventory.items.SpecialLoot.Count,
+                1, 2,
+                0, 3,
+                GetMagazineCountByBotType(bot.botType).min, GetMagazineCountByBotType(bot.botType).max,
+                0, 5); //TODO get dynamically
         }
+
         public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)
         {
             // TODO: Convert to dynamic?
@@ -131,6 +138,26 @@ namespace Generator.Helpers.Gear
         private static int GetPercent(int total, int count)
         {
             return (int)Math.Ceiling((double)(((200 * count) + 1) / (total * 2)));
+        }
+
+        private static MinMax GetMagazineCountByBotType(BotType botType)
+        {
+            int min;
+            int max;
+
+            switch (botType)
+            {
+                case BotType.bosskilla:
+                    min = 3;
+                    max = 3;
+                    break;
+                default:
+                    min = 2;
+                    max = 4;
+                    break;
+            }
+
+            return new MinMax(min, max);
         }
     }
 }
