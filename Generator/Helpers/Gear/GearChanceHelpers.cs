@@ -86,10 +86,10 @@ namespace Generator.Helpers.Gear
         {
             bot.generation = new GenerationChances(
                 bot.inventory.items.SpecialLoot.Count, bot.inventory.items.SpecialLoot.Count,
-                1, 2,
-                0, 3,
-                GetMagazineCountByBotType(bot.botType).min, GetMagazineCountByBotType(bot.botType).max,
-                0, 5); //TODO get dynamically
+                healingMin: 1, healingMax: 2,
+                looseLootMin: 0, looseLootMax: 3,
+                magazinesMin: GetMagazineCountByBotType(bot.botType).min, MagazineMax: GetMagazineCountByBotType(bot.botType).max,
+                grenandesMin: 0, grenadesMax: 5); //TODO get dynamically
         }
 
         public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)
