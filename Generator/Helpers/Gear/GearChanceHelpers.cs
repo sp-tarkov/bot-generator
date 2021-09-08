@@ -82,6 +82,17 @@ namespace Generator.Helpers.Gear
                 kvp => GetPercent(kvp.Value, modCounts.GetValueOrDefault(kvp.Key)));
         }
 
+        public static void ApplyModChanceOverrides(Bot botToUpdate)
+        {
+            switch (botToUpdate.botType)
+            {
+                case BotType.bosstagilla:
+                    botToUpdate.chances.mods["mod_tactical"] = 100; // force ultima thermal camera
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
+            }
+        }
+
         public static void AddGenerationChances(Bot bot)
         {
             bot.generation = new GenerationChances(

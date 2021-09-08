@@ -31,6 +31,7 @@ namespace Generator
                 GearChanceHelpers.CalculateEquipmentChances(botToUpdate, rawParsedBotOfCurrentType);
                 GearChanceHelpers.AddGenerationChances(botToUpdate);
                 GearChanceHelpers.CalculateModChances(botToUpdate, rawParsedBotOfCurrentType);
+                GearChanceHelpers.ApplyModChanceOverrides(botToUpdate);
             }
 
             stopwatch.Stop();
