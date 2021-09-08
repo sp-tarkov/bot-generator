@@ -86,6 +86,10 @@ namespace Generator.Helpers.Gear
         {
             switch (botToUpdate.botType)
             {
+                case BotType.bosskojaniy:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.mods["mod_scope"] = 100;
+                    break;
                 case BotType.bosstagilla:
                     botToUpdate.chances.mods["mod_tactical"] = 100; // force ultima thermal camera
                     botToUpdate.chances.mods["mod_stock"] = 100;
