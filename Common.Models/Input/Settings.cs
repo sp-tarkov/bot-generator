@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Generator.Models.Input
+namespace Common.Models.Input
 {
     public class Settings
     {

@@ -1,8 +1,7 @@
-﻿using Common.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Generator.Models.Output
+namespace Common.Models.Output
 {
     public class Bot
     {

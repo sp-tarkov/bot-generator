@@ -1,8 +1,8 @@
 ﻿using Common;
 using Common.Extensions;
+using Common.Models.Input;
+using Common.Models.Output;
 using Generator.Helpers.Gear;
-using Generator.Models.Input;
-using Generator.Models.Output;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

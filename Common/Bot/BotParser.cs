@@ -1,5 +1,4 @@
-﻿using Common;
-using Generator.Models.Input;
+﻿using Common.Models.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -9,9 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Generator
+namespace Common.Bots
 {
-    internal class BotParser
+    public class BotParser
     {
         private readonly string _dumpPath;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Generator.Models.Output
+namespace Common.Models.Output
 {
     public class Equipment
     {

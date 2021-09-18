@@ -1,6 +1,6 @@
 ﻿using System;
-using Generator.Models.Input;
-using Generator.Models.Output;
+using Common.Models.Input;
+using Common.Models.Output;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Models;
@@ -92,6 +92,9 @@ namespace Generator.Helpers.Gear
                     break;
                 case BotType.bosstagilla:
                     botToUpdate.chances.mods["mod_tactical"] = 100; // force ultima thermal camera
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
+                case BotType.pmcBot:
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
             }

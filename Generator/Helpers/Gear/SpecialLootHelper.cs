@@ -1,5 +1,4 @@
 ﻿using Common.Models;
-using Generator.Models;
 using System.Collections.Generic;
 
 namespace Generator.Helpers.Gear

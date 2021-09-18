@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Generator.Models.Output.Difficulty
+namespace Common.Models.Output.Difficulty
 {
     public class Difficulty
     {

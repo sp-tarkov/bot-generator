@@ -1,11 +1,11 @@
-﻿using Generator.Models.Output;
+﻿using Common.Models.Output;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Common;
+using Common.Models.Input;
 
-namespace Generator
+namespace Common
 {
     public class JsonWriter
     {
@@ -35,6 +35,18 @@ namespace Generator
                 File.WriteAllText($"{outputPath}\\{bot.botType.ToString().ToLower()}.json", output);
                 Console.WriteLine($"file {bot.botType} written to {outputPath}");
             }
+        }
+
+        public void WriteJson(List<Datum> bots, string fileName)
+        {
+            var outputPath = $"{_workingPath}\\{_outputFolderName}";
+            DiskHelpers.CreateDirIfDoesntExist(outputPath);
+
+            var output = JsonConvert.SerializeObject(bots, Formatting.Indented, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            File.WriteAllText($"{outputPath}\\{fileName.ToLower()}.json", output);
         }
     }
 }

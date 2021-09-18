@@ -1,5 +1,5 @@
-﻿using Generator.Models.Output;
-using Generator.Models.Output.Difficulty;
+﻿using Common.Models.Output;
+using Common.Models.Output.Difficulty;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
