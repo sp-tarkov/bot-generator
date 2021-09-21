@@ -19,6 +19,8 @@ namespace Common.Models
         public List<Chamber> Chambers { get; set; }
         public List<Slot> Slots { get; set; }
         public string defAmmo { get; set; }
+        public string weapClass { get; set; }
+        public string weapUseType { get; set; }
     }
 
     public class Chamber

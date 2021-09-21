@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Common.Models;
+using Generator.Helpers;
 
 namespace PMCGenerator
 {
@@ -270,8 +271,14 @@ namespace PMCGenerator
             var result = new List<WeaponDetails>();
             foreach (var file in parsedPresets)
             {
-                foreach (var item in file.weaponbuilds.Where(x=> !x.Key.Contains("pistol")))
+                foreach (var item in file.weaponbuilds)
                 {
+                    var itemBase = ItemTemplateHelper.GetTemplateById(item.Value.items[0]._tpl);
+                    if (itemBase._props.weapUseType != "primary")
+                    {
+                        continue;
+                    }
+
                     Weapon weapon = item.Value;
                     result.Add(new WeaponDetails(item.Key, weapon.items[0]._id, weapon.items[0]._tpl));
                 }
@@ -287,6 +294,12 @@ namespace PMCGenerator
             {
                 foreach (var item in file.weaponbuilds.Where(x => x.Key.Contains("pistol")))
                 {
+                    var itemBase = ItemTemplateHelper.GetTemplateById(item.Value.items[0]._tpl);
+                    if (itemBase._props.weapUseType != "secondary")
+                    {
+                        continue;
+                    }
+
                     Weapon weapon = item.Value;
                     result.Add(new WeaponDetails(item.Key, weapon.items[0]._id, weapon.items[0]._tpl));
                 }
