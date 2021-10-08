@@ -82,6 +82,16 @@ namespace Generator.Helpers.Gear
                 kvp => GetPercent(kvp.Value, modCounts.GetValueOrDefault(kvp.Key)));
         }
 
+        internal static void ApplyEquipmentChanceOverrides(Bot botToUpdate)
+        {
+            switch (botToUpdate.botType)
+            {
+                case BotType.bosstagilla:
+                    botToUpdate.chances.equipment.Headwear = 100;
+                    break;
+            }
+        }
+
         public static void ApplyModChanceOverrides(Bot botToUpdate)
         {
             switch (botToUpdate.botType)
