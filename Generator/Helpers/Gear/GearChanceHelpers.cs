@@ -97,6 +97,25 @@ namespace Generator.Helpers.Gear
                 case BotType.pmcBot:
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
+                case BotType.followerbully:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
+                case BotType.followergluharassault:
+                case BotType.followergluharscout:
+                case BotType.followergluharsecurity:
+                case BotType.followergluharsnipe:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
+                case BotType.followerkojaniy:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
+                case BotType.sectantpriest:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
+                case BotType.sectantwarrior:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
+
             }
         }
 
