@@ -87,7 +87,7 @@ namespace Generator.Helpers.Gear
             switch (botToUpdate.botType)
             {
                 case BotType.bosstagilla:
-                    botToUpdate.chances.equipment.Headwear = 100;
+                    botToUpdate.chances.equipment.FaceCover = 100;
                     break;
             }
         }
