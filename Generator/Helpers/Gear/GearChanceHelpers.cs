@@ -125,6 +125,9 @@ namespace Generator.Helpers.Gear
                 case BotType.sectantwarrior:
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
+                case BotType.marksman:
+                    botToUpdate.chances.mods["mod_scope"] = 100;
+                    break;
 
             }
         }
