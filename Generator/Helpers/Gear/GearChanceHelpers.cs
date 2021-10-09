@@ -104,6 +104,9 @@ namespace Generator.Helpers.Gear
                     botToUpdate.chances.mods["mod_tactical"] = 100; // force ultima thermal camera
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
+                case BotType.bossbully:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
                 case BotType.pmcBot:
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
