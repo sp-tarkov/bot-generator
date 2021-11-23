@@ -1,16 +1,14 @@
 ﻿using System.IO;
 
-namespace Common
+namespace Common;
+public static class DiskHelpers
 {
-    public static class DiskHelpers
+    public static void CreateDirIfDoesntExist(string path)
     {
-        public static void CreateDirIfDoesntExist(string path)
+        if (!Directory.Exists($"{path}"))
         {
-            if (!Directory.Exists($"{path}"))
-            {
-                //create dump dir
-                Directory.CreateDirectory($"{path}");
-            }
+            //create dump dir
+            Directory.CreateDirectory($"{path}");
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Common.Models;
 using System.Collections.Generic;
 
-namespace Common.Extensions
+namespace Common.Extensions;
+public static class EnumExtensions
 {
-    public static class EnumExtensions
-    {
-        private static readonly List<BotType> bossTypes = new List<BotType>(){
+    private static readonly List<BotType> bossTypes = new List<BotType>(){
             BotType.bossbully,
             BotType.bossgluhar,
             BotType.bosskilla,
@@ -14,9 +13,8 @@ namespace Common.Extensions
             BotType.bosstagilla
             };
 
-        public static bool IsBoss(this BotType self)
-        {
-            return bossTypes.Contains(self);
-        }
+    public static bool IsBoss(this BotType self)
+    {
+        return bossTypes.Contains(self);
     }
 }

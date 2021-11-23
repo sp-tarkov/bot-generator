@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 
-namespace Common
+namespace Common;
+
+public static class BulletHelpers
 {
-    public static class BulletHelpers
-    {
-        private static readonly string[] blackList = {
+    private static readonly string[] blackList = {
         "56dff3afd2720bba668b4567", // 5.45x39 ps
         "5c0d56a986f774449d5de529", // 9x19mm rip
         "58864a4f2459770fcc257101", // 9x19mm pso
@@ -30,9 +30,8 @@ namespace Common
         "5e023e88277cce2b522ff2b1"  // 7.62x51 ultra nosler
     };
 
-        public static bool BulletIsOnBlackList(string bullet)
-        {
-            return blackList.Any(x => x.Contains(bullet));
-        }
+    public static bool BulletIsOnBlackList(string bullet)
+    {
+        return blackList.Any(x => x.Contains(bullet));
     }
 }
