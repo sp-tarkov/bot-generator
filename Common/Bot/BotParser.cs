@@ -1,95 +1,109 @@
 ﻿using Common.Models.Input;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Common.Bots
+namespace Common.Bots;
+
+public static class BotParser
 {
-    public class BotParser
+    static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions { };
+
+    public static async Task<List<Datum>> ParseAsync(string dumpPath)
     {
-        private readonly string _dumpPath;
+        var stopwatch = Stopwatch.StartNew();
 
-        public BotParser(string dumpPath)
+        DiskHelpers.CreateDirIfDoesntExist(dumpPath);
+
+        var botFiles = Directory.GetFiles(dumpPath, "*.json", SearchOption.TopDirectoryOnly).ToList();
+        LoggingHelpers.LogToConsole($"{botFiles.Count} bot dump files found");
+
+        var parsedBotsDict = new Dictionary<string, Datum>(10000);
+        int totalDupeCount = 0;
+
+        ParallelOptions parallelOptions = new()
         {
-            _dumpPath = dumpPath;
-        }
-
-        public List<Datum> Parse()
+            MaxDegreeOfParallelism = Environment.ProcessorCount
+        };
+        await Parallel.ForEachAsync(botFiles, parallelOptions, async(file, token) =>
         {
-            var stopwatch = Stopwatch.StartNew();
+            var splitFilePath = file.Split("\\");
 
-            var failedFilesCount = 0;
-            DiskHelpers.CreateDirIfDoesntExist(_dumpPath);
+            int dupeCount = 0;
+            var rawInputString = await ReadFileContentsAsync(file);
 
-            var botFiles = Directory.GetFiles(_dumpPath, "*.json", SearchOption.TopDirectoryOnly).ToList();
-            Console.WriteLine($"{botFiles.Count} bot dump files found");
-
-            var parsedBots = new List<Datum>();
-            Parallel.ForEach(botFiles, file => {
-                var splitFile = file.Split("\\");
-
-                var json = File.ReadAllText(file);
-                try
-                {
-                    json = PruneMalformedBsgJson(json, splitFile.Last());
-
-                    var bots = ParseJson(json);
-
-                    if (bots == null || bots.Count == 0)
-                    {
-                        Console.WriteLine($"skipping file: {splitFile.Last()}. no bots found, ");
-                        return;
-                    }
-
-                    Console.WriteLine($"parsing: {bots.Count} bots in file {splitFile.Last()}");
-                    foreach (var bot in bots)
-                    {
-                        parsedBots.Add(bot);
-                    }
-                }
-                catch (JsonException jex)
-                {
-                    failedFilesCount++;
-                    Console.WriteLine($"JSON Error message: {jex.Message} || file: {splitFile.Last()}");
-                }
-            });
-
-            stopwatch.Stop();
-            LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBots.Count} bots. Failed: {failedFilesCount}. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
-
-            return parsedBots;
-        }
-
-        private string PruneMalformedBsgJson(string json, string fileName)
-        {
-            // Bsg send json where an item has a location of 1 but it should be an object with x/y/z coords
-            var o = JObject.Parse(json);
-            var jItemsToReplace = o.SelectTokens("$.data[*].Inventory.items[?(@.location == 1)].location");
-            //var jItemsToReplace = o.SelectTokens("$.data[*].Inventory.items[?(@.location == 1 && @.slotId == 'cartridges')].location");
-
-            if (jItemsToReplace != null && jItemsToReplace.Any())
+            var json = rawInputString;
+            if (rawInputString.Contains("location\":1,"))
             {
-                LoggingHelpers.LogToConsole($"file {fileName} has {jItemsToReplace.Count()} json issues, cleaning up.");
-                foreach (var item in jItemsToReplace)
+                json = PruneMalformedBsgJson(rawInputString, splitFilePath.Last());
+            }
+
+            var bots = ParseJson(json);
+            if (bots == null || bots.Count == 0)
+            {
+                Console.WriteLine($"skipping file: {splitFilePath.Last()}. no bots found, ");
+                return;
+            }
+
+            Console.WriteLine($"parsing: {bots.Count} bots in file {splitFilePath.Last()}");
+            foreach (var bot in bots)
+            {
+                if (!parsedBotsDict.ContainsKey(bot._id))
                 {
-                    var obj = new { x = 1, y = 0, r = 0 };
-                    item.Replace(JToken.FromObject(obj));
+                    parsedBotsDict.Add(bot._id, bot);
+                }
+                else
+                {
+                    dupeCount++;
                 }
             }
 
-            return o.ToString();
-        }
+            totalDupeCount += dupeCount;
+        });
 
-        private static List<Datum> ParseJson(string json)
+        stopwatch.Stop();
+        LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBotsDict.Count} bots. {totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+
+        return (parsedBotsDict.Select(x => x.Value)).ToList();
+    }
+
+    private static async Task<string> ReadFileContentsAsync(string file)
+    {
+        using var reader = File.OpenText(file);
+        return await reader.ReadToEndAsync();
+    }
+
+    private static string PruneMalformedBsgJson(string json, string fileName)
+    {
+        // Bsg send json where an item has a location of 1 but it should be an object with x/y/z coords
+        var o = JObject.Parse(json);
+        var jItemsToReplace = o.SelectTokens("$.data[*].Inventory.items[?(@.location == 1)].location");
+        //var jItemsToReplace = o.SelectTokens("$.data[*].Inventory.items[?(@.location == 1 && @.slotId == 'cartridges')].location");
+
+        if (jItemsToReplace != null && jItemsToReplace.Any())
         {
-            var serialisedObject = JsonConvert.DeserializeObject<Root>(json);
-
-            return serialisedObject.data;
+            LoggingHelpers.LogToConsole($"file {fileName} has {jItemsToReplace.Count()} json issues, cleaning up.", ConsoleColor.Yellow);
+            foreach (var item in jItemsToReplace)
+            {
+                var obj = new { x = 1, y = 0, r = 0 };
+                item.Replace(JToken.FromObject(obj));
+            }
         }
+        var returnString = o.ToString();
+
+        o = null;
+        jItemsToReplace = null;
+
+        return returnString;
+    }
+
+    private static List<Datum> ParseJson(string json)
+    {
+        var deSerialisedObject = JsonSerializer.Deserialize<Root>(json, serialiserOptions);
+        return deSerialisedObject.data;
     }
 }
