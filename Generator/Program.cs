@@ -9,6 +9,8 @@ internal static class Program
                 "assault",
                 "marksman",
                 "pmcBot",
+                "exUsec",
+
                 "bossbully",
                 "bossgluhar",
                 "bosskilla",
