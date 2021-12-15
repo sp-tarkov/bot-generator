@@ -23,6 +23,7 @@
         cursedassault = 19,
         sectantpriest = 20,
         sectantwarrior = 21,
-        usec = 22
+        usec = 22,
+        exUsec = 23,
     }
 }
