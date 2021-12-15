@@ -190,7 +190,8 @@ namespace Generator.Helpers.Gear
 
         private static int GetPercent(int total, int count)
         {
-            return (int)Math.Ceiling((double)(((200 * count) + 1) / (total * 2)));
+            var percentChance = (int)Math.Ceiling((double)(((200 * count) + 1) / (total * 2)));
+            return percentChance > 100 ? 100 : percentChance; // return 100 if value is > 100
         }
 
         private static MinMax GetMagazineCountByBotType(BotType botType)
