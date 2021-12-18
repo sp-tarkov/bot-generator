@@ -48,8 +48,13 @@ namespace PMCGenerator
 
                 // Get top level mods types for this gun
                 var uniqueModSlots = flatModList.Where(x => x.ParentId == weapon.Id).Select(x => x.SlotId).Distinct().ToList();
+
                 var chamberedBulletModItemName = "patron_in_weapon";
-                uniqueModSlots.AddUnique(chamberedBulletModItemName);
+                if (weapon.TemplateId != "60db29ce99594040e04c4a27") // shotgun revolver
+                {
+                    uniqueModSlots.AddUnique(chamberedBulletModItemName);
+                }
+
                 foreach (var modSlotId in uniqueModSlots)
                 {
                     Dictionary<string, List<string>> weaponModsToModify = output.mods[weapon.TemplateId];
@@ -61,9 +66,12 @@ namespace PMCGenerator
                 }
 
                 // Add compatible bullets to weapons gun chamber
-                var modItemToAddBulletsTo = output.mods[weapon.TemplateId].FirstOrDefault(x => x.Key == chamberedBulletModItemName);
                 var compatibleBullets = GetCompatibileBullets(itemLibrary, weapon);
-                modItemToAddBulletsTo.Value.AddUniqueRange(compatibleBullets);
+                var modItemToAddBulletsTo = output.mods[weapon.TemplateId].FirstOrDefault(x => x.Key == chamberedBulletModItemName);
+                if (modItemToAddBulletsTo.Key != null) // some guns dont have a mod you add bullets to (e.g. revolvers)
+                {
+                    modItemToAddBulletsTo.Value.AddUniqueRange(compatibleBullets);
+                }
 
                 // Add compatabible mods to weapon
                 var modsForWeapon = flatModList.Where(x => x.ParentId == weapon.Id).ToList();
@@ -71,7 +79,7 @@ namespace PMCGenerator
                 foreach (var mod in modsForWeapon)
                 {
                     weaponMods[mod.SlotId].AddUnique(mod.TemplateId);
-                    
+
                     if (mod.SlotId == "mod_magazine")
                     {
                         // add special mod item for magazine that gives info on what cartridges can be used
@@ -152,7 +160,7 @@ namespace PMCGenerator
 
             var workingPath = Directory.GetCurrentDirectory();
 
-            var itemsLibraryJson = File.ReadAllText(workingPath + "\\input" + "\\items.json");
+            var itemsLibraryJson = File.ReadAllText(workingPath + "\\Assets" + "\\items.json");
             return JsonConvert.DeserializeObject<Dictionary<string, Item>>(itemsLibraryJson);
 
         }
