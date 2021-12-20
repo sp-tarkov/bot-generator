@@ -107,11 +107,19 @@ namespace Generator.Helpers.Gear
                 case BotType.bossbully:
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
+                case BotType.bosskilla:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.mods["mod_stock_001"] = 100;
+                    break;
+                case BotType.bosssanitar:
+                    botToUpdate.chances.mods["mod_scope"] = 100;
+                    break;
                 case BotType.pmcBot:
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
                 case BotType.followerbully:
                     botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.mods["mod_stock_000"] = 100;
                     break;
                 case BotType.followergluharassault:
                 case BotType.followergluharscout:
@@ -130,6 +138,10 @@ namespace Generator.Helpers.Gear
                     break;
                 case BotType.marksman:
                     botToUpdate.chances.mods["mod_scope"] = 100;
+                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    break;
+                case BotType.exUsec:
+                    botToUpdate.chances.mods["mod_stock_000"] = 100;
                     break;
 
             }
