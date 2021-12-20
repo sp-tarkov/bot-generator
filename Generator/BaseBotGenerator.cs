@@ -105,33 +105,70 @@ namespace Generator
 
         private static void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawBots)
         {
-            var firstBotOfDesiredType = rawBots.FirstOrDefault();
-            if (firstBotOfDesiredType == null)
+            var uniqueHealthSetups = new Dictionary<int, Common.Models.Output.BodyParts>();
+            foreach (var bot in rawBots)
             {
-                LoggingHelpers.LogToConsole($"bot type of: {botToUpdate.botType} not found, unable to update body part health.");
-                return;
+                var healthTotal = bot.Health.BodyParts.GetHpMaxTotal();
+                var alreadyExists = uniqueHealthSetups.ContainsKey(healthTotal);
+
+                if (!alreadyExists)
+                {
+                    var bodyPartHpToAdd = new Common.Models.Output.BodyParts();
+                    bodyPartHpToAdd.Head.min = bot.Health.BodyParts.Head.Health.Current;
+                    bodyPartHpToAdd.Head.max = bot.Health.BodyParts.Head.Health.Maximum;
+
+                    bodyPartHpToAdd.Chest.min = bot.Health.BodyParts.Chest.Health.Current;
+                    bodyPartHpToAdd.Chest.max = bot.Health.BodyParts.Chest.Health.Maximum;
+
+                    bodyPartHpToAdd.Stomach.min = bot.Health.BodyParts.Stomach.Health.Current;
+                    bodyPartHpToAdd.Stomach.max = bot.Health.BodyParts.Stomach.Health.Maximum;
+
+                    bodyPartHpToAdd.LeftArm.min = bot.Health.BodyParts.LeftArm.Health.Current;
+                    bodyPartHpToAdd.LeftArm.max = bot.Health.BodyParts.LeftArm.Health.Maximum;
+
+                    bodyPartHpToAdd.RightArm.min = bot.Health.BodyParts.RightArm.Health.Current;
+                    bodyPartHpToAdd.RightArm.max = bot.Health.BodyParts.RightArm.Health.Maximum;
+
+                    bodyPartHpToAdd.LeftLeg.min = bot.Health.BodyParts.LeftLeg.Health.Current;
+                    bodyPartHpToAdd.LeftLeg.max = bot.Health.BodyParts.LeftLeg.Health.Maximum;
+
+                    bodyPartHpToAdd.RightLeg.min = bot.Health.BodyParts.RightLeg.Health.Current;
+                    bodyPartHpToAdd.RightLeg.max = bot.Health.BodyParts.RightLeg.Health.Maximum;
+
+                    uniqueHealthSetups.Add(healthTotal, bodyPartHpToAdd);
+                }
             }
 
-            botToUpdate.health.BodyParts.Head.min = firstBotOfDesiredType.Health.BodyParts.Head.Health.Current;
-            botToUpdate.health.BodyParts.Head.max = firstBotOfDesiredType.Health.BodyParts.Head.Health.Maximum;
+            botToUpdate.health.BodyParts = uniqueHealthSetups.Values.ToList();
 
-            botToUpdate.health.BodyParts.Chest.min = firstBotOfDesiredType.Health.BodyParts.Chest.Health.Current;
-            botToUpdate.health.BodyParts.Chest.max = firstBotOfDesiredType.Health.BodyParts.Chest.Health.Maximum;
+            //var firstBotOfDesiredType = rawBots.FirstOrDefault();
+            //if (firstBotOfDesiredType == null)
+            //{
+            //    string botType = botToUpdate.botType.ToString();
+            //    LoggingHelpers.LogToConsole($"bot type of: {botType} not found, unable to update body part health.");
+            //    return;
+            //}
 
-            botToUpdate.health.BodyParts.Stomach.min = firstBotOfDesiredType.Health.BodyParts.Stomach.Health.Current;
-            botToUpdate.health.BodyParts.Stomach.max = firstBotOfDesiredType.Health.BodyParts.Stomach.Health.Maximum;
+            //botToUpdate.health.BodyParts.Head.min = firstBotOfDesiredType.Health.BodyParts.Head.Health.Current;
+            //botToUpdate.health.BodyParts.Head.max = firstBotOfDesiredType.Health.BodyParts.Head.Health.Maximum;
 
-            botToUpdate.health.BodyParts.LeftArm.min = firstBotOfDesiredType.Health.BodyParts.LeftArm.Health.Current;
-            botToUpdate.health.BodyParts.LeftArm.max = firstBotOfDesiredType.Health.BodyParts.LeftArm.Health.Maximum;
+            //botToUpdate.health.BodyParts.Chest.min = firstBotOfDesiredType.Health.BodyParts.Chest.Health.Current;
+            //botToUpdate.health.BodyParts.Chest.max = firstBotOfDesiredType.Health.BodyParts.Chest.Health.Maximum;
 
-            botToUpdate.health.BodyParts.RightArm.min = firstBotOfDesiredType.Health.BodyParts.RightArm.Health.Current;
-            botToUpdate.health.BodyParts.RightArm.max = firstBotOfDesiredType.Health.BodyParts.RightArm.Health.Maximum;
+            //botToUpdate.health.BodyParts.Stomach.min = firstBotOfDesiredType.Health.BodyParts.Stomach.Health.Current;
+            //botToUpdate.health.BodyParts.Stomach.max = firstBotOfDesiredType.Health.BodyParts.Stomach.Health.Maximum;
 
-            botToUpdate.health.BodyParts.LeftLeg.min = firstBotOfDesiredType.Health.BodyParts.LeftLeg.Health.Current;
-            botToUpdate.health.BodyParts.LeftLeg.max = firstBotOfDesiredType.Health.BodyParts.LeftLeg.Health.Maximum;
+            //botToUpdate.health.BodyParts.LeftArm.min = firstBotOfDesiredType.Health.BodyParts.LeftArm.Health.Current;
+            //botToUpdate.health.BodyParts.LeftArm.max = firstBotOfDesiredType.Health.BodyParts.LeftArm.Health.Maximum;
 
-            botToUpdate.health.BodyParts.RightLeg.min = firstBotOfDesiredType.Health.BodyParts.RightLeg.Health.Current;
-            botToUpdate.health.BodyParts.RightLeg.max = firstBotOfDesiredType.Health.BodyParts.RightLeg.Health.Maximum;
+            //botToUpdate.health.BodyParts.RightArm.min = firstBotOfDesiredType.Health.BodyParts.RightArm.Health.Current;
+            //botToUpdate.health.BodyParts.RightArm.max = firstBotOfDesiredType.Health.BodyParts.RightArm.Health.Maximum;
+
+            //botToUpdate.health.BodyParts.LeftLeg.min = firstBotOfDesiredType.Health.BodyParts.LeftLeg.Health.Current;
+            //botToUpdate.health.BodyParts.LeftLeg.max = firstBotOfDesiredType.Health.BodyParts.LeftLeg.Health.Maximum;
+
+            //botToUpdate.health.BodyParts.RightLeg.min = firstBotOfDesiredType.Health.BodyParts.RightLeg.Health.Current;
+            //botToUpdate.health.BodyParts.RightLeg.max = firstBotOfDesiredType.Health.BodyParts.RightLeg.Health.Maximum;
         }
 
         private static void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
