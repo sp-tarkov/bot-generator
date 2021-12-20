@@ -127,6 +127,17 @@ namespace Common.Models.Input
         public RightArm RightArm { get; set; }
         public LeftLeg LeftLeg { get; set; }
         public RightLeg RightLeg { get; set; }
+
+        public int GetHpMaxTotal()
+        {
+            return Head.Health.Maximum
+                + Chest.Health.Maximum
+                + Stomach.Health.Maximum
+                + LeftArm.Health.Maximum
+                + RightArm.Health.Maximum
+                + LeftLeg.Health.Maximum
+                + RightLeg.Health.Maximum;
+        }
     }
 
     public class Repairable
