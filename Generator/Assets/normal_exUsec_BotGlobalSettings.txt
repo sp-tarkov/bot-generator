@@ -88,7 +88,7 @@
     "MiddleDeltaTimeSec": 1.0,
     "CloseDeltaTimeSec": 0.1,
     "POSIBLE_VISION_SPACE": 1.2,
-    "GOAL_TO_FULL_DISSAPEAR": 0.2,
+    "GOAL_TO_FULL_DISSAPEAR": 0.1,
     "GOAL_TO_FULL_DISSAPEAR_SHOOT": 0.03,
     "BODY_DELTA_TIME_SEARCH_SEC": 1.7,
     "COME_TO_BODY_DIST": 1.2,
@@ -425,7 +425,7 @@
   },
   "Core": {
     "VisibleAngle": 180.0,
-    "VisibleDistance": 262.0,
+    "VisibleDistance": 222.0,
     "GainSightCoef": 0.05,
     "ScatteringPerMeter": 0.045,
     "ScatteringClosePerMeter": 0.12,
