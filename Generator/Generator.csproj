@@ -26,6 +26,7 @@
     <None Remove="Assets\normal_bossTagilla_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossTest_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_cursedAssault_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_exUsec_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerBully_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerGluharAssault_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerGluharScout_BotGlobalSettings.txt" />
@@ -36,6 +37,7 @@
     <None Remove="Assets\normal_followerStormtrooper_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerTagilla_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerTest_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_gifter_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_marksman_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_pmcBot_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_sectantPriest_BotGlobalSettings.txt" />
@@ -101,6 +103,9 @@
     <Content Include="Assets\normal_cursedAssault_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_exUsec_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_followerBully_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -131,6 +136,9 @@
     <Content Include="Assets\normal_followerTest_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_gifter_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_marksman_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -149,6 +157,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClrHeapAllocationAnalyzer" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
@@ -159,12 +168,6 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Assets\normal_exUsec_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

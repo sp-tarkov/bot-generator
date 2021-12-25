@@ -25,5 +25,6 @@
         sectantwarrior = 21,
         usec = 22,
         exUsec = 23,
+        gifter = 24
     }
 }
