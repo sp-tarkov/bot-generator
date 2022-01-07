@@ -1,9 +1,6 @@
 ﻿using Common.Models.Output;
 using Common.Models.Output.Difficulty;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Generator.Helpers
 {
@@ -16,13 +13,17 @@ namespace Generator.Helpers
             // Read bot setting files from assets folder that match this bots type
             // Save into dictionary with difficulty as key
             var difficultySettingsJsons = new Dictionary<string, DifficultySettings>();
-            foreach (var path in difficultyFilePaths.Where(x=>x.Contains($"_{botToUpdate.botType}", System.StringComparison.InvariantCultureIgnoreCase)))
+            var botType = botToUpdate.botType.ToString();
+            var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botType}", StringComparison.InvariantCultureIgnoreCase));
+            foreach (var path in pathsWithBotType)
             {
                 var json = File.ReadAllText(path);
-                var serialisedObject = JsonConvert.DeserializeObject<DifficultySettings>(json);
+                var serialisedDifficultySettings = JsonConvert.DeserializeObject<DifficultySettings>(json);
+
+                serialisedDifficultySettings = ApplyCustomDifficultyValues(botType, serialisedDifficultySettings);
 
                 var difficultyOfFile = GetFileDifficultyFromPath(path);
-                difficultySettingsJsons.Add(difficultyOfFile, serialisedObject);
+                difficultySettingsJsons.Add(difficultyOfFile, serialisedDifficultySettings);
             }
 
             // Find each difficulty in dictionary and save into bot
@@ -38,6 +39,48 @@ namespace Generator.Helpers
                 }
 
                 SaveSettingsIntoBotFile(botToUpdate, difficulty, settings.Value);
+            }
+        }
+
+        private static DifficultySettings ApplyCustomDifficultyValues(string botType, DifficultySettings difficultySettings)
+        {
+            switch (botType)
+            {
+                // make all bosses fight PMCs
+                case "bosskilla":
+                case "bossgluhar":
+                case "bosstagilla":
+                case "bossbully":
+                case "bosskojaniy":
+                    AddHostileToPMCSettings(difficultySettings);
+                    break;
+                default:
+                    break;
+            }
+
+            return difficultySettings;
+        }
+
+        private static void AddHostileToPMCSettings(DifficultySettings settings)
+        {
+            var defaultEnemyUsecKey = "DEFAULT_ENEMY_USEC";
+            if (settings.Mind.ContainsKey(defaultEnemyUsecKey))
+            {
+                settings.Mind[defaultEnemyUsecKey] = true;
+            }
+            else
+            {
+                settings.Mind.Add(defaultEnemyUsecKey, true);
+            }
+
+            var defaultEnemyBearKey = "DEFAULT_ENEMY_BEAR";
+            if (settings.Mind.ContainsKey(defaultEnemyUsecKey))
+            {
+                settings.Mind[defaultEnemyBearKey] = true;
+            }
+            else
+            {
+                settings.Mind.Add(defaultEnemyBearKey, true);
             }
         }
 
