@@ -61,26 +61,26 @@ namespace Generator.Helpers
             return difficultySettings;
         }
 
-        private static void AddHostileToPMCSettings(DifficultySettings settings)
+        private static void AddHostileToPMCSettings(DifficultySettings difficultySettings)
         {
             var defaultEnemyUsecKey = "DEFAULT_ENEMY_USEC";
-            if (settings.Mind.ContainsKey(defaultEnemyUsecKey))
+            if (difficultySettings.Mind.ContainsKey(defaultEnemyUsecKey))
             {
-                settings.Mind[defaultEnemyUsecKey] = true;
+                difficultySettings.Mind[defaultEnemyUsecKey] = true;
             }
             else
             {
-                settings.Mind.Add(defaultEnemyUsecKey, true);
+                difficultySettings.Mind.Add(defaultEnemyUsecKey, true);
             }
 
             var defaultEnemyBearKey = "DEFAULT_ENEMY_BEAR";
-            if (settings.Mind.ContainsKey(defaultEnemyUsecKey))
+            if (difficultySettings.Mind.ContainsKey(defaultEnemyUsecKey))
             {
-                settings.Mind[defaultEnemyBearKey] = true;
+                difficultySettings.Mind[defaultEnemyBearKey] = true;
             }
             else
             {
-                settings.Mind.Add(defaultEnemyBearKey, true);
+                difficultySettings.Mind.Add(defaultEnemyBearKey, true);
             }
         }
 
