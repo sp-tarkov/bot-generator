@@ -20,7 +20,7 @@ namespace Generator.Helpers
                     var itemsFilePath = $"{Directory.GetCurrentDirectory()}\\Assets\\items.json";
                     if (!File.Exists(itemsFilePath))
                     {
-                        throw new Exception($"Missing items.json under assets ({itemsFilePath})");
+                        throw new Exception($"Missing items.json in /assets ({itemsFilePath})");
                     }
 
                     var itemsJson = File.ReadAllText(itemsFilePath);
