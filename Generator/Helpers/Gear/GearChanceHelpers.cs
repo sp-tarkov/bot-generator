@@ -151,7 +151,7 @@ namespace Generator.Helpers.Gear
         {
             bot.generation = new GenerationChances(
                 bot.inventory.items.SpecialLoot.Count, bot.inventory.items.SpecialLoot.Count,
-                healingMin: 1, healingMax: 2,
+                healingMin: GetMedicalItemCountByBotType(bot.botType).min, healingMax: GetMedicalItemCountByBotType(bot.botType).max,
                 looseLootMin: GetLooseLootCountByBotType(bot.botType).min, looseLootMax: GetLooseLootCountByBotType(bot.botType).max,
                 magazinesMin: GetMagazineCountByBotType(bot.botType).min, MagazineMax: GetMagazineCountByBotType(bot.botType).max,
                 grenandesMin: 0, grenadesMax: 5); //TODO get dynamically
@@ -240,6 +240,26 @@ namespace Generator.Helpers.Gear
                 default:
                     min = 1;
                     max = 4;
+                    break;
+            }
+
+            return new MinMax(min, max);
+        }
+
+        private static MinMax GetMedicalItemCountByBotType(BotType botType)
+        {
+            int min;
+            int max;
+
+            switch (botType)
+            {
+                case BotType.bosssanitar:
+                    min = 4;
+                    max = 6;
+                    break;
+                default:
+                    min = 1;
+                    max = 2;
                     break;
             }
 
