@@ -188,10 +188,10 @@ namespace PMCGenerator
             var nonBlacklistedBullets = new List<string>();
             foreach (var bullet in bullets)
             {
-                if (BulletHelpers.BulletIsOnBlackList(bullet))
-                {
-                    continue;
-                }
+                //if (BulletHelpers.BulletIsOnBlackList(bullet))
+                //{
+                //    //continue;
+                //}
 
                 nonBlacklistedBullets.AddUnique(bullet);
             }
