@@ -10,54 +10,95 @@ using Generator.Helpers;
 
 namespace PMCGenerator
 {
-    
+
     class Program
     {
         static void Main(string[] args)
         {
-            var itemLibrary = GetItemLibrary();
-
-            var parsedPresets = GetPresets();
+            List<Presets> parsedPresets = GetPresets();
 
             // Create flat lists of weapons + list of mods
             var flatPrimaryWeaponsList = GetWeaponsFromRawFile(parsedPresets);
             var flatSecondaryWeaponsList = GetSecondaryWeaponsFromRawFile(parsedPresets);
-
             var flatAllWeaponsList = CombinePrimaryAndSecondaryWeapons(flatPrimaryWeaponsList, flatSecondaryWeaponsList);
 
+            var output = new
+            {
+                FirstPrimaryWeapon = AddWeaponsToOutput(flatPrimaryWeaponsList),
+                Holster = AddWeaponsToOutput(flatSecondaryWeaponsList),
+                mods = AddModsToOutput(flatAllWeaponsList, parsedPresets, flatPrimaryWeaponsList)
+            };
+
+            // Create output dir
+            var outputPath = CreateOutputFolder();
+
+            // Turn into json
+            var outputJson = JsonConvert.SerializeObject(output, Formatting.Indented);
+
+            CreateJsonFile(outputPath, outputJson);
+        }
+
+        private static Dictionary<string, int> AddWeaponsToOutput(List<WeaponDetails> flatPrimaryWeaponsList)
+        {
+            var results = new Dictionary<string, int>();
+
+            var distinctPrimaryWeaponIds = flatPrimaryWeaponsList.Select(x => x.TemplateId).Distinct();
+            foreach (var primaryWeapon in distinctPrimaryWeaponIds.Select(id => new KeyValuePair<string, int>(id, GetWeaponWeighting(id))))
+            {
+                results.Add(primaryWeapon.Key, primaryWeapon.Value);
+            }
+
+            return results;
+        }
+
+        private static int GetWeaponWeighting(string id)
+        {
+            // TODO get weighting data from styrr
+            return 1;
+        }
+
+        private static Dictionary<string, Dictionary<string, List<string>>> AddModsToOutput(
+    List<WeaponDetails> flatAllWeaponsList,
+    List<Presets> parsedPresets,
+    List<WeaponDetails> flatPrimaryWeaponsList)
+        {
+            var result = new Dictionary<string, Dictionary<string, List<string>>>();
+            var itemLibrary = GetItemLibrary();
             var flatModList = GetModsFromRawFile(parsedPresets);
 
-            // Add weapon mods to output
-            var output = new {
-                FirstPrimaryWeapon = new List<string>(),
-                Holster = new List<string>(),
-                mods = new Dictionary<string, Dictionary<string, List<string>>>() };
-
-            output.FirstPrimaryWeapon.AddRange(flatPrimaryWeaponsList.Select(x => x.TemplateId).Distinct());
-            output.Holster.AddRange(flatSecondaryWeaponsList.Select(x => x.TemplateId).Distinct());
-
-            // Loop over each gun
+            // Time to generate mods for weapons
             foreach (var weapon in flatAllWeaponsList)
             {
-                // add weapon if its not already here
-                if (!output.mods.ContainsKey(weapon.TemplateId))
+                // add weapon id if its not already here
+                if (!result.ContainsKey(weapon.TemplateId))
                 {
                     // Add weapon to dictionary
-                    output.mods.Add(weapon.TemplateId, new Dictionary<string, List<string>>());
+                    result.Add(weapon.TemplateId, new Dictionary<string, List<string>>());
                 }
 
-                // Get top level mods types for this gun
+                // Get top level mod types for this gun
                 var uniqueModSlots = flatModList.Where(x => x.ParentId == weapon.Id).Select(x => x.SlotId).Distinct().ToList();
 
                 var chamberedBulletModItemName = "patron_in_weapon";
-                if (weapon.TemplateId != "60db29ce99594040e04c4a27") // shotgun revolver
+                if (weapon.TemplateId != "60db29ce99594040e04c4a27" && weapon.TemplateId != "5580223e4bdc2d1c128b457f") // not shotgun revolver or double barrel
                 {
                     uniqueModSlots.AddUnique(chamberedBulletModItemName);
                 }
 
+                if (weapon.TemplateId == "60db29ce99594040e04c4a27") // shotgun revolver
+                {
+                    // live file has: mod_barrel, mod_stock, mod_handguard, mod_magazine
+                }
+
+                if (weapon.TemplateId == "5580223e4bdc2d1c128b457f") // double barrel
+                {
+                    uniqueModSlots.AddUnique("patron_in_weapon_000");
+                    uniqueModSlots.AddUnique("patron_in_weapon_001");
+                }
+
                 foreach (var modSlotId in uniqueModSlots)
                 {
-                    Dictionary<string, List<string>> weaponModsToModify = output.mods[weapon.TemplateId];
+                    Dictionary<string, List<string>> weaponModsToModify = result[weapon.TemplateId];
 
                     if (!weaponModsToModify.ContainsKey(modSlotId))
                     {
@@ -67,7 +108,7 @@ namespace PMCGenerator
 
                 // Add compatible bullets to weapons gun chamber
                 var compatibleBullets = GetCompatibileBullets(itemLibrary, weapon);
-                var modItemToAddBulletsTo = output.mods[weapon.TemplateId].FirstOrDefault(x => x.Key == chamberedBulletModItemName);
+                var modItemToAddBulletsTo = result[weapon.TemplateId].FirstOrDefault(x => x.Key == chamberedBulletModItemName);
                 if (modItemToAddBulletsTo.Key != null) // some guns dont have a mod you add bullets to (e.g. revolvers)
                 {
                     modItemToAddBulletsTo.Value.AddUniqueRange(compatibleBullets);
@@ -75,7 +116,7 @@ namespace PMCGenerator
 
                 // Add compatabible mods to weapon
                 var modsForWeapon = flatModList.Where(x => x.ParentId == weapon.Id).ToList();
-                Dictionary<string, List<string>> weaponMods = output.mods[weapon.TemplateId];
+                Dictionary<string, List<string>> weaponMods = result[weapon.TemplateId];
                 foreach (var mod in modsForWeapon)
                 {
                     weaponMods[mod.SlotId].AddUnique(mod.TemplateId);
@@ -83,29 +124,29 @@ namespace PMCGenerator
                     if (mod.SlotId == "mod_magazine")
                     {
                         // add special mod item for magazine that gives info on what cartridges can be used
-                        AddCartridgeItemToModListWithCompatibileCartridges(output.mods, compatibleBullets, mod);
+                        AddCartridgeItemToModListWithCompatibileCartridges(result, compatibleBullets, mod);
                     }
                 }
             }
 
             // Get mods where parent is not weapon and add to output
-            foreach (var mod in flatModList.Where(x => x.ParentId != null 
+            foreach (var mod in flatModList.Where(x => x.ParentId != null
                         && !flatPrimaryWeaponsList.Any(y => y.Id == x.ParentId)).ToList())
             {
                 // No parent tempalte id found, create and add mods details
-                if (!output.mods.ContainsKey(mod.ParentTemplateId))
+                if (!result.ContainsKey(mod.ParentTemplateId))
                 {
-                    var templateIdsList = new List<string>{mod.TemplateId};
-                    var subtype = new Dictionary<string, List<string>>{{ mod.SlotId, templateIdsList } };
-                    output.mods.Add(mod.ParentTemplateId, subtype);
+                    var templateIdsList = new List<string> { mod.TemplateId };
+                    var subtype = new Dictionary<string, List<string>> { { mod.SlotId, templateIdsList } };
+                    result.Add(mod.ParentTemplateId, subtype);
                 }
 
                 //Add subtype to item
-                var subtypeToAddTo = output.mods[mod.ParentTemplateId];
+                var subtypeToAddTo = result[mod.ParentTemplateId];
                 // No subtype, add it
                 if (!subtypeToAddTo.ContainsKey(mod.SlotId))
                 {
-                    var valueToAdd = new List<string>(){ mod.TemplateId };
+                    var valueToAdd = new List<string>() { mod.TemplateId };
                     subtypeToAddTo.Add(mod.SlotId, valueToAdd);
                 }
 
@@ -113,13 +154,7 @@ namespace PMCGenerator
                 subtypeToAddTo[mod.SlotId].AddUnique(mod.TemplateId);
             }
 
-            // Create output dir
-            var outputPath = CreateOutputFolder();
-
-            // Turn into json
-            var outputJson = JsonConvert.SerializeObject(output, Formatting.Indented);
-
-            CreateJsonFile(outputPath, outputJson);
+            return result;
         }
 
         private static List<WeaponDetails> CombinePrimaryAndSecondaryWeapons(List<WeaponDetails> flatPrimaryWeaponsList, List<WeaponDetails> flatSecondaryWeaponsList)
@@ -227,7 +262,7 @@ namespace PMCGenerator
 
         private static List<ModDetails> GetModsFromRawFile(List<Presets> parsedPresets)
         {
-            List <ModDetails> result = new List<ModDetails>();
+            List<ModDetails> result = new List<ModDetails>();
             foreach (var file in parsedPresets)
             {
                 foreach (var item in file.weaponbuilds)
@@ -251,7 +286,7 @@ namespace PMCGenerator
                     }
                 }
             }
-            
+
 
             return result;
         }
@@ -291,7 +326,7 @@ namespace PMCGenerator
                     result.Add(new WeaponDetails(item.Key, weapon.items[0]._id, weapon.items[0]._tpl));
                 }
             }
-            
+
             return result;
         }
 
