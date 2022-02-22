@@ -2,7 +2,7 @@
   "Lay": {
     "CHECK_SHOOT_WHEN_LAYING": false,
     "DELTA_LAY_CHECK": 2.0,
-    "DELTA_GETUP": 2.7,
+    "DELTA_GETUP": 5.0,
     "DELTA_AFTER_GETUP": 10.0,
     "CLEAR_POINTS_OF_SCARE_SEC": 20.0,
     "MAX_LAY_TIME": 35.0,
