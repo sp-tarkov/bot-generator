@@ -237,6 +237,11 @@ namespace Generator.Helpers.Gear
                     min = 3;
                     max = 4;
                     break;
+                case BotType.bosssanitar:
+                case BotType.followersanitar:
+                    min = 2;
+                    max = 5;
+                    break;
                 default:
                     min = 1;
                     max = 4;
@@ -254,8 +259,9 @@ namespace Generator.Helpers.Gear
             switch (botType)
             {
                 case BotType.bosssanitar:
+                case BotType.followersanitar:
                     min = 4;
-                    max = 6;
+                    max = 7;
                     break;
                 default:
                     min = 1;
