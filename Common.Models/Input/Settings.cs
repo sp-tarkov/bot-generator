@@ -191,7 +191,7 @@ namespace Common.Models.Input
         public string parentId { get; set; }
         public string slotId { get; set; }
         public Upd upd { get; set; }
-        public Location location { get; set; }
+        public object location { get; set; }
     }
 
     public class FastPanel
