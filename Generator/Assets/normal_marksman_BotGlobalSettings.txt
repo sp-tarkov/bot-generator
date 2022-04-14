@@ -23,7 +23,10 @@
     "MAX_CAN_LAY_DIST_SQRT": 40000.0,
     "MAX_CAN_LAY_DIST": 200.0,
     "LAY_CHANCE_DANGER": 40.0,
-    "DAMAGE_TIME_TO_GETUP": 3
+    "DAMAGE_TIME_TO_GETUP": 3,
+    "IF_NO_ENEMY": false,
+    "SHALL_GETUP_ON_ROTATE": false,
+    "SHALL_LAY_WITHOUT_CHECK": true,
   },
   "Aiming": {
     "MAX_AIM_PRECICING": 4.0,
