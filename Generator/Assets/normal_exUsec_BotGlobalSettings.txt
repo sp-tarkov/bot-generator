@@ -372,7 +372,14 @@
     "HIT_DELAY_WHEN_HAVE_SMT": -1.0,
     "HIT_DELAY_WHEN_PEACE": -1.0,
     "TALK_WITH_QUERY": true,
-    "DEFAULT_ENEMY_USEC": false,
+    "DEFAULT_SAVAGE_BEHAVIOUR": "Warn",
+    "DEFAULT_BEAR_BEHAVIOUR": "Attack",
+    "DEFAULT_USEC_BEHAVIOUR": "Warn",
+    "FRIENDLY_BOT_TYPES": [],
+    "WARN_BOT_TYPES": ["assault"],
+    "ENEMY_BOT_TYPES": [],
+    "REVENGE_BOT_TYPES": ["exUsec", "gifter"],
+    "REVENGE_FOR_SAVAGE_PLAYERS": false
   },
   "Boss": {
     "TOTAL_TIME_KILL_AFTER_START_WARN": 4.0,

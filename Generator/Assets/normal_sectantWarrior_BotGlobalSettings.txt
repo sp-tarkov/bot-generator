@@ -392,7 +392,9 @@
     "HIT_DELAY_WHEN_PEACE": -1.0,
     "AGGRESSOR_LOYALTY_BONUS": 0.0,
     "TALK_WITH_QUERY": true,
-    "WILL_PERSUE_AXEMAN": true
+    "WILL_PERSUE_AXEMAN": true,
+    "REVENGE_FOR_SAVAGE_PLAYERS": false,
+    "DEFAULT_SAVAGE_BEHAVIOUR": "Attack"
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 100.0,

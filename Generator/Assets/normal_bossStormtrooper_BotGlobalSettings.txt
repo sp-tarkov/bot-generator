@@ -364,7 +364,13 @@
     "HEAL_DELAY_SEC": 5.0,
     "HIT_DELAY_WHEN_HAVE_SMT": -1.0,
     "HIT_DELAY_WHEN_PEACE": -1.0,
-    "TALK_WITH_QUERY": true
+    "TALK_WITH_QUERY": true,
+    "DEFAULT_SAVAGE_BEHAVIOUR": "Warn",
+    "DEFAULT_BEAR_BEHAVIOUR": "Attack",
+    "DEFAULT_USEC_BEHAVIOUR": "Attack",
+    "FRIENDLY_BOT_TYPES": [],
+    "WARN_BOT_TYPES": ["assault"],
+    "ENEMY_BOT_TYPES": []
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 34.0,

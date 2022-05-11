@@ -378,7 +378,13 @@
     "HIT_DELAY_WHEN_HAVE_SMT": -1.0,
     "HIT_DELAY_WHEN_PEACE": -1.0,
     "CAN_TAKE_ITEMS": false,
-    "CAN_EXECUTE_REQUESTS": false
+    "CAN_EXECUTE_REQUESTS": false,
+    "DEFAULT_SAVAGE_BEHAVIOUR": "Warn",
+    "DEFAULT_BEAR_BEHAVIOUR": "Attack",
+    "DEFAULT_USEC_BEHAVIOUR": "Attack",
+    "FRIENDLY_BOT_TYPES": [],
+    "WARN_BOT_TYPES": ["assault"],
+    "ENEMY_BOT_TYPES": []
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 80.0,

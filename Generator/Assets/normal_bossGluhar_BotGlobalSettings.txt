@@ -414,7 +414,13 @@
     "PANIC_SIT_WEIGHT_PEACE": 60.0,
     "CAN_EXECUTE_REQUESTS": true,
     "CAN_TAKE_ITEMS": false,
-    "DIST_TO_ENEMY_SPOTTED_ON_HIT": 20.0
+    "DIST_TO_ENEMY_SPOTTED_ON_HIT": 20.0,    
+    "DEFAULT_SAVAGE_BEHAVIOUR": "Warn",
+    "DEFAULT_BEAR_BEHAVIOUR": "Attack",
+    "DEFAULT_USEC_BEHAVIOUR": "Attack",
+    "FRIENDLY_BOT_TYPES": [],
+    "WARN_BOT_TYPES": ["assault"],
+    "ENEMY_BOT_TYPES": []
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 34.0,
