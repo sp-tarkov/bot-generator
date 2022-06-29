@@ -6,32 +6,35 @@ internal static class Program
     {
         // Create list of bots we want to process
         string[] botTypes = {
-                "assault",
-                "marksman",
-                "pmcBot",
-                "exUsec",
-
-                "bossbully",
-                "bossgluhar",
-                "bosskilla",
-                "bosskojaniy",
-                "bosssanitar",
-                "bosstagilla",
-                //"bossstormtrooper",
-
-                "followerbully",
-                "followergluharassault",
-                "followergluharscout",
-                "followergluharsecurity",
-                //"followergluharsnipe",
-                "followerkojaniy",
-                "followersanitar",
-                //"followerstormtrooper",
-
-                "cursedassault",
-
-                "sectantpriest",
-                "sectantwarrior",
+          "assault",
+          "marksman",
+          "pmcBot",
+          "exUsec",
+        
+         "bossbully",
+         "bossgluhar",
+         "bosskilla",
+         "bosskojaniy",
+         "bosssanitar",
+         "bosstagilla",
+         "bossknight",
+        
+         "followerbully",
+         "followergluharassault",
+         "followergluharscout",
+         "followergluharsecurity",
+         "followergluharsnipe",
+         "followerkojaniy",
+         "followersanitar",
+         "followerstormtrooper",
+         "followerbirdeye",
+         "followerbigpipe",
+        //
+         "cursedassault",
+        //
+         "sectantpriest",
+         "sectantwarrior",
+         "gifter"
             };
 
         // Read raw bot dumps and turn into c# objects
