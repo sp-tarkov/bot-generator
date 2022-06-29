@@ -378,7 +378,7 @@
     "FRIENDLY_BOT_TYPES": [],
     "WARN_BOT_TYPES": ["assault"],
     "ENEMY_BOT_TYPES": [],
-    "REVENGE_BOT_TYPES": ["exUsec", "gifter"],
+    "REVENGE_BOT_TYPES": ["exUsec", "gifter", "bossKnight", "followerBigPipe", "followerBirdEye"],
     "REVENGE_FOR_SAVAGE_PLAYERS": false
   },
   "Boss": {
