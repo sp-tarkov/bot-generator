@@ -36,13 +36,24 @@ public static class BotParser
             int dupeCount = 0;
             var rawInputString = await ReadFileContentsAsync(file);
 
-            var json = rawInputString;
-            if (rawInputString.Contains("location\":1,"))
+            //var json = rawInputString;
+            //if (rawInputString.Contains("location\":1,"))
+            //{
+            //    json = PruneMalformedBsgJson(rawInputString, splitFilePath.Last());
+            //}
+
+            List<Datum> bots = null;
+            try
             {
-                json = PruneMalformedBsgJson(rawInputString, splitFilePath.Last());
+                bots = ParseJson(rawInputString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"file parse fucked up: {file}");
+                throw;
             }
 
-            var bots = ParseJson(json);
+            
             if (bots == null || bots.Count == 0)
             {
                 Console.WriteLine($"skipping file: {splitFilePath.Last()}. no bots found, ");

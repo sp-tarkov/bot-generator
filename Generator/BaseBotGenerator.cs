@@ -31,16 +31,19 @@ namespace Generator
             // Iterate over each bot type wejust made and put some data into them
             foreach (var botToUpdate in baseBots)
             {
-                var rawBotsOfSameType = rawBots.Where(x => string.Equals(x.Info.Settings.Role, botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                var rawBotType = botToUpdate.botType.ToString();
+                var rawBotsOfSameType = rawBots.Where(x => string.Equals(x.Info.Settings.Role, rawBotType, StringComparison.OrdinalIgnoreCase))
                                                 .ToList();
+                var rawBotsOfSameTypeCount = rawBotsOfSameType.Count.ToString();
+                
 
                 if (rawBotsOfSameType.Count == 0)
                 {
-                    LoggingHelpers.LogToConsole($"no bots of type {botToUpdate.botType}", ConsoleColor.DarkRed);
+                    LoggingHelpers.LogToConsole($"no bots of type {rawBotType}, skipping", ConsoleColor.DarkRed);
                     continue;
                 }
 
-                LoggingHelpers.LogToConsole($"Found {rawBotsOfSameType.Count} bots of type: {botToUpdate.botType}");
+                LoggingHelpers.LogToConsole($"Found {rawBotsOfSameTypeCount} bots of type: {rawBotType}");
 
                 UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
                 AddDifficulties(botToUpdate, workingPath);
@@ -95,12 +98,13 @@ namespace Generator
 
         private static void AddDifficulties(Bot bot, string workingPath)
         {
-            var botFiles = Directory
+            string botType = bot.botType.ToString();
+            var botDifficultyFiles = Directory
                 .GetFiles($"{workingPath}//Assets", "*.txt", SearchOption.TopDirectoryOnly)
-                .Where(x => x.Contains(bot.botType.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                .Where(x => x.Contains(botType, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
 
-            DifficultyHelper.AddDifficultySettings(bot, botFiles);
+            DifficultyHelper.AddDifficultySettings(bot, botDifficultyFiles);
         }
 
         private static void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawBots)
@@ -158,9 +162,9 @@ namespace Generator
             {
                 // Add lastnames to all bots except raiders
                 if (botToUpdate.botType != BotType.pmcBot)
-            {
-                botToUpdate.lastName.AddUnique(name[1]);
-            }
+                {
+                    botToUpdate.lastName.AddUnique(name[1]);
+                }
                 
             }
         }

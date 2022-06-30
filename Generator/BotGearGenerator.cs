@@ -18,7 +18,8 @@ namespace Generator
 
             foreach (var botToUpdate in baseBots)
             {
-                var rawParsedBotOfCurrentType = rawBots.Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                var botType = botToUpdate.botType.ToString();
+                var rawParsedBotOfCurrentType = rawBots.Where(x => x.Info.Settings.Role.Equals(botType, StringComparison.OrdinalIgnoreCase))
                                                         .ToList();
 
                 if (rawParsedBotOfCurrentType.Count == 0)

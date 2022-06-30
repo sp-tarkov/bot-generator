@@ -21,8 +21,9 @@ namespace Generator
             // Iterate over assault/raider etc
             Parallel.ForEach(botsWithGear, botToUpdate =>
             {
+                var botType = botToUpdate.botType.ToString();
                 var rawBotsOfSameType = rawBots
-                                        .Where(x => x.Info.Settings.Role.Equals(botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                                        .Where(x => x.Info.Settings.Role.Equals(botType, StringComparison.OrdinalIgnoreCase))
                                         .ToList();
 
                 if (rawBotsOfSameType.Count == 0)

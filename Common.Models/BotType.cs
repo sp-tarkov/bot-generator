@@ -25,6 +25,9 @@
         sectantwarrior = 21,
         usec = 22,
         exUsec = 23,
-        gifter = 24
+        gifter = 24,
+        bossknight = 25,
+        followerbirdeye = 26,
+        followerbigpipe = 27
     }
 }
