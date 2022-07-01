@@ -43,6 +43,7 @@
     <None Remove="Assets\normal_sectantPriest_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_sectantWarrior_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_test_BotGlobalSettings.txt" />
+    <None Remove="Assets\weights.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -152,6 +153,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_test_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\weights.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

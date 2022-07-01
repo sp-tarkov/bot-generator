@@ -1,6 +1,7 @@
 ﻿using Common.Extensions;
 using Common.Models.Input;
 using Common.Models.Output;
+using Generator.Weighting;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -66,62 +67,57 @@ namespace Generator.Helpers.Gear
         public static void AddEquippedGear(Bot botToUpdate, Datum bot)
         {
             // add equipped gear
+            var weightService = new WeightingService();
             foreach (var inventoryItem in bot.Inventory.items.Where(x=>x.slotId != null))
             {
                 switch (inventoryItem.slotId?.ToLower())
                 {
                     case "headwear":
-                        botToUpdate.inventory.equipment.Headwear.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.Headwear.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "headwear"));
                         break;
                     case "earpiece":
-                        botToUpdate.inventory.equipment.Earpiece.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.Earpiece.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "earpiece"));
                         break;
                     case "facecover":
-                        botToUpdate.inventory.equipment.FaceCover.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.FaceCover.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "facecover"));
                         break;
                     case "armorvest":
-                        botToUpdate.inventory.equipment.ArmorVest.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.ArmorVest.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "armorvest"));
                         break;
                     case "eyewear":
-                        botToUpdate.inventory.equipment.Eyewear.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.Eyewear.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "eyewear"));
                         break;
                     case "armband":
-                        botToUpdate.inventory.equipment.ArmBand.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.ArmBand.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "armband"));
                         break;
                     case "tacticalvest":
-                        botToUpdate.inventory.equipment.TacticalVest.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.TacticalVest.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "tacticalvest"));
                         break;
                     case "backpack":
-                        botToUpdate.inventory.equipment.Backpack.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.Backpack.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "backpack"));
                         break;
                     case "firstprimaryweapon":
-                        botToUpdate.inventory.equipment.FirstPrimaryWeapon.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.FirstPrimaryWeapon.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "firstprimaryweapon"));
                         break;
                     case "secondprimaryweapon":
-                        botToUpdate.inventory.equipment.SecondPrimaryWeapon.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.SecondPrimaryWeapon.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "secondprimaryweapon"));
                         break;
                     case "holster":
-                        botToUpdate.inventory.equipment.Holster.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.Holster.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "holster"));
                         break;
                     case "scabbard":
-                        botToUpdate.inventory.equipment.Scabbard.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.Scabbard.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "scabbard"));
                         break;
                     case "pockets":
-                        botToUpdate.inventory.equipment.Pockets.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.Pockets.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "pockets"));
                         break;
                     case "securedcontainer":
-                        botToUpdate.inventory.equipment.SecuredContainer.AddUnique(inventoryItem._tpl, GetItemWeight(inventoryItem._tpl));
+                        botToUpdate.inventory.equipment.SecuredContainer.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "securedcontainer"));
                         break;
                     default:
                         break;
                 }
             }
-        }
-
-        private static int GetItemWeight(string tpl)
-        {
-            // TODO: implement
-            return 1;
         }
 
         public static void AddCartridges(Bot botToUpdate, Datum rawParsedBot)
