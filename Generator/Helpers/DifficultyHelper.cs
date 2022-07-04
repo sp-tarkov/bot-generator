@@ -1,6 +1,8 @@
 ﻿using Common.Models.Output;
 using Common.Models.Output.Difficulty;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace Generator.Helpers
 {
@@ -38,9 +40,46 @@ namespace Generator.Helpers
                     settings = difficultySettingsJsons.FirstOrDefault(x => x.Key != null);
                 }
 
+                var warnKey = "WARN_BOT_TYPES";
+                if (settings.Value.Mind.ContainsKey("WARN_BOT_TYPES"))
+                {
+                    var deserialisedArray = getDeserializedStringArray(settings, warnKey);
+                    if (deserialisedArray.Length> 0)
+                    {
+                        settings.Value.Mind[warnKey] = deserialisedArray;
+                    }
+                }
+
+                var enemyKey = "ENEMY_BOT_TYPES";
+                if (settings.Value.Mind.ContainsKey(enemyKey))
+                {
+                    var deserialisedArray = getDeserializedStringArray(settings, enemyKey);
+                    if (deserialisedArray.Length > 0)
+                    {
+                        settings.Value.Mind[enemyKey] = deserialisedArray;
+                    }
+                }
+
+                var friendlyKey = "FRIENDLY_BOT_TYPES";
+                if (settings.Value.Mind.ContainsKey(friendlyKey))
+                {
+                    var deserialisedArray = getDeserializedStringArray(settings, friendlyKey);
+                    if (deserialisedArray.Length > 0)
+                    {
+                        settings.Value.Mind[friendlyKey] = deserialisedArray;
+                    }
+                }
+
                 SaveSettingsIntoBotFile(botToUpdate, difficulty, settings.Value);
             }
         }
+
+        private static string[] getDeserializedStringArray(KeyValuePair<string, DifficultySettings> settings, string friendlyKey)
+        {
+            var serialisedArray = JsonConvert.SerializeObject(settings.Value.Mind[friendlyKey]);
+            return JsonConvert.DeserializeObject<string[]>(serialisedArray);
+        }
+
 
         private static DifficultySettings ApplyCustomDifficultyValues(string botType, DifficultySettings difficultySettings)
         {
