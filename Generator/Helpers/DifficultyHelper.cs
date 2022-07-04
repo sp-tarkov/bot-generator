@@ -41,7 +41,7 @@ namespace Generator.Helpers
                 }
 
                 var warnKey = "WARN_BOT_TYPES";
-                if (settings.Value.Mind.ContainsKey("WARN_BOT_TYPES"))
+                if (settings.Value.Mind.ContainsKey(warnKey))
                 {
                     var deserialisedArray = getDeserializedStringArray(settings, warnKey);
                     if (deserialisedArray.Length> 0)
@@ -67,6 +67,16 @@ namespace Generator.Helpers
                     if (deserialisedArray.Length > 0)
                     {
                         settings.Value.Mind[friendlyKey] = deserialisedArray;
+                    }
+                }
+
+                var revengeKey = "REVENGE_BOT_TYPES";
+                if (settings.Value.Mind.ContainsKey(revengeKey))
+                {
+                    var deserialisedArray = getDeserializedStringArray(settings, revengeKey);
+                    if (deserialisedArray.Length > 0)
+                    {
+                        settings.Value.Mind[revengeKey] = deserialisedArray;
                     }
                 }
 
