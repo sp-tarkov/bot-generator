@@ -15,27 +15,27 @@ namespace Generator.Helpers.Gear
             var itemsWithModsInRawBot = new List<Item>();
 
 
-                foreach (var inv in rawParsedBot.Inventory.items.Where(x => x.slotId == "mod_magazine"))
-                {
-                var count = rawParsedBot.Inventory.items.Where(x => x.slotId == "mod_magazine").Count();
-                    if (inv._tpl == "60dc519adf4c47305f6d410d")
-                    {
-                        var y = 1;
-                    }
-                }
+                //foreach (var inv in rawParsedBot.Inventory.items.Where(x => x.slotId == "mod_magazine"))
+                //{
+                //var count = rawParsedBot.Inventory.items.Where(x => x.slotId == "mod_magazine").Count();
+                //    if (inv._tpl == "60dc519adf4c47305f6d410d")
+                //    {
+                //        var y = 1;
+                //    }
+                //}
 
             modItemsInRawBot = rawParsedBot.Inventory.items
                 .Where(x => x.slotId != null && (x.slotId.StartsWith("mod_") || x.slotId.StartsWith("patron_in_weapon"))).ToList();
 
-            var x = new List<Item>();
-            foreach (var item in rawParsedBot.Inventory.items.Where(x=>x.slotId == "mod_magazine"))
-            {
-                if (item._tpl == "60dc519adf4c47305f6d410d")
-                { 
-                    var wow = 1; 
-                }
-                x.Add(item);
-            }
+            //var x = new List<Item>();
+            //foreach (var item in rawParsedBot.Inventory.items.Where(x=>x.slotId == "mod_magazine"))
+            //{
+            //    if (item._tpl == "60dc519adf4c47305f6d410d")
+            //    { 
+            //        var wow = 1; 
+            //    }
+            //    x.Add(item);
+            //}
 
             // get items with Mods by iterating over mod items and getting the parent item
             itemsWithModsInRawBot.AddRange(modItemsInRawBot
@@ -50,13 +50,13 @@ namespace Generator.Helpers.Gear
                 AddItemToDictionary(itemToAdd, modsToAdd, itemsWithModsDictionary);
 
                 // check if these mods have sub-mods and add those
-                foreach (var modAdded in modsToAdd.Where(x=>x.slotId == "mod_magazine"))
+                foreach (var modAdded in modsToAdd.Where(x => x.slotId == "mod_magazine"))
                 {
                     // look for items where parentId is this mods id
                     var subItems = rawParsedBot.Inventory.items.Where(x => x.parentId == modAdded._id && x.slotId != "cartridges").ToList();
                     if (subItems.Count > 0)
                     {
-                        AddItemToDictionary(itemToAdd, subItems, itemsWithModsDictionary);
+                        AddItemToDictionary(modAdded, subItems, itemsWithModsDictionary);
                     }
                 }
             }
