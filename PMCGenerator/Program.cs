@@ -10,8 +10,7 @@ using Generator.Helpers;
 
 namespace PMCGenerator
 {
-
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -26,7 +25,8 @@ namespace PMCGenerator
             {
                 FirstPrimaryWeapon = AddWeaponsToOutput(flatPrimaryWeaponsList),
                 Holster = AddWeaponsToOutput(flatSecondaryWeaponsList),
-                mods = AddModsToOutput(flatAllWeaponsList, parsedPresets, flatPrimaryWeaponsList)
+                mods = AddModsToOutput(flatAllWeaponsList, parsedPresets, flatPrimaryWeaponsList),
+                Ammo = AddAmmoToOutput(flatAllWeaponsList, parsedPresets)
             };
 
             // Create output dir
@@ -58,9 +58,9 @@ namespace PMCGenerator
         }
 
         private static Dictionary<string, Dictionary<string, List<string>>> AddModsToOutput(
-    List<WeaponDetails> flatAllWeaponsList,
-    List<Presets> parsedPresets,
-    List<WeaponDetails> flatPrimaryWeaponsList)
+            List<WeaponDetails> flatAllWeaponsList,
+            List<Presets> parsedPresets,
+            List<WeaponDetails> flatPrimaryWeaponsList)
         {
             var result = new Dictionary<string, Dictionary<string, List<string>>>();
             var itemLibrary = GetItemLibrary();
@@ -157,7 +157,59 @@ namespace PMCGenerator
             return result;
         }
 
-        private static List<WeaponDetails> CombinePrimaryAndSecondaryWeapons(List<WeaponDetails> flatPrimaryWeaponsList, List<WeaponDetails> flatSecondaryWeaponsList)
+        private static Dictionary<string, Dictionary<string, int>> AddAmmoToOutput(List<WeaponDetails> flatAllWeaponsList, List<Presets> parsedPresets)
+        {
+            var result = new Dictionary<string, Dictionary<string, int>>();
+            var itemLibrary = GetItemLibrary();
+
+            foreach (var weapon in flatAllWeaponsList)
+            {
+                var weaponDetails = itemLibrary.FirstOrDefault(x => x.Key == weapon.TemplateId).Value;
+                var caliber = weaponDetails._props.Caliber != null ? weaponDetails._props.Caliber : weaponDetails._props.ammoCaliber;
+
+                List<string> cartridges = new List<string>();
+                if (weaponDetails._props.Chambers?.Count > 0)
+                {
+                    cartridges.AddRange(weaponDetails._props.Chambers[0]._props.filters[0].filter);
+                }
+                else if (weaponDetails._props.Slots.Any(x => x._name == "mod_magazine"))
+                {
+                    var magazine = weaponDetails._props.Slots.FirstOrDefault(x => x._name == "mod_magazine");
+                    cartridges.AddRange(magazine._props.filters[0].filter);
+                }
+                else if (weaponDetails._props.Slots.Any(x => x._name.StartsWith("camora")))
+                {
+                    var magazine = weaponDetails._props.Slots.FirstOrDefault(x => x._name.StartsWith("camora"));
+                    cartridges.AddRange(magazine._props.filters[0].filter);
+                }
+                else
+                {
+                    // get default magazine, use the filter values from it
+                    var defaultMagazineTpl = weaponDetails._props.defMagType;
+                    var magazineDetails = itemLibrary.FirstOrDefault(x => x.Key == defaultMagazineTpl).Value;
+                    cartridges.AddRange(magazineDetails._props.Cartridges[0]._props.filters[0].filter);
+                }
+
+                foreach (var cartridge in cartridges)
+                {
+                    if (result.ContainsKey(caliber))
+                    {
+                        result[caliber].AddUnique(cartridge, 1);
+                    }
+                    else
+                    {
+                        result[caliber] = new Dictionary<string, int>
+                        {
+                            { cartridge, 1 }
+                        };
+                    }
+                }
+            }
+
+            return result;
+    }
+
+    private static List<WeaponDetails> CombinePrimaryAndSecondaryWeapons(List<WeaponDetails> flatPrimaryWeaponsList, List<WeaponDetails> flatSecondaryWeaponsList)
         {
             var result = new List<WeaponDetails>();
             result.AddRange(flatPrimaryWeaponsList);
