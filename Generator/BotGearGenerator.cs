@@ -30,8 +30,9 @@ namespace Generator
                 foreach (var rawParsedBot in rawParsedBotOfCurrentType)
                 {
                     GearHelpers.AddEquippedGear(botToUpdate, rawParsedBot);
+                    GearHelpers.AddAmmo(botToUpdate, rawParsedBot);
                     GearHelpers.AddEquippedMods(botToUpdate, rawParsedBot);
-                    GearHelpers.AddCartridges(botToUpdate, rawParsedBot);
+                    //GearHelpers.AddCartridges(botToUpdate, rawParsedBot);
                 }
             }
 

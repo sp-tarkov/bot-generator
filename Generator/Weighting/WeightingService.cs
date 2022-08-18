@@ -8,31 +8,61 @@ using System.Threading.Tasks;
 
 namespace Generator.Weighting
 {
+
+    public class Weightings
+    {
+        public Dictionary<string, Dictionary<string, int>> Equipment { get; set; }
+
+        // Ammo type + (dict of ammo + weight)
+        public Dictionary <string, Dictionary<string, int>> Ammo { get; set; }
+    }
     
     public class WeightingService
     {
-        private readonly Dictionary<BotType, Dictionary<string, Dictionary<string, int>>> _weights;
+        private readonly Dictionary<BotType, Weightings> _weights;
         public WeightingService()
         {
 
-            var itemsFilePath = $"{Directory.GetCurrentDirectory()}\\Assets\\weights.json";
-            if (!File.Exists(itemsFilePath))
+            var weightsFilePath = $"{Directory.GetCurrentDirectory()}\\Assets\\weights.json";
+            if (!File.Exists(weightsFilePath))
             {
-                throw new Exception($"Missing weights.json in /assets ({itemsFilePath})");
+                throw new Exception($"Missing weights.json in /assets ({weightsFilePath})");
             }
 
-            var itemsJson = File.ReadAllText(itemsFilePath);
-            _weights = JsonSerializer.Deserialize<Dictionary<BotType, Dictionary<string, Dictionary<string, int>>>>(itemsJson);
+            var weightJson = File.ReadAllText(weightsFilePath);
+            _weights = JsonSerializer.Deserialize<Dictionary<BotType, Weightings>>(weightJson);
+        }
+
+        public int GetAmmoWeight(string tpl, BotType botType, string caliber)
+        {
+            if (_weights.ContainsKey(botType))
+            {
+               var botWeights = _weights[botType];
+
+                if (botWeights.Ammo.ContainsKey(caliber))
+                {
+                    var calibers = botWeights.Ammo[caliber];
+
+                    if (calibers.ContainsKey(tpl))
+                    {
+                        return calibers[tpl];
+                    }
+                    
+                }
+            }
+
+            return 1;
         }
 
         public int GetItemWeight(string tpl, BotType botType, string slot)
         {
             if (_weights.ContainsKey(botType))
             {
-                var botWeights = _weights[botType];
-                if (botWeights.Keys.Contains(slot, StringComparer.CurrentCultureIgnoreCase))
+                var botItemList = _weights[botType];
+
+                if (botItemList.Equipment.Keys.Contains(slot, StringComparer.CurrentCultureIgnoreCase))
                 {
-                    var slotWeights = botWeights.FirstOrDefault(x => x.Key.ToLower() == slot).Value;
+                    var slotWeights = botItemList.Equipment.FirstOrDefault(x => x.Key.ToLower() == slot).Value;
                     if (slotWeights.Keys.Contains(tpl, StringComparer.CurrentCultureIgnoreCase))
                     {
                         var itemWeight = slotWeights[tpl];

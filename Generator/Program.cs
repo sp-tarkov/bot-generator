@@ -6,35 +6,35 @@ internal static class Program
     {
         // Create list of bots we want to process
         string[] botTypes = {
-          "assault",
-          "marksman",
-          "pmcBot",
-          "exUsec",
-        
-         "bossbully",
-         "bossgluhar",
-         "bosskilla",
-         "bosskojaniy",
-         "bosssanitar",
-         "bosstagilla",
-         "bossknight",
-        
-         "followerbully",
-         "followergluharassault",
-         "followergluharscout",
-         "followergluharsecurity",
-         "followergluharsnipe",
-         "followerkojaniy",
-         "followersanitar",
-         "followerstormtrooper",
-         "followerbirdeye",
-         "followerbigpipe",
-        //
-         "cursedassault",
-        //
-         "sectantpriest",
-         "sectantwarrior",
-         "gifter"
+        "assault",
+        "marksman",
+        "pmcBot",
+        "exUsec",
+      
+       "bossbully",
+       "bossgluhar",
+       "bosskilla",
+       "bosskojaniy",
+       "bosssanitar",
+       "bosstagilla",
+       "bossknight",
+      
+       "followerbully",
+       "followergluharassault",
+       "followergluharscout",
+       "followergluharsecurity",
+       "followergluharsnipe",
+       "followerkojaniy",
+       "followersanitar",
+       "followerstormtrooper",
+       "followerbirdeye",
+       "followerbigpipe",
+     // 
+       "cursedassault",
+     // 
+       "sectantpriest",
+       "sectantwarrior",
+       "gifter"
             };
 
         // Read raw bot dumps and turn into c# objects
@@ -45,7 +45,7 @@ internal static class Program
         if (parsedBots.Count == 0)
         {
             LoggingHelpers.LogToConsole("no bots found, unable to continue");
-            LoggingHelpers.LogToConsole("Check your dumps are in 'Generator\\bin\\Debug\\netcoreapp3.1\\dumps' and start with 'resp.' NOT 'req.'");
+            LoggingHelpers.LogToConsole("Check your dumps are in 'Generator\\bin\\Debug\\net6.0\\dumps' and start with 'resp.' NOT 'req.'");
             return;
         }
 

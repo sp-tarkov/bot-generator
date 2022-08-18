@@ -2,8 +2,6 @@
 using Common.Models.Input;
 using Common.Models.Output;
 using Generator.Weighting;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Generator.Helpers.Gear
 {
@@ -62,6 +60,28 @@ namespace Generator.Helpers.Gear
             }
 
             botToUpdate.inventory.mods = itemsWithModsDictionary;
+        }
+
+        internal static void AddAmmo(Bot botToUpdate, Datum bot)
+        {
+            var weightService = new WeightingService();
+            foreach (var inventoryItem in bot.Inventory.items.Where(x => x.slotId != null && (x.slotId == "patron_in_weapon" ||  x.slotId == "cartridges" || x.slotId.StartsWith("camora"))))
+            {
+                var caliber = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl)._props.ammoCaliber;
+
+                if (caliber == null)
+                {
+                    caliber = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl)._props.Caliber;
+                }
+
+                // Create key if caliber doesnt exist
+                if (!botToUpdate.inventory.Ammo.ContainsKey(caliber))
+                {
+                    botToUpdate.inventory.Ammo[caliber] = new Dictionary<string, int>();
+                }
+
+                botToUpdate.inventory.Ammo[caliber].AddUnique(inventoryItem._tpl, weightService.GetAmmoWeight(inventoryItem._tpl, botToUpdate.botType, caliber));
+            }
         }
 
         public static void AddEquippedGear(Bot botToUpdate, Datum bot)

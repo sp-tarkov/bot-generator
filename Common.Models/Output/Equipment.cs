@@ -45,9 +45,12 @@ namespace Common.Models.Output
             equipment = new Equipment();
             items = new Items();
             mods = new Dictionary<string, Dictionary<string, List<string>>>();
+            Ammo = new Dictionary<string, Dictionary<string, int>>();
         }
 
         public Equipment equipment { get; set; }
+
+        public Dictionary<string, Dictionary<string, int>> Ammo { get;set;}
         public Dictionary<string, Dictionary<string, List<string>>> mods { get; set; }
         public Items items { get; set; }
     }
