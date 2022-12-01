@@ -49,15 +49,15 @@ public class Appearance
 {
     public Appearance()
     {
-        body = new List<string>();
-        feet = new List<string>();
+        body = new Dictionary<string, int>();
+        feet = new Dictionary<string, int>();
         hands = new List<string>();
         head = new List<string>();
         voice = new List<string>();
     }
 
-    public List<string> body { get; set; }
-    public List<string> feet { get; set; }
+    public Dictionary<string, int> body { get; set; }
+    public Dictionary<string, int> feet { get; set; }
     public List<string> hands { get; set; }
     public List<string> head { get; set; }
     public List<string> voice { get; set; }

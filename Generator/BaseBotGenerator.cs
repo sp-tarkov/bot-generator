@@ -149,9 +149,9 @@ namespace Generator
         private static void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
         {
             botToUpdate.appearance.head.AddUnique(rawBot.Customization.Head);
-            botToUpdate.appearance.body.AddUnique(rawBot.Customization.Body);
+            botToUpdate.appearance.body.AddUnique(rawBot.Customization.Body, 1);
             botToUpdate.appearance.hands.AddUnique(rawBot.Customization.Hands);
-            botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet);
+            botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet, 1);
         }
 
         private static void AddName(Bot botToUpdate, Datum rawBot)
