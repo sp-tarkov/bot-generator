@@ -28,6 +28,8 @@
         gifter = 24,
         bossknight = 25,
         followerbirdeye = 26,
-        followerbigpipe = 27
+        followerbigpipe = 27,
+        bossZryachiy = 28,
+        followerZryachiy = 29
     }
 }
