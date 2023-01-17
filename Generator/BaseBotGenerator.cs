@@ -69,9 +69,27 @@ namespace Generator
         {
             var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
 
+
             foreach (var skill in firstBotOfDesiredType.Skills.Common)
             {
-                botToUpdate.skills.Common.Add(skill.Id, new MinMax(skill.Progress, skill.Progress));
+                var skills = new List<Common.Models.Input.Common>();
+                foreach (var bot in rawBotsOfSameType)
+                {
+                    skills.Add(bot.Skills.Common.Find(x => x.Id == skill.Id));
+                }
+
+                var min = skills.Min(x => x.Progress);
+                var max = skills.Max(x => x.Progress);
+
+                botToUpdate.skills.Common.Add(skill.Id, new MinMax(min, max));
+            }
+
+            foreach (var bot in rawBotsOfSameType)
+            {
+                if (bot.Skills.Mastering.Count > 0)
+                {
+                    var x = 2;
+                }
             }
         }
 
