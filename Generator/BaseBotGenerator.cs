@@ -69,7 +69,7 @@ namespace Generator
         {
             var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
 
-
+            // Find the smallest and biggest value for each skill
             foreach (var skill in firstBotOfDesiredType.Skills.Common)
             {
                 var skills = new List<Common.Models.Input.Common>();
@@ -84,6 +84,7 @@ namespace Generator
                 botToUpdate.skills.Common.Add(skill.Id, new MinMax(min, max));
             }
 
+            // Do any bots have mastering skills? debug time
             foreach (var bot in rawBotsOfSameType)
             {
                 if (bot.Skills.Mastering.Count > 0)
