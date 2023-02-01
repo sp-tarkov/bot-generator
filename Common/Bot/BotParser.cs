@@ -13,7 +13,7 @@ public static class BotParser
 {
     static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions { };
 
-    public static async Task<List<Datum>> ParseAsync(string dumpPath)
+    public static async Task<List<Datum>> ParseAsync(string dumpPath, string[] botTypes)
     {
         var stopwatch = Stopwatch.StartNew();
 
@@ -63,12 +63,18 @@ public static class BotParser
             Console.WriteLine($"parsing: {bots.Count} bots in file {splitFilePath.Last()}");
             foreach (var bot in bots)
             {
+                if (!botTypes.Contains(bot.Info.Settings.Role.ToLower()))
+                {
+                    continue;
+                }
+
                 if (!parsedBotsDict.ContainsKey(bot._id))
                 {
                     parsedBotsDict.Add(bot._id, bot);
                 }
                 else
                 {
+                    var existingBot = parsedBotsDict[bot._id];
                     dupeCount++;
                 }
             }
