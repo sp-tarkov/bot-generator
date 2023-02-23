@@ -180,7 +180,7 @@ namespace Generator
             if (name.Length > 1)
             {
                 // Add lastnames to all bots except raiders
-                if (botToUpdate.botType != BotType.pmcBot)
+                if (botToUpdate.botType != BotType.pmcbot)
                 {
                     botToUpdate.lastName.AddUnique(name[1]);
                 }

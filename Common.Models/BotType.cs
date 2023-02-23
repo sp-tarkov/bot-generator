@@ -3,7 +3,7 @@
     public enum BotType
     {
         assault = 1,
-        pmcBot = 2,
+        pmcbot = 2,
         marksman = 3,
         bossbully = 4,
         bossgluhar = 5,
@@ -24,12 +24,12 @@
         sectantpriest = 20,
         sectantwarrior = 21,
         usec = 22,
-        exUsec = 23,
+        exusec = 23,
         gifter = 24,
         bossknight = 25,
         followerbirdeye = 26,
         followerbigpipe = 27,
-        bossZryachiy = 28,
-        followerZryachiy = 29
+        bosszryachiy = 28,
+        followerzryachiy = 29
     }
 }

@@ -70,7 +70,7 @@ namespace Generator.Helpers.Gear
             {
                 case BotType.assault:
                     break;
-                case BotType.pmcBot:
+                case BotType.pmcbot:
                     break;
                 case BotType.marksman:
                     break;

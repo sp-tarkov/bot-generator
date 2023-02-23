@@ -68,15 +68,14 @@ public static class BotParser
                     continue;
                 }
 
-                if (!parsedBotsDict.ContainsKey(bot._id))
+                if (parsedBotsDict.ContainsKey(bot._id))
                 {
-                    parsedBotsDict.Add(bot._id, bot);
-                }
-                else
-                {
-                    var existingBot = parsedBotsDict[bot._id];
+                    //var existingBot = parsedBotsDict[bot._id];
                     dupeCount++;
+                    continue;
                 }
+
+                parsedBotsDict.Add(bot._id, bot);
             }
 
             totalDupeCount += dupeCount;
