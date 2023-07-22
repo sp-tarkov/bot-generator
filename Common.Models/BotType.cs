@@ -30,6 +30,7 @@
         followerbirdeye = 26,
         followerbigpipe = 27,
         bosszryachiy = 28,
-        followerzryachiy = 29
+        followerzryachiy = 29,
+        arenafighterevent = 30
     }
 }

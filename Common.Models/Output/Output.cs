@@ -215,13 +215,13 @@ public class ItemChances
 {
     public ItemChances()
     {
-        specialItems = new MinMax(0, 1);
-        healing = new MinMax(1, 2);
-        drugs = new MinMax(0, 1);
-        stims = new MinMax(0, 1);
-        looseLoot = new MinMax(0, 3);
-        magazines = new MinMax(2, 4);
-        grenades = new MinMax(0, 5);
+        specialItems = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
+        healing = new MinMaxWithWhitelist(1, 2, System.Array.Empty<string>());
+        drugs = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
+        stims = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
+        looseLoot = new MinMaxWithWhitelist(0, 3, System.Array.Empty<string>());
+        magazines = new MinMaxWithWhitelist(2, 4, System.Array.Empty<string>());
+        grenades = new MinMaxWithWhitelist(0, 5, System.Array.Empty<string>());
     }
 
     public MinMax specialItems { get; set; }
@@ -243,4 +243,16 @@ public class MinMax
 
     public int min { get; set; }
     public int max { get; set; }
+}
+
+public class MinMaxWithWhitelist : MinMax
+{
+    public MinMaxWithWhitelist(int min, int max, string[] whitelist) : base(min, max)
+    {
+        this.min = min;
+        this.max = max;
+        this.whitelist = whitelist;
+    }
+
+    public string[] whitelist { get; set; }
 }

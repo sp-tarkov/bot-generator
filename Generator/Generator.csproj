@@ -16,6 +16,7 @@
     <None Remove="Assets\impossible_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\impossible_cursedAssault_BotGlobalSettings.txt" />
     <None Remove="Assets\impossible_marksman_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_arenaFighterEvent_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossBully_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossGluhar_BotGlobalSettings.txt" />
@@ -172,6 +173,12 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Assets\normal_arenaFighterEvent_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>

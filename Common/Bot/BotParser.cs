@@ -29,7 +29,7 @@ public static class BotParser
         {
             MaxDegreeOfParallelism = Environment.ProcessorCount
         };
-        await Parallel.ForEachAsync(botFiles, parallelOptions, async(file, token) =>
+        await Parallel.ForEachAsync(botFiles, parallelOptions, async (file, token) =>
         {
             var splitFilePath = file.Split("\\");
 
@@ -53,7 +53,7 @@ public static class BotParser
                 throw;
             }
 
-            
+
             if (bots == null || bots.Count == 0)
             {
                 Console.WriteLine($"skipping file: {splitFilePath.Last()}. no bots found, ");
@@ -63,6 +63,11 @@ public static class BotParser
             Console.WriteLine($"parsing: {bots.Count} bots in file {splitFilePath.Last()}");
             foreach (var bot in bots)
             {
+                if (bot._id == "6483938c53cc9087c70eae86")
+                {
+                    Console.WriteLine("oh no");
+                }
+
                 if (!botTypes.Contains(bot.Info.Settings.Role.ToLower()))
                 {
                     continue;
@@ -74,8 +79,10 @@ public static class BotParser
                     dupeCount++;
                     continue;
                 }
-
-                parsedBotsDict.Add(bot._id, bot);
+                if (!parsedBotsDict.ContainsKey(bot._id))
+                {
+                    parsedBotsDict.Add(bot._id, bot);
+                }
             }
 
             totalDupeCount += dupeCount;
