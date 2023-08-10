@@ -32,6 +32,9 @@
         bosszryachiy = 28,
         followerzryachiy = 29,
         arenafighterevent = 30,
-        crazyassaultevent = 33
+        crazyassaultevent = 33,
+        bossboar = 34,
+        followerboar = 35,
+        bossboarsniper = 36
     }
 }

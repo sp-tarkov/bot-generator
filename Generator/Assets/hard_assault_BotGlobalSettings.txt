@@ -284,6 +284,7 @@
     "LOOK_TIME_BASE": 12.0,
     "CAN_LOOK_TO_DEADBODIES": true,
     "CAN_CHOOSE_RESERV": true,
+    "DO_RANDOM_DROP_ITEM": true,
 	"TRY_CHOOSE_RESERV_WAY_ON_START": false,
     "CAN_FRIENDLY_TILT": true,
     "CAN_HARD_AIM": true,

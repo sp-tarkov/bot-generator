@@ -7,10 +7,10 @@ internal static class Program
         // Create list of bots we want to process
         string[] botTypes = {
         "assault",
-        "marksman",
-        "pmcBot",
-        "exUsec",
-      
+       "marksman",
+       "pmcbot",
+       "exusec",
+    
        "bossbully",
        "bossgluhar",
        "bosskilla",
@@ -18,7 +18,11 @@ internal static class Program
        "bosssanitar",
        "bosstagilla",
        "bossknight",
-      
+       "bosszryachiy",
+       "bossboar",
+       "bossboarsniper",
+   
+   
        "followerbully",
        "followergluharassault",
        "followergluharscout",
@@ -29,12 +33,16 @@ internal static class Program
        "followerstormtrooper",
        "followerbirdeye",
        "followerbigpipe",
-     // 
+        "followerzryachiy",
+        "followerboar",
+   //  // 
        "cursedassault",
-     // 
+   //  // 
        "sectantpriest",
        "sectantwarrior",
-       "gifter"
+       "gifter",
+       "arenafighterevent",
+       "crazyassaultevent"
             };
 
         // Read raw bot dumps and turn into c# objects
