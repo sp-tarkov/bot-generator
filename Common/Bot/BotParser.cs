@@ -1,5 +1,6 @@
 ﻿using Common.Models.Input;
 using Newtonsoft.Json.Linq;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -27,7 +28,7 @@ public static class BotParser
 
         ParallelOptions parallelOptions = new()
         {
-            MaxDegreeOfParallelism = Environment.ProcessorCount
+            MaxDegreeOfParallelism = 1
         };
         await Parallel.ForEachAsync(botFiles, parallelOptions, async (file, token) =>
         {
@@ -45,7 +46,7 @@ public static class BotParser
             List<Datum> bots = null;
             try
             {
-                bots = ParseJson(rawInputString);
+                bots = ParseJson(rawInputString).ToList();
             }
             catch (Exception ex)
             {
@@ -124,7 +125,7 @@ public static class BotParser
         return returnString;
     }
 
-    private static List<Datum> ParseJson(string json)
+    private static IEnumerable<Datum> ParseJson(string json)
     {
         var deSerialisedObject = JsonSerializer.Deserialize<Root>(json, serialiserOptions);
         return deSerialisedObject.data;

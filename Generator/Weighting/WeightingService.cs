@@ -38,6 +38,10 @@ namespace Generator.Weighting
             if (_weights.ContainsKey(botType))
             {
                var botWeights = _weights[botType];
+                if (botWeights.Ammo == null)
+                {
+                    return 1;
+                }
 
                 if (botWeights.Ammo.ContainsKey(caliber))
                 {

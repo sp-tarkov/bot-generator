@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -287,14 +288,14 @@ namespace Common.Models.Input
         public BackendCounters BackendCounters { get; set; }
         public List<object> InsuredItems { get; set; }
         public Hideout Hideout { get; set; }
-        public List<object> Bonuses { get; set; }
+        public IEnumerable<object> Bonuses { get; set; }
     }
 
     public class Root
     {
         public int err { get; set; }
         public object errmsg { get; set; }
-        public List<Datum> data { get; set; }
+        public IEnumerable<Datum> data { get; set; }
     }
 
 
