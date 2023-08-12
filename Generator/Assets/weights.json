@@ -288,15 +288,25 @@
         },
         "Ammo": {}
     },
-	"sectantWarrior": {
-		"Equipment": {
-			"Scabbard": {
-				"57e26ea924597715ca604a09": 10,
-				"5bffdc370db834001d23eca8": 10,
-				"5fc64ea372b0dd78d51159dc": 7,
-				"601948682627df266209af05": 1
-			}
-		},
+    "sectantWarrior": {
+        "Equipment": {
+            "Scabbard": {
+                "57e26ea924597715ca604a09": 10,
+                "5bffdc370db834001d23eca8": 10,
+                "5fc64ea372b0dd78d51159dc": 7,
+                "601948682627df266209af05": 1
+            }
+        },
         "Ammo": {}
-	}
+    },
+    "bossBoar": {
+        "Equipment": {
+            "FirstPrimaryWeapon": {
+                "64637076203536ad5600c990": 3,
+                "5beed0f50db834001c062b12": 1,
+                "64ca3d3954fc657e230529cc": 3
+            }
+        },
+        "Ammo": {}
+    }
 }
