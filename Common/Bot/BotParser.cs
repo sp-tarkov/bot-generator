@@ -1,6 +1,5 @@
 ﻿using Common.Models.Input;
 using Newtonsoft.Json.Linq;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,7 +11,7 @@ namespace Common.Bots;
 
 public static class BotParser
 {
-    static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions { };
+    static readonly JsonSerializerOptions serialiserOptions = new() { };
 
     public static async Task<List<Datum>> ParseAsync(string dumpPath, string[] botTypes)
     {
@@ -37,12 +36,6 @@ public static class BotParser
             int dupeCount = 0;
             var rawInputString = await ReadFileContentsAsync(file);
 
-            //var json = rawInputString;
-            //if (rawInputString.Contains("location\":1,"))
-            //{
-            //    json = PruneMalformedBsgJson(rawInputString, splitFilePath.Last());
-            //}
-
             List<Datum> bots = null;
             try
             {
@@ -50,38 +43,50 @@ public static class BotParser
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"file parse fucked up: {file}");
+                Console.WriteLine($"File parse fucked up: {file}");
                 throw;
             }
 
-
             if (bots == null || bots.Count == 0)
             {
-                Console.WriteLine($"skipping file: {splitFilePath.Last()}. no bots found, ");
+                Console.WriteLine($"Skipping file: {splitFilePath.Last()}. no bots found, ");
                 return;
             }
 
-            Console.WriteLine($"parsing: {bots.Count} bots in file {splitFilePath.Last()}");
+            //Console.WriteLine($"parsing: {bots.Count} bots in file {splitFilePath.Last()}");
             foreach (var bot in bots)
             {
+                // I have no idea
                 if (bot._id == "6483938c53cc9087c70eae86")
                 {
                     Console.WriteLine("oh no");
                 }
 
+                // We dont know how to parse this bot type, need to add it to types enum
                 if (!botTypes.Contains(bot.Info.Settings.Role.ToLower()))
                 {
                     continue;
                 }
 
+                // Bot already exists in dictionary, skip
                 if (parsedBotsDict.ContainsKey(bot._id))
                 {
                     //var existingBot = parsedBotsDict[bot._id];
                     dupeCount++;
                     continue;
                 }
+
+
                 if (!parsedBotsDict.ContainsKey(bot._id))
                 {
+                    // Null out data we don't need for generating bots to save RAM
+                    bot.Stats = null;
+                    bot.Encyclopedia = null;
+                    bot.Hideout = null;
+                    bot.ConditionCounters = null;
+                    bot.Bonuses = null;
+                    bot.BackendCounters = null;
+                    bot.InsuredItems = null;
                     parsedBotsDict.Add(bot._id, bot);
                 }
             }

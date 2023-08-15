@@ -1,14 +1,9 @@
-﻿using Common;
-using Common.Extensions;
+﻿using Common.Extensions;
 using Common.Models;
 using Common.Models.Input;
 using Common.Models.Output;
 using Generator.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 
 namespace Generator
 {
@@ -136,18 +131,13 @@ namespace Generator
 
                 if (!alreadyExists)
                 {
-                    var bodyPartHpToAdd = new Common.Models.Output.BodyParts();
-                    bodyPartHpToAdd.Head.min = bot.Health.BodyParts.Head.Health.Current;
-                    bodyPartHpToAdd.Head.max = bot.Health.BodyParts.Head.Health.Maximum;
-
-                    bodyPartHpToAdd.Chest.min = bot.Health.BodyParts.Chest.Health.Current;
-                    bodyPartHpToAdd.Chest.max = bot.Health.BodyParts.Chest.Health.Maximum;
-
-                    bodyPartHpToAdd.Stomach.min = bot.Health.BodyParts.Stomach.Health.Current;
-                    bodyPartHpToAdd.Stomach.max = bot.Health.BodyParts.Stomach.Health.Maximum;
-
-                    bodyPartHpToAdd.LeftArm.min = bot.Health.BodyParts.LeftArm.Health.Current;
-                    bodyPartHpToAdd.LeftArm.max = bot.Health.BodyParts.LeftArm.Health.Maximum;
+                    var bodyPartHpToAdd = new Common.Models.Output.BodyParts()
+                    {
+                        Head = new MinMax(bot.Health.BodyParts.Head.Health.Current, bot.Health.BodyParts.Head.Health.Maximum),
+                        Chest = new MinMax(bot.Health.BodyParts.Chest.Health.Current, bot.Health.BodyParts.Chest.Health.Maximum),
+                        Stomach = new MinMax(bot.Health.BodyParts.Stomach.Health.Current, bot.Health.BodyParts.Stomach.Health.Maximum),
+                        LeftArm = new MinMax(bot.Health.BodyParts.LeftArm.Health.Current, bot.Health.BodyParts.LeftArm.Health.Maximum)
+                    };
 
                     bodyPartHpToAdd.RightArm.min = bot.Health.BodyParts.RightArm.Health.Current;
                     bodyPartHpToAdd.RightArm.max = bot.Health.BodyParts.RightArm.Health.Maximum;

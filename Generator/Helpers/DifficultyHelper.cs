@@ -1,8 +1,7 @@
-﻿using Common.Models.Output;
+﻿using Common.Models;
+using Common.Models.Output;
 using Common.Models.Output.Difficulty;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections;
 
 namespace Generator.Helpers
 {
@@ -15,12 +14,12 @@ namespace Generator.Helpers
             // Read bot setting files from assets folder that match this bots type
             // Save into dictionary with difficulty as key
             var difficultySettingsJsons = new Dictionary<string, DifficultySettings>();
-            var botType = botToUpdate.botType.ToString();
+            BotType botType = botToUpdate.botType;
             var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botType}_", StringComparison.InvariantCultureIgnoreCase));
             foreach (var path in pathsWithBotType)
             {
-                var json = File.ReadAllText(path);
-                var serialisedDifficultySettings = JsonConvert.DeserializeObject<DifficultySettings>(json);
+                var difficultyJson = File.ReadAllText(path);
+                var serialisedDifficultySettings = JsonConvert.DeserializeObject<DifficultySettings>(difficultyJson);
 
                 serialisedDifficultySettings = ApplyCustomDifficultyValues(botType, serialisedDifficultySettings);
 
@@ -91,16 +90,20 @@ namespace Generator.Helpers
         }
 
 
-        private static DifficultySettings ApplyCustomDifficultyValues(string botType, DifficultySettings difficultySettings)
+        private static DifficultySettings ApplyCustomDifficultyValues(BotType botType, DifficultySettings difficultySettings)
         {
             switch (botType)
             {
                 // make all bosses fight PMCs
-                case "bosskilla":
-                case "bossgluhar":
-                case "bosstagilla":
-                case "bossbully":
-                case "bosskojaniy":
+                case BotType.bosskilla:
+                case BotType.bossgluhar:
+                case BotType.bosstagilla:
+                case BotType.bossbully:
+                case BotType.bosskojaniy:
+                case BotType.bossboar:
+                case BotType.bossboarsniper:
+                case BotType.bossknight:
+                case BotType.bosszryachiy:
                     AddHostileToPMCSettings(difficultySettings);
                     break;
                 default:
