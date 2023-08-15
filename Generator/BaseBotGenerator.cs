@@ -31,16 +31,19 @@ namespace Generator
             // Iterate over each bot type wejust made and put some data into them
             foreach (var botToUpdate in baseBots)
             {
-                var rawBotsOfSameType = rawBots.Where(x => string.Equals(x.Info.Settings.Role, botToUpdate.botType.ToString(), StringComparison.OrdinalIgnoreCase))
+                var rawBotType = botToUpdate.botType.ToString();
+                var rawBotsOfSameType = rawBots.Where(x => string.Equals(x.Info.Settings.Role, rawBotType, StringComparison.OrdinalIgnoreCase))
                                                 .ToList();
+                var rawBotsOfSameTypeCount = rawBotsOfSameType.Count.ToString();
+                
 
                 if (rawBotsOfSameType.Count == 0)
                 {
-                    LoggingHelpers.LogToConsole($"no bots of type {botToUpdate.botType}", ConsoleColor.DarkRed);
+                    LoggingHelpers.LogToConsole($"no bots of type {rawBotType}, skipping", ConsoleColor.DarkRed);
                     continue;
                 }
 
-                LoggingHelpers.LogToConsole($"Found {rawBotsOfSameType.Count} bots of type: {botToUpdate.botType}");
+                LoggingHelpers.LogToConsole($"Found {rawBotsOfSameTypeCount} bots of type: {rawBotType}");
 
                 UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
                 AddDifficulties(botToUpdate, workingPath);
@@ -66,9 +69,28 @@ namespace Generator
         {
             var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
 
+            // Find the smallest and biggest value for each skill
             foreach (var skill in firstBotOfDesiredType.Skills.Common)
             {
-                botToUpdate.skills.Common.Add(skill.Id, new MinMax(skill.Progress, skill.Progress));
+                var skills = new List<Common.Models.Input.Common>();
+                foreach (var bot in rawBotsOfSameType)
+                {
+                    skills.Add(bot.Skills.Common.Find(x => x.Id == skill.Id));
+                }
+
+                var min = skills.Min(x => x.Progress);
+                var max = skills.Max(x => x.Progress);
+
+                botToUpdate.skills.Common.Add(skill.Id, new MinMax(min, max));
+            }
+
+            // Do any bots have mastering skills? debug time
+            foreach (var bot in rawBotsOfSameType)
+            {
+                if (bot.Skills.Mastering.Count > 0)
+                {
+                    var x = 2;
+                }
             }
         }
 
@@ -95,12 +117,13 @@ namespace Generator
 
         private static void AddDifficulties(Bot bot, string workingPath)
         {
-            var botFiles = Directory
+            string botType = bot.botType.ToString();
+            var botDifficultyFiles = Directory
                 .GetFiles($"{workingPath}//Assets", "*.txt", SearchOption.TopDirectoryOnly)
-                .Where(x => x.Contains(bot.botType.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                .Where(x => x.Contains(botType, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
 
-            DifficultyHelper.AddDifficultySettings(bot, botFiles);
+            DifficultyHelper.AddDifficultySettings(bot, botDifficultyFiles);
         }
 
         private static void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawBots)
@@ -140,43 +163,14 @@ namespace Generator
             }
 
             botToUpdate.health.BodyParts = uniqueHealthSetups.Values.ToList();
-
-            //var firstBotOfDesiredType = rawBots.FirstOrDefault();
-            //if (firstBotOfDesiredType == null)
-            //{
-            //    string botType = botToUpdate.botType.ToString();
-            //    LoggingHelpers.LogToConsole($"bot type of: {botType} not found, unable to update body part health.");
-            //    return;
-            //}
-
-            //botToUpdate.health.BodyParts.Head.min = firstBotOfDesiredType.Health.BodyParts.Head.Health.Current;
-            //botToUpdate.health.BodyParts.Head.max = firstBotOfDesiredType.Health.BodyParts.Head.Health.Maximum;
-
-            //botToUpdate.health.BodyParts.Chest.min = firstBotOfDesiredType.Health.BodyParts.Chest.Health.Current;
-            //botToUpdate.health.BodyParts.Chest.max = firstBotOfDesiredType.Health.BodyParts.Chest.Health.Maximum;
-
-            //botToUpdate.health.BodyParts.Stomach.min = firstBotOfDesiredType.Health.BodyParts.Stomach.Health.Current;
-            //botToUpdate.health.BodyParts.Stomach.max = firstBotOfDesiredType.Health.BodyParts.Stomach.Health.Maximum;
-
-            //botToUpdate.health.BodyParts.LeftArm.min = firstBotOfDesiredType.Health.BodyParts.LeftArm.Health.Current;
-            //botToUpdate.health.BodyParts.LeftArm.max = firstBotOfDesiredType.Health.BodyParts.LeftArm.Health.Maximum;
-
-            //botToUpdate.health.BodyParts.RightArm.min = firstBotOfDesiredType.Health.BodyParts.RightArm.Health.Current;
-            //botToUpdate.health.BodyParts.RightArm.max = firstBotOfDesiredType.Health.BodyParts.RightArm.Health.Maximum;
-
-            //botToUpdate.health.BodyParts.LeftLeg.min = firstBotOfDesiredType.Health.BodyParts.LeftLeg.Health.Current;
-            //botToUpdate.health.BodyParts.LeftLeg.max = firstBotOfDesiredType.Health.BodyParts.LeftLeg.Health.Maximum;
-
-            //botToUpdate.health.BodyParts.RightLeg.min = firstBotOfDesiredType.Health.BodyParts.RightLeg.Health.Current;
-            //botToUpdate.health.BodyParts.RightLeg.max = firstBotOfDesiredType.Health.BodyParts.RightLeg.Health.Maximum;
         }
 
         private static void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
         {
             botToUpdate.appearance.head.AddUnique(rawBot.Customization.Head);
-            botToUpdate.appearance.body.AddUnique(rawBot.Customization.Body);
+            botToUpdate.appearance.body.AddUnique(rawBot.Customization.Body, 1);
             botToUpdate.appearance.hands.AddUnique(rawBot.Customization.Hands);
-            botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet);
+            botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet, 1);
         }
 
         private static void AddName(Bot botToUpdate, Datum rawBot)
@@ -186,10 +180,10 @@ namespace Generator
             if (name.Length > 1)
             {
                 // Add lastnames to all bots except raiders
-                if (botToUpdate.botType != BotType.pmcBot)
-            {
-                botToUpdate.lastName.AddUnique(name[1]);
-            }
+                if (botToUpdate.botType != BotType.pmcbot)
+                {
+                    botToUpdate.lastName.AddUnique(name[1]);
+                }
                 
             }
         }

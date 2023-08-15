@@ -114,7 +114,7 @@ namespace Generator.Helpers.Gear
                 case BotType.bosssanitar:
                     botToUpdate.chances.mods["mod_scope"] = 100;
                     break;
-                case BotType.pmcBot:
+                case BotType.pmcbot:
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
                 case BotType.followerbully:
@@ -140,8 +140,10 @@ namespace Generator.Helpers.Gear
                     botToUpdate.chances.mods["mod_scope"] = 100;
                     botToUpdate.chances.mods["mod_stock"] = 100;
                     break;
-                case BotType.exUsec:
+                case BotType.exusec:
+                    botToUpdate.chances.mods["mod_stock"] = 100;
                     botToUpdate.chances.mods["mod_stock_000"] = 100;
+                    botToUpdate.chances.mods["mod_stock_001"] = 100;
                     break;
 
             }
@@ -152,6 +154,8 @@ namespace Generator.Helpers.Gear
             bot.generation = new GenerationChances(
                 bot.inventory.items.SpecialLoot.Count, bot.inventory.items.SpecialLoot.Count,
                 healingMin: GetMedicalItemCountByBotType(bot.botType).min, healingMax: GetMedicalItemCountByBotType(bot.botType).max,
+                drugMin: 0, drugMax: 1,
+                stimMin: 0, stimMax: 1,
                 looseLootMin: GetLooseLootCountByBotType(bot.botType).min, looseLootMax: GetLooseLootCountByBotType(bot.botType).max,
                 magazinesMin: GetMagazineCountByBotType(bot.botType).min, MagazineMax: GetMagazineCountByBotType(bot.botType).max,
                 grenandesMin: 0, grenadesMax: 5); //TODO get dynamically
@@ -233,9 +237,38 @@ namespace Generator.Helpers.Gear
 
             switch (botType)
             {
-                case BotType.exUsec:
-                    min = 3;
+                case BotType.assault:
+                    min= 0;
+                    max= 6;
+                    break;
+                case BotType.marksman:
+                    min = 0;
+                    max = 0;
+                    break;
+                case BotType.exusec:
+                    min = 2;
                     max = 4;
+                    break;
+                case BotType.bossbully:
+                    min = 3;
+                    max= 7;
+                    break;
+                case BotType.bossgluhar:
+                    min = 2;
+                    max = 9;
+                    break;
+                case BotType.bosskilla:
+                    min = 4;
+                    max = 10;
+                    break;
+                case BotType.bosskojaniy:
+                    min = 0;
+                    max = 7;
+                    break;
+                case BotType.bosssanitar:
+                case BotType.followersanitar:
+                    min = 2;
+                    max = 5;
                     break;
                 default:
                     min = 1;
@@ -254,8 +287,9 @@ namespace Generator.Helpers.Gear
             switch (botType)
             {
                 case BotType.bosssanitar:
+                case BotType.followersanitar:
                     min = 4;
-                    max = 6;
+                    max = 7;
                     break;
                 default:
                     min = 1;

@@ -2,8 +2,10 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
+	<ServerGarbageCollection>true</ServerGarbageCollection>
+	<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +18,7 @@
     <None Remove="Assets\impossible_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\impossible_cursedAssault_BotGlobalSettings.txt" />
     <None Remove="Assets\impossible_marksman_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_arenaFighterEvent_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossBully_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossGluhar_BotGlobalSettings.txt" />
@@ -43,6 +46,7 @@
     <None Remove="Assets\normal_sectantPriest_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_sectantWarrior_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_test_BotGlobalSettings.txt" />
+    <None Remove="Assets\weights.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -154,11 +158,14 @@
     <Content Include="Assets\normal_test_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\weights.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ClrHeapAllocationAnalyzer" Version="3.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -168,6 +175,24 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Assets\normal_arenaFighterEvent_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\normal_bossBoarSniper_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossBoar_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_followerBoar_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

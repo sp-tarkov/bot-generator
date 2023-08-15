@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -191,7 +192,7 @@ namespace Common.Models.Input
         public string parentId { get; set; }
         public string slotId { get; set; }
         public Upd upd { get; set; }
-        public Location location { get; set; }
+        public object location { get; set; }
     }
 
     public class FastPanel
@@ -287,14 +288,14 @@ namespace Common.Models.Input
         public BackendCounters BackendCounters { get; set; }
         public List<object> InsuredItems { get; set; }
         public Hideout Hideout { get; set; }
-        public List<object> Bonuses { get; set; }
+        public IEnumerable<object> Bonuses { get; set; }
     }
 
     public class Root
     {
         public int err { get; set; }
         public object errmsg { get; set; }
-        public List<Datum> data { get; set; }
+        public IEnumerable<Datum> data { get; set; }
     }
 
 

@@ -1,10 +1,22 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace Common.Models.Output
+namespace Common.Models.Output;
+
+[JsonSerializable(typeof(Bot))]
+[JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Serialization, WriteIndented = true)]
+public partial class BotJsonContext : JsonSerializerContext
 {
+
+}
+
 public class Bot
 {
+    public Bot()
+    {
+
+    }
+
     public Bot(BotType botType)
     {
         this.botType = botType;
@@ -37,15 +49,15 @@ public class Appearance
 {
     public Appearance()
     {
-        body = new List<string>();
-        feet = new List<string>();
+        body = new Dictionary<string, int>();
+        feet = new Dictionary<string, int>();
         hands = new List<string>();
         head = new List<string>();
         voice = new List<string>();
     }
 
-    public List<string> body { get; set; }
-    public List<string> feet { get; set; }
+    public Dictionary<string, int> body { get; set; }
+    public Dictionary<string, int> feet { get; set; }
     public List<string> hands { get; set; }
     public List<string> head { get; set; }
     public List<string> voice { get; set; }
@@ -173,6 +185,8 @@ public class GenerationChances
 {
     public GenerationChances(int specialMin, int SpecialMax,
         int healingMin, int healingMax,
+        int drugMin, int drugMax,
+        int stimMin, int stimMax,
         int looseLootMin, int looseLootMax,
         int magazinesMin, int MagazineMax,
         int grenandesMin, int grenadesMax)
@@ -181,6 +195,8 @@ public class GenerationChances
         {
             specialItems = new MinMax(specialMin, SpecialMax),
             healing = new MinMax(healingMin, healingMax),
+            drugs = new MinMax(drugMin, drugMax),
+            stims = new MinMax(stimMin, stimMax),
             looseLoot = new MinMax(looseLootMin, looseLootMax),
             magazines = new MinMax(magazinesMin, MagazineMax),
             grenades = new MinMax(grenandesMin, grenadesMax)
@@ -199,15 +215,19 @@ public class ItemChances
 {
     public ItemChances()
     {
-        specialItems = new MinMax(0, 1);
-        healing = new MinMax(1, 2);
-        looseLoot = new MinMax(0, 3);
-        magazines = new MinMax(2, 4);
-        grenades = new MinMax(0, 5);
+        specialItems = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
+        healing = new MinMaxWithWhitelist(1, 2, System.Array.Empty<string>());
+        drugs = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
+        stims = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
+        looseLoot = new MinMaxWithWhitelist(0, 3, System.Array.Empty<string>());
+        magazines = new MinMaxWithWhitelist(2, 4, System.Array.Empty<string>());
+        grenades = new MinMaxWithWhitelist(0, 5, System.Array.Empty<string>());
     }
 
     public MinMax specialItems { get; set; }
     public MinMax healing { get; set; }
+    public MinMax drugs { get; set; }
+    public MinMax stims { get; set; }
     public MinMax looseLoot { get; set; }
     public MinMax magazines { get; set; }
     public MinMax grenades { get; set; }
@@ -224,4 +244,15 @@ public class MinMax
     public int min { get; set; }
     public int max { get; set; }
 }
+
+public class MinMaxWithWhitelist : MinMax
+{
+    public MinMaxWithWhitelist(int min, int max, string[] whitelist) : base(min, max)
+    {
+        this.min = min;
+        this.max = max;
+        this.whitelist = whitelist;
+    }
+
+    public string[] whitelist { get; set; }
 }

@@ -26,20 +26,6 @@ public class Program
             return;
         }
 
-        //var dupeCount = 0;
-        //var botTemplates = new List<Datum>();
-        //foreach (var bot in parsedBots)
-        //{
-
-        //    if (botTemplates.ContainsBot(bot))
-        //    {
-        //        dupeCount++;
-        //        continue;
-        //    }
-
-        //    botTemplates.Add(bot);
-        //}
-
         var dictDupeCount = 0;
         var uniqueBotTemplates = new Dictionary<string, Datum>();
         foreach (var bot in parsedBots)

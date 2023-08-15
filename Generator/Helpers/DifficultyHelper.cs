@@ -1,6 +1,8 @@
 ﻿using Common.Models.Output;
 using Common.Models.Output.Difficulty;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace Generator.Helpers
 {
@@ -14,7 +16,7 @@ namespace Generator.Helpers
             // Save into dictionary with difficulty as key
             var difficultySettingsJsons = new Dictionary<string, DifficultySettings>();
             var botType = botToUpdate.botType.ToString();
-            var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botType}", StringComparison.InvariantCultureIgnoreCase));
+            var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botType}_", StringComparison.InvariantCultureIgnoreCase));
             foreach (var path in pathsWithBotType)
             {
                 var json = File.ReadAllText(path);
@@ -38,9 +40,56 @@ namespace Generator.Helpers
                     settings = difficultySettingsJsons.FirstOrDefault(x => x.Key != null);
                 }
 
+                var warnKey = "WARN_BOT_TYPES";
+                if (settings.Value.Mind.ContainsKey(warnKey))
+                {
+                    var deserialisedArray = getDeserializedStringArray(settings, warnKey);
+                    if (deserialisedArray.Length> 0)
+                    {
+                        settings.Value.Mind[warnKey] = deserialisedArray;
+                    }
+                }
+
+                var enemyKey = "ENEMY_BOT_TYPES";
+                if (settings.Value.Mind.ContainsKey(enemyKey))
+                {
+                    var deserialisedArray = getDeserializedStringArray(settings, enemyKey);
+                    if (deserialisedArray.Length > 0)
+                    {
+                        settings.Value.Mind[enemyKey] = deserialisedArray;
+                    }
+                }
+
+                var friendlyKey = "FRIENDLY_BOT_TYPES";
+                if (settings.Value.Mind.ContainsKey(friendlyKey))
+                {
+                    var deserialisedArray = getDeserializedStringArray(settings, friendlyKey);
+                    if (deserialisedArray.Length > 0)
+                    {
+                        settings.Value.Mind[friendlyKey] = deserialisedArray;
+                    }
+                }
+
+                var revengeKey = "REVENGE_BOT_TYPES";
+                if (settings.Value.Mind.ContainsKey(revengeKey))
+                {
+                    var deserialisedArray = getDeserializedStringArray(settings, revengeKey);
+                    if (deserialisedArray.Length > 0)
+                    {
+                        settings.Value.Mind[revengeKey] = deserialisedArray;
+                    }
+                }
+
                 SaveSettingsIntoBotFile(botToUpdate, difficulty, settings.Value);
             }
         }
+
+        private static string[] getDeserializedStringArray(KeyValuePair<string, DifficultySettings> settings, string friendlyKey)
+        {
+            var serialisedArray = JsonConvert.SerializeObject(settings.Value.Mind[friendlyKey]);
+            return JsonConvert.DeserializeObject<string[]>(serialisedArray);
+        }
+
 
         private static DifficultySettings ApplyCustomDifficultyValues(string botType, DifficultySettings difficultySettings)
         {

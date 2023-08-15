@@ -13,6 +13,15 @@ namespace Common.Extensions
                 self.Add(item);
         }
 
+        /// <summary>
+        /// Add a string to a list only if it doesnt already exist
+        /// </summary>
+        public static void AddUnique(this IDictionary<string, int> self, string itemkey, int weight)
+        {
+            if (!self.ContainsKey(itemkey))
+                self.Add(itemkey, weight);
+        }
+
         public static void AddUniqueRange(this IList<string> self, IList<string> itemsToAdd)
         {
             foreach (var item in itemsToAdd)

@@ -6,36 +6,36 @@ namespace Common.Models.Output
     {
         public Equipment()
         {
-            Headwear = new List<string>();
-            Earpiece = new List<string>();
-            FaceCover = new List<string>();
-            ArmorVest = new List<string>();
-            Eyewear = new List<string>();
-            ArmBand = new List<string>();
-            TacticalVest = new List<string>();
-            Backpack = new List<string>();
-            FirstPrimaryWeapon = new List<string>();
-            SecondPrimaryWeapon = new List<string>();
-            Holster = new List<string>();
-            Scabbard = new List<string>();
-            Pockets = new List<string>();
-            SecuredContainer = new List<string>();
+            Headwear = new Dictionary<string, int>();
+            Earpiece = new Dictionary<string, int>();
+            FaceCover = new Dictionary<string, int>();
+            ArmorVest = new Dictionary<string, int>();
+            Eyewear = new Dictionary<string, int>();
+            ArmBand = new Dictionary<string, int>();
+            TacticalVest = new Dictionary<string, int>();
+            Backpack = new Dictionary<string, int>();
+            FirstPrimaryWeapon = new Dictionary<string, int>();
+            SecondPrimaryWeapon = new Dictionary<string, int>();
+            Holster = new Dictionary<string, int>();
+            Scabbard = new Dictionary<string, int>();
+            Pockets = new Dictionary<string, int>();
+            SecuredContainer = new Dictionary<string, int>();
         }
 
-        public List<string> Headwear { get; set; }
-        public List<string> Earpiece { get; set; }
-        public List<string> FaceCover { get; set; }
-        public List<string> ArmorVest { get; set; }
-        public List<string> Eyewear { get; set; }
-        public List<string> ArmBand { get; set; }
-        public List<string> TacticalVest { get; set; }
-        public List<string> Backpack { get; set; }
-        public List<string> FirstPrimaryWeapon { get; set; }
-        public List<string> SecondPrimaryWeapon { get; set; }
-        public List<string> Holster { get; set; }
-        public List<string> Scabbard { get; set; }
-        public List<string> Pockets { get; set; }
-        public List<string> SecuredContainer { get; set; }
+        public Dictionary<string, int> Headwear { get; set; }
+        public Dictionary<string, int> Earpiece { get; set; }
+        public Dictionary<string, int> FaceCover { get; set; }
+        public Dictionary<string, int> ArmorVest { get; set; }
+        public Dictionary<string, int> Eyewear { get; set; }
+        public Dictionary<string, int> ArmBand { get; set; }
+        public Dictionary<string, int> TacticalVest { get; set; }
+        public Dictionary<string, int> Backpack { get; set; }
+        public Dictionary<string, int> FirstPrimaryWeapon { get; set; }
+        public Dictionary<string, int> SecondPrimaryWeapon { get; set; }
+        public Dictionary<string, int> Holster { get; set; }
+        public Dictionary<string, int> Scabbard { get; set; }
+        public Dictionary<string, int> Pockets { get; set; }
+        public Dictionary<string, int> SecuredContainer { get; set; }
     }
 
     public class Inventory
@@ -45,9 +45,12 @@ namespace Common.Models.Output
             equipment = new Equipment();
             items = new Items();
             mods = new Dictionary<string, Dictionary<string, List<string>>>();
+            Ammo = new Dictionary<string, Dictionary<string, int>>();
         }
 
         public Equipment equipment { get; set; }
+
+        public Dictionary<string, Dictionary<string, int>> Ammo { get;set;}
         public Dictionary<string, Dictionary<string, List<string>>> mods { get; set; }
         public Items items { get; set; }
     }

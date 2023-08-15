@@ -1,5 +1,6 @@
 ﻿using Common.Models.Input;
 using Newtonsoft.Json.Linq;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -13,7 +14,7 @@ public static class BotParser
 {
     static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions { };
 
-    public static async Task<List<Datum>> ParseAsync(string dumpPath)
+    public static async Task<List<Datum>> ParseAsync(string dumpPath, string[] botTypes)
     {
         var stopwatch = Stopwatch.StartNew();
 
@@ -27,22 +28,33 @@ public static class BotParser
 
         ParallelOptions parallelOptions = new()
         {
-            MaxDegreeOfParallelism = Environment.ProcessorCount
+            MaxDegreeOfParallelism = 1
         };
-        await Parallel.ForEachAsync(botFiles, parallelOptions, async(file, token) =>
+        await Parallel.ForEachAsync(botFiles, parallelOptions, async (file, token) =>
         {
             var splitFilePath = file.Split("\\");
 
             int dupeCount = 0;
             var rawInputString = await ReadFileContentsAsync(file);
 
-            var json = rawInputString;
-            if (rawInputString.Contains("location\":1,"))
+            //var json = rawInputString;
+            //if (rawInputString.Contains("location\":1,"))
+            //{
+            //    json = PruneMalformedBsgJson(rawInputString, splitFilePath.Last());
+            //}
+
+            List<Datum> bots = null;
+            try
             {
-                json = PruneMalformedBsgJson(rawInputString, splitFilePath.Last());
+                bots = ParseJson(rawInputString).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"file parse fucked up: {file}");
+                throw;
             }
 
-            var bots = ParseJson(json);
+
             if (bots == null || bots.Count == 0)
             {
                 Console.WriteLine($"skipping file: {splitFilePath.Last()}. no bots found, ");
@@ -52,13 +64,25 @@ public static class BotParser
             Console.WriteLine($"parsing: {bots.Count} bots in file {splitFilePath.Last()}");
             foreach (var bot in bots)
             {
+                if (bot._id == "6483938c53cc9087c70eae86")
+                {
+                    Console.WriteLine("oh no");
+                }
+
+                if (!botTypes.Contains(bot.Info.Settings.Role.ToLower()))
+                {
+                    continue;
+                }
+
+                if (parsedBotsDict.ContainsKey(bot._id))
+                {
+                    //var existingBot = parsedBotsDict[bot._id];
+                    dupeCount++;
+                    continue;
+                }
                 if (!parsedBotsDict.ContainsKey(bot._id))
                 {
                     parsedBotsDict.Add(bot._id, bot);
-                }
-                else
-                {
-                    dupeCount++;
                 }
             }
 
@@ -101,7 +125,7 @@ public static class BotParser
         return returnString;
     }
 
-    private static List<Datum> ParseJson(string json)
+    private static IEnumerable<Datum> ParseJson(string json)
     {
         var deSerialisedObject = JsonSerializer.Deserialize<Root>(json, serialiserOptions);
         return deSerialisedObject.data;
