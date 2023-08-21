@@ -7,14 +7,12 @@ namespace Common.Models.Output;
 [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Serialization, WriteIndented = true)]
 public partial class BotJsonContext : JsonSerializerContext
 {
-
 }
 
 public class Bot
 {
     public Bot()
     {
-
     }
 
     public Bot(BotType botType)
@@ -183,23 +181,28 @@ public class EquipmentChances
 
 public class GenerationChances
 {
-    public GenerationChances(int specialMin, int SpecialMax,
-        int healingMin, int healingMax,
-        int drugMin, int drugMax,
-        int stimMin, int stimMax,
-        int looseLootMin, int looseLootMax,
-        int magazinesMin, int MagazineMax,
-        int grenandesMin, int grenadesMax)
+    public GenerationChances(
+        GenerationWeightData specialItems,
+        GenerationWeightData healingItems,
+        GenerationWeightData drugItems,
+        GenerationWeightData stimItems,
+        GenerationWeightData backpackLootItems,
+        GenerationWeightData pocketLootItems,
+        GenerationWeightData vestLootItems,
+        GenerationWeightData magazineItems,
+        GenerationWeightData grenadeItems)
     {
         items = new ItemChances
         {
-            specialItems = new MinMax(specialMin, SpecialMax),
-            healing = new MinMax(healingMin, healingMax),
-            drugs = new MinMax(drugMin, drugMax),
-            stims = new MinMax(stimMin, stimMax),
-            looseLoot = new MinMax(looseLootMin, looseLootMax),
-            magazines = new MinMax(magazinesMin, MagazineMax),
-            grenades = new MinMax(grenandesMin, grenadesMax)
+            specialItems = specialItems,
+            healing = healingItems,
+            drugs = drugItems,
+            stims = stimItems,
+            backpackLoot = backpackLootItems,
+            pocketLoot = pocketLootItems,
+            vestLoot = vestLootItems,
+            magazines = magazineItems,
+            grenades = grenadeItems
         };
     }
 
@@ -215,22 +218,26 @@ public class ItemChances
 {
     public ItemChances()
     {
-        specialItems = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
-        healing = new MinMaxWithWhitelist(1, 2, System.Array.Empty<string>());
-        drugs = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
-        stims = new MinMaxWithWhitelist(0, 1, System.Array.Empty<string>());
-        looseLoot = new MinMaxWithWhitelist(0, 3, System.Array.Empty<string>());
-        magazines = new MinMaxWithWhitelist(2, 4, System.Array.Empty<string>());
-        grenades = new MinMaxWithWhitelist(0, 5, System.Array.Empty<string>());
+        specialItems = new GenerationWeightData(); // 0,1
+        healing = new GenerationWeightData(); // 1, 2
+        drugs = new GenerationWeightData(); // 0, 1
+        stims = new GenerationWeightData(); // 0, 1
+        backpackLoot = new GenerationWeightData(); //0,3
+        pocketLoot = new GenerationWeightData();
+        vestLoot = new GenerationWeightData();
+        magazines = new GenerationWeightData(); //2,4
+        grenades = new GenerationWeightData(); //0,5
     }
 
-    public MinMax specialItems { get; set; }
-    public MinMax healing { get; set; }
-    public MinMax drugs { get; set; }
-    public MinMax stims { get; set; }
-    public MinMax looseLoot { get; set; }
-    public MinMax magazines { get; set; }
-    public MinMax grenades { get; set; }
+    public GenerationWeightData specialItems { get; set; }
+    public GenerationWeightData healing { get; set; }
+    public GenerationWeightData drugs { get; set; }
+    public GenerationWeightData stims { get; set; }
+    public GenerationWeightData backpackLoot { get; set; }
+    public GenerationWeightData pocketLoot { get; set; }
+    public GenerationWeightData vestLoot { get; set; }
+    public GenerationWeightData magazines { get; set; }
+    public GenerationWeightData grenades { get; set; }
 }
 
 public class MinMax
@@ -243,16 +250,4 @@ public class MinMax
 
     public int min { get; set; }
     public int max { get; set; }
-}
-
-public class MinMaxWithWhitelist : MinMax
-{
-    public MinMaxWithWhitelist(int min, int max, string[] whitelist) : base(min, max)
-    {
-        this.min = min;
-        this.max = max;
-        this.whitelist = whitelist;
-    }
-
-    public string[] whitelist { get; set; }
 }

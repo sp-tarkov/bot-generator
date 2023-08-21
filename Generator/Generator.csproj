@@ -174,16 +174,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Include="Assets\normal_arenaFighterEvent_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\generationWeights.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\normal_bossBoarSniper_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -193,6 +192,10 @@
     <None Update="Assets\normal_followerBoar_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

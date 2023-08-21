@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Generator.Weighting;
 
 namespace Generator
 {
@@ -16,6 +17,7 @@ namespace Generator
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot gear");
 
+            var weightHelper = new WeightingService();
             foreach (var botToUpdate in botsToUpdate)
             {
                 var botType = botToUpdate.botType.ToString();
@@ -30,7 +32,7 @@ namespace Generator
 
                 // TODO: Add check to make sure incoming bot list has gear
                 GearChanceHelpers.CalculateEquipmentChances(botToUpdate, rawParsedBotOfCurrentType);
-                GearChanceHelpers.AddGenerationChances(botToUpdate);
+                GearChanceHelpers.AddGenerationChances(botToUpdate, rawBots, weightHelper);
                 GearChanceHelpers.CalculateModChances(botToUpdate, rawParsedBotOfCurrentType);
                 GearChanceHelpers.ApplyModChanceOverrides(botToUpdate);
                 GearChanceHelpers.ApplyEquipmentChanceOverrides(botToUpdate);

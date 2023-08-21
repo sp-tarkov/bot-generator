@@ -4,6 +4,7 @@ using Common.Models.Output;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Models;
+using Generator.Weighting;
 
 namespace Generator.Helpers.Gear
 {
@@ -149,16 +150,23 @@ namespace Generator.Helpers.Gear
             }
         }
 
-        public static void AddGenerationChances(Bot bot)
+        public static void AddGenerationChances(Bot bot, IEnumerable<Datum> rawBots, WeightingService weightingService)
         {
+            var weightsData = weightingService.GetBotGenerationWeights(bot.botType);
             bot.generation = new GenerationChances(
-                bot.inventory.items.SpecialLoot.Count, bot.inventory.items.SpecialLoot.Count,
-                healingMin: GetMedicalItemCountByBotType(bot.botType).min, healingMax: GetMedicalItemCountByBotType(bot.botType).max,
-                drugMin: 0, drugMax: 1,
-                stimMin: 0, stimMax: 1,
-                looseLootMin: GetLooseLootCountByBotType(bot.botType).min, looseLootMax: GetLooseLootCountByBotType(bot.botType).max,
-                magazinesMin: GetMagazineCountByBotType(bot.botType).min, MagazineMax: GetMagazineCountByBotType(bot.botType).max,
-                grenandesMin: 0, grenadesMax: 5); //TODO get dynamically
+                weightsData["specialItems"],
+                weightsData["healing"],
+                weightsData["drugs"],
+                weightsData["stims"],
+                weightsData["backpackLoot"],
+                weightsData["pocketLoot"],
+                weightsData["vestLoot"],
+                weightsData["magazines"],
+                weightsData["grenades"]);
+
+            // it makes some crazy values, one assault bot has 10 grenades!
+            //AddGrenadeMinMax(bot, rawBots);
+
         }
 
         public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)

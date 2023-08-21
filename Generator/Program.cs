@@ -1,4 +1,6 @@
-﻿namespace Generator;
+﻿using Generator.Helpers;
+
+namespace Generator;
 
 internal static class Program
 {

@@ -23,14 +23,13 @@ namespace Generator
                 baseBots.Add(new Bot(typeToAdd));
             }
 
-            // Iterate over each bot type wejust made and put some data into them
+            // Iterate over each bot type we just made and put some data into them
             foreach (var botToUpdate in baseBots)
             {
                 var rawBotType = botToUpdate.botType.ToString();
                 var rawBotsOfSameType = rawBots.Where(x => string.Equals(x.Info.Settings.Role, rawBotType, StringComparison.OrdinalIgnoreCase))
                                                 .ToList();
                 var rawBotsOfSameTypeCount = rawBotsOfSameType.Count.ToString();
-                
 
                 if (rawBotsOfSameType.Count == 0)
                 {
@@ -53,6 +52,7 @@ namespace Generator
                     AddVoice(botToUpdate, rawParsedBot);
                 }
             }
+
 
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot base. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
@@ -136,11 +136,9 @@ namespace Generator
                         Head = new MinMax(bot.Health.BodyParts.Head.Health.Current, bot.Health.BodyParts.Head.Health.Maximum),
                         Chest = new MinMax(bot.Health.BodyParts.Chest.Health.Current, bot.Health.BodyParts.Chest.Health.Maximum),
                         Stomach = new MinMax(bot.Health.BodyParts.Stomach.Health.Current, bot.Health.BodyParts.Stomach.Health.Maximum),
-                        LeftArm = new MinMax(bot.Health.BodyParts.LeftArm.Health.Current, bot.Health.BodyParts.LeftArm.Health.Maximum)
+                        LeftArm = new MinMax(bot.Health.BodyParts.LeftArm.Health.Current, bot.Health.BodyParts.LeftArm.Health.Maximum),
+                        RightArm = new MinMax(bot.Health.BodyParts.RightArm.Health.Current, bot.Health.BodyParts.RightArm.Health.Maximum),
                     };
-
-                    bodyPartHpToAdd.RightArm.min = bot.Health.BodyParts.RightArm.Health.Current;
-                    bodyPartHpToAdd.RightArm.max = bot.Health.BodyParts.RightArm.Health.Maximum;
 
                     bodyPartHpToAdd.LeftLeg.min = bot.Health.BodyParts.LeftLeg.Health.Current;
                     bodyPartHpToAdd.LeftLeg.max = bot.Health.BodyParts.LeftLeg.Health.Maximum;
@@ -174,7 +172,6 @@ namespace Generator
                 {
                     botToUpdate.lastName.AddUnique(name[1]);
                 }
-                
             }
         }
     }
