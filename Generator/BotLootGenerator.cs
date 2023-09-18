@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using Common.Extensions;
 using Common.Models.Input;
 using Common.Models.Output;
@@ -36,15 +37,17 @@ namespace Generator
                         return;
                     }
 
-                    foreach (var rawParsedBot in rawBotsOfSameType)
-                    {
-                        AddPocketLoot(botToUpdate, rawParsedBot);
-                    }
+                    AddLootToContainers(botToUpdate, rawBotsOfSameType);
 
-                    AddTacticalVestLoot(botToUpdate, rawBotsOfSameType);
-                    AddBackpackLoot(botToUpdate, rawBotsOfSameType);
-                    AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
-                    AddSpecialLoot(botToUpdate);
+                    //foreach (var rawParsedBot in rawBotsOfSameType)
+                    //{
+                    //    AddPocketLoot(botToUpdate, rawParsedBot);
+                    //}
+
+                    //AddTacticalVestLoot(botToUpdate, rawBotsOfSameType);
+                    //AddBackpackLoot(botToUpdate, rawBotsOfSameType);
+                    //AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
+                    //AddSpecialLoot(botToUpdate);
                 }));
             }
 
@@ -89,6 +92,77 @@ namespace Generator
             botToUpdate.inventory.items.SecuredContainer.AddRange(tacVestItems);
         }
 
+        private static void AddLootToContainers(Bot botToUpdate, List<Datum> rawBotsOfSameType)
+        {
+            var containerDict = new Dictionary<string, List<string>>();
+            foreach (var bot in rawBotsOfSameType)
+            {
+                var backpack = bot.Inventory.items.FirstOrDefault(x => x.slotId == "Backpack");
+                if (backpack != null)
+                {
+                    containerDict.Add(backpack._id, new List<string>());
+                }
+                var pocket = bot.Inventory.items.FirstOrDefault(x => x.slotId == "Pockets");
+                if (pocket != null)
+                {
+                    containerDict.Add(pocket._id, new List<string>());
+                }
+                var secure = bot.Inventory.items.FirstOrDefault(x => x.slotId == "SecuredContainer");
+                if (secure != null)
+                {
+                    containerDict.Add(secure._id, new List<string>());
+                }
+
+                var tacVest = bot.Inventory.items.FirstOrDefault(x => x.slotId == "TacticalVest");
+                if (tacVest != null)
+                {
+                    containerDict.Add(tacVest._id, new List<string>());
+                }
+
+                foreach (var item in bot.Inventory.items)
+                {
+                    if (item.parentId == null)
+                    {
+                        continue;
+                    }
+
+                    // Container (backpack etc) exists in dict
+                    if (containerDict.ContainsKey(item.parentId))
+                    {
+                        containerDict[item.parentId].AddUnique(item._tpl);
+                    }
+                }
+
+                if (backpack != null)
+                {
+                    botToUpdate.inventory.items.Backpack.AddUniqueRange(containerDict[backpack._id]);
+
+                    // Add generic keys to bosses
+                    if (botToUpdate.botType.IsBoss())
+                    {
+                        botToUpdate.inventory.items.Backpack.AddUniqueRange(SpecialLootHelper.GetGenericBossKeys().ToList());
+                    }
+                }
+
+                if (pocket != null)
+                {
+                    botToUpdate.inventory.items.Pockets.AddUniqueRange(containerDict[pocket._id]);
+                }
+
+                if (secure != null)
+                {
+                    botToUpdate.inventory.items.SecuredContainer.AddUniqueRange(containerDict[secure._id]);
+                }
+
+                if (tacVest != null)
+                {
+                    botToUpdate.inventory.items.TacticalVest.AddUniqueRange(containerDict[tacVest._id]);
+                }
+
+                containerDict.Clear();
+            }
+        }
+
         private static void AddSpecialLoot(Bot botToUpdate)
         {
             botToUpdate.inventory.items.SpecialLoot.AddRange(SpecialLootHelper.GetSpecialLootForBotType(botToUpdate.botType));
@@ -103,9 +177,9 @@ namespace Generator
                 // find the container type we want on this bot (backpack etc)
                 // Add to list
                 var botContainers = bot.Inventory.items.Where(x => x.slotId == containerName);
-                foreach (var c in botContainers)
+                foreach (var container in botContainers)
                 {
-                    containers.AddUnique(c._id);
+                    containers.AddUnique(container._id);
                 }
 
                 foreach (var item in bot.Inventory.items)
