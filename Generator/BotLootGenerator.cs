@@ -1,46 +1,54 @@
-﻿using Common;
+﻿using System.Diagnostics;
 using Common.Extensions;
 using Common.Models.Input;
 using Common.Models.Output;
 using Generator.Helpers.Gear;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Generator
 {
     public static class BotLootGenerator
     {
-        internal static IEnumerable<Bot> AddLoot(this IEnumerable<Bot> botsWithGear, IEnumerable<Datum> rawBots)
+        internal static IEnumerable<Bot> AddLoot(this IEnumerable<Bot> botsWithGear, Dictionary<string, List<Datum>> rawBots)
         {
             var stopwatch = Stopwatch.StartNew();
             LoggingHelpers.LogToConsole("Started processing bot loot");
 
-            // Iterate over assault/raider etc
-            Parallel.ForEach(botsWithGear, botToUpdate =>
+            var dictionaryLock = new object();
+            
+            var tasks = new List<Task>(50);
+            foreach (var botToUpdate in botsWithGear)
             {
-                var botType = botToUpdate.botType.ToString();
-                var rawBotsOfSameType = rawBots
-                                        .Where(x => x.Info.Settings.Role.Equals(botType, StringComparison.OrdinalIgnoreCase))
-                                        .ToList();
-
-                if (rawBotsOfSameType.Count == 0)
+                tasks.Add(Task.Factory.StartNew(() =>
                 {
-                    return;
-                }
+                    var botType = botToUpdate.botType.ToString().ToLower();
+                    List<Datum> rawBotsOfSameType;
+                    lock (dictionaryLock)
+                    {
+                        if (!rawBots.TryGetValue(botType, out rawBotsOfSameType))
+                        {
+                            Console.WriteLine($"Unable to find {botType} on rawBots data");
+                            return;
+                        }
+                    }
 
-                foreach (var rawParsedBot in rawBotsOfSameType)
-                {
-                    AddPocketLoot(botToUpdate, rawParsedBot);
-                }
+                    if (rawBotsOfSameType.Count == 0)
+                    {
+                        return;
+                    }
 
-                AddTacticalVestLoot(botToUpdate, rawBotsOfSameType);
-                AddBackpackLoot(botToUpdate, rawBotsOfSameType);
-                AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
-                AddSpecialLoot(botToUpdate);
-            });
+                    foreach (var rawParsedBot in rawBotsOfSameType)
+                    {
+                        AddPocketLoot(botToUpdate, rawParsedBot);
+                    }
+
+                    AddTacticalVestLoot(botToUpdate, rawBotsOfSameType);
+                    AddBackpackLoot(botToUpdate, rawBotsOfSameType);
+                    AddSecureContainerLoot(botToUpdate, rawBotsOfSameType);
+                    AddSpecialLoot(botToUpdate);
+                }));
+            }
+
+            Task.WaitAll(tasks.ToArray());
 
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot loot. Took: {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");

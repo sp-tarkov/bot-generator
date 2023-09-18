@@ -1,4 +1,5 @@
-﻿using Generator.Helpers;
+﻿using Common.Models.Input;
+using Generator.Helpers;
 
 namespace Generator;
 
@@ -52,6 +53,16 @@ internal static class Program
         var dumpPath = $"{workingPath}//dumps";
         var parsedBots = BotParser.ParseAsync(dumpPath, botTypes.ToHashSet());
 
+        // put in dictionary for better use later on
+        var rawBotsCache = new Dictionary<string, List<Datum>>(40);
+        foreach (var rawBot in parsedBots)
+        {
+            if (rawBotsCache.TryGetValue(rawBot.Info.Settings.Role.ToLower(), out var botList))
+                botList.Add(rawBot);
+            else
+                rawBotsCache.Add(rawBot.Info.Settings.Role.ToLower(), new List<Datum> {rawBot});
+        }
+        
         if (parsedBots.Count == 0)
         {
             LoggingHelpers.LogToConsole("no bots found, unable to continue");
@@ -61,9 +72,9 @@ internal static class Program
 
         // Generate the base bot class with basic details (health/body part hp etc) and then append everything else
         var bots = BaseBotGenerator.GenerateBaseDetails(parsedBots, workingPath, botTypes)
-            .AddGear(parsedBots) // Add weapons/armor
-            .AddLoot(parsedBots)
-            .AddChances(parsedBots); // Add mod/equipment chances
+            .AddGear(rawBotsCache) // Add weapons/armor
+            .AddLoot(rawBotsCache)
+            .AddChances(rawBotsCache); // Add mod/equipment chances
 
         // Output bot to json file
         var jsonWriter = new JsonWriter(workingPath, "output");

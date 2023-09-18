@@ -150,7 +150,7 @@ namespace Generator.Helpers.Gear
             }
         }
 
-        public static void AddGenerationChances(Bot bot, IEnumerable<Datum> rawBots, WeightingService weightingService)
+        public static void AddGenerationChances(Bot bot, WeightingService weightingService)
         {
             var weightsData = weightingService.GetBotGenerationWeights(bot.botType);
             bot.generation = new GenerationChances(

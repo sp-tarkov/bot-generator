@@ -25,9 +25,9 @@ public static class BotParser
 
         var parsedBotsDict = new HashSet<Datum>();
         var dictionaryLock = new object();
-
+        
         int totalDupeCount = 0;
-
+        
         var tasks = new List<Task>(50);
         foreach (var file in botFiles)
         {
@@ -102,7 +102,7 @@ public static class BotParser
 
         Task.WaitAll(tasks.ToArray());
         stopwatch.Stop();
-
+        
         LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBotsDict.Count} bots. {totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
         return parsedBotsDict.ToList();
