@@ -1,4 +1,5 @@
-﻿using Common.Models.Input;
+﻿using System.Collections.Concurrent;
+using Common.Models.Input;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +14,7 @@ public static class BotParser
 {
     static readonly JsonSerializerOptions serialiserOptions = new() { };
 
-    public static async Task<List<Datum>> ParseAsync(string dumpPath, string[] botTypes)
+    public static List<Datum> ParseAsync(string dumpPath, HashSet<string> botTypes)
     {
         var stopwatch = Stopwatch.StartNew();
 
@@ -22,88 +23,89 @@ public static class BotParser
         var botFiles = Directory.GetFiles(dumpPath, "*.json", SearchOption.TopDirectoryOnly).ToList();
         LoggingHelpers.LogToConsole($"{botFiles.Count} bot dump files found");
 
-        var parsedBotsDict = new Dictionary<string, Datum>(10000);
+        var parsedBotsDict = new HashSet<Datum>();
+        var dictionaryLock = new object();
+
         int totalDupeCount = 0;
 
-        ParallelOptions parallelOptions = new()
+        var tasks = new List<Task>(50);
+        foreach (var file in botFiles)
         {
-            MaxDegreeOfParallelism = 1
-        };
-        await Parallel.ForEachAsync(botFiles, parallelOptions, async (file, token) =>
-        {
-            var splitFilePath = file.Split("\\");
-
-            int dupeCount = 0;
-            var rawInputString = await ReadFileContentsAsync(file);
-
-            List<Datum> bots = null;
-            try
+            tasks.Add(Task.Factory.StartNew(() =>
             {
-                bots = ParseJson(rawInputString).ToList();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"File parse fucked up: {file}");
-                throw;
-            }
+                var splitFilePath = file.Split("\\");
 
-            if (bots == null || bots.Count == 0)
-            {
-                Console.WriteLine($"Skipping file: {splitFilePath.Last()}. no bots found, ");
-                return;
-            }
+                int dupeCount = 0;
+                var rawInputString = File.ReadAllText(file);
 
-            //Console.WriteLine($"parsing: {bots.Count} bots in file {splitFilePath.Last()}");
-            foreach (var bot in bots)
-            {
-                // I have no idea
-                if (bot._id == "6483938c53cc9087c70eae86")
+                List<Datum> bots = null;
+                try
                 {
-                    Console.WriteLine("oh no");
+                    bots = ParseJson(rawInputString).ToList();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"File parse fucked up: {file}");
+                    throw;
                 }
 
-                // We dont know how to parse this bot type, need to add it to types enum
-                if (!botTypes.Contains(bot.Info.Settings.Role.ToLower()))
+                if (bots == null || bots.Count == 0)
                 {
-                    continue;
+                    Console.WriteLine($"Skipping file: {splitFilePath.Last()}. no bots found, ");
+                    return;
                 }
 
-                // Bot already exists in dictionary, skip
-                if (parsedBotsDict.ContainsKey(bot._id))
+                //Console.WriteLine($"parsing: {bots.Count} bots in file {splitFilePath.Last()}");
+                foreach (var bot in bots)
                 {
-                    //var existingBot = parsedBotsDict[bot._id];
-                    dupeCount++;
-                    continue;
+                    // I have no idea
+                    if (bot._id == "6483938c53cc9087c70eae86")
+                    {
+                        Console.WriteLine("oh no");
+                    }
+
+                    // We dont know how to parse this bot type, need to add it to types enum
+                    if (!botTypes.Contains(bot.Info.Settings.Role.ToLower()))
+                    {
+                        continue;
+                    }
+
+                    lock (dictionaryLock)
+                    {
+                        // Bot already exists in dictionary, skip
+                        if (parsedBotsDict.Contains(bot))
+                        {
+                            //var existingBot = parsedBotsDict[bot._id];
+                            dupeCount++;
+                            continue;
+                        }
+
+
+                        if (!parsedBotsDict.Contains(bot))
+                        {
+                            // Null out data we don't need for generating bots to save RAM
+                            bot.Stats = null;
+                            bot.Encyclopedia = null;
+                            bot.Hideout = null;
+                            bot.ConditionCounters = null;
+                            bot.Bonuses = null;
+                            bot.BackendCounters = null;
+                            bot.InsuredItems = null;
+                            parsedBotsDict.Add(bot);
+                        }
+                    }
                 }
 
+                totalDupeCount += dupeCount;
+            }));
+        }
 
-                if (!parsedBotsDict.ContainsKey(bot._id))
-                {
-                    // Null out data we don't need for generating bots to save RAM
-                    bot.Stats = null;
-                    bot.Encyclopedia = null;
-                    bot.Hideout = null;
-                    bot.ConditionCounters = null;
-                    bot.Bonuses = null;
-                    bot.BackendCounters = null;
-                    bot.InsuredItems = null;
-                    parsedBotsDict.Add(bot._id, bot);
-                }
-            }
-
-            totalDupeCount += dupeCount;
-        });
-
+        Task.WaitAll(tasks.ToArray());
         stopwatch.Stop();
+
         LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBotsDict.Count} bots. {totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-        return (parsedBotsDict.Select(x => x.Value)).ToList();
-    }
-
-    private static async Task<string> ReadFileContentsAsync(string file)
-    {
-        using var reader = File.OpenText(file);
-        return await reader.ReadToEndAsync();
+        return parsedBotsDict.ToList();
     }
 
     private static string PruneMalformedBsgJson(string json, string fileName)

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -289,6 +288,24 @@ namespace Common.Models.Input
         public List<object> InsuredItems { get; set; }
         public Hideout Hideout { get; set; }
         public IEnumerable<object> Bonuses { get; set; }
+
+        protected bool Equals(Datum other)
+        {
+            return _id == other._id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Datum)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (_id != null ? _id.GetHashCode() : 0);
+        }
     }
 
     public class Root
