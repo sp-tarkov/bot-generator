@@ -399,7 +399,7 @@
     "MEDS_ONLY_SAFE_CONTAINER": false,
     "CAN_TAKE_ITEMS": false,
     "TALK_WITH_QUERY": true,
-    "DEFAULT_SAVAGE_BEHAVIOUR": "Attack",
+    "DEFAULT_SAVAGE_BEHAVIOUR": "Warn",
     "DEFAULT_BEAR_BEHAVIOUR": "Attack",
     "DEFAULT_USEC_BEHAVIOUR": "Attack",
     "BOSS_IGNORE_LOYALTY": true,

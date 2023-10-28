@@ -2,7 +2,7 @@
   "Lay": {
     "SHALL_LAY_WITHOUT_CHECK": true,
     "SHALL_GETUP_ON_ROTATE": false,
-    "IF_NO_ENEMY": false,
+    "IF_NO_ENEMY": true,
     "CHECK_SHOOT_WHEN_LAYING": false,
     "DELTA_LAY_CHECK": 2.0,
     "DELTA_GETUP": 2.7,
