@@ -136,12 +136,6 @@ namespace Generator
                 if (backpack != null)
                 {
                     botToUpdate.inventory.items.Backpack.AddUniqueRange(containerDict[backpack._id]);
-
-                    // Add generic keys to bosses
-                    if (botToUpdate.botType.IsBoss())
-                    {
-                        botToUpdate.inventory.items.Backpack.AddUniqueRange(SpecialLootHelper.GetGenericBossKeys().ToList());
-                    }
                 }
 
                 if (pocket != null)
@@ -161,6 +155,15 @@ namespace Generator
 
                 containerDict.Clear();
             }
+
+            // Add generic keys to bosses
+            if (botToUpdate.botType.IsBoss())
+            {
+                var keys = SpecialLootHelper.GetGenericBossKeys().ToList();
+                botToUpdate.inventory.items.Backpack.AddUniqueRange(keys);
+            }
+
+            AddSpecialLoot(botToUpdate);
         }
 
         private static void AddSpecialLoot(Bot botToUpdate)

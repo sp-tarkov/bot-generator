@@ -42,6 +42,9 @@ namespace Generator
                         GearHelpers.AddEquippedMods(botToUpdate, rawParsedBot);
                         //GearHelpers.AddCartridges(botToUpdate, rawParsedBot);
                     }
+
+                    GearHelpers.ReduceAmmoWeightValues(botToUpdate);
+                    GearHelpers.ReduceEquipmentWeightValues(botToUpdate.inventory.equipment);
                 }));
             }
 

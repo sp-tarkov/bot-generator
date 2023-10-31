@@ -24,8 +24,7 @@ internal static class Program
        "bosszryachiy",
        "bossboar",
        "bossboarsniper",
-   
-   
+
        "followerbully",
        "followergluharassault",
        "followergluharscout",
@@ -38,43 +37,47 @@ internal static class Program
        "followerbigpipe",
         "followerzryachiy",
         "followerboar",
-   //  // 
+
        "cursedassault",
-   //  // 
        "sectantpriest",
        "sectantwarrior",
        "gifter",
        "arenafighterevent",
        "crazyassaultevent"
-            };
+       };
 
         // Read raw bot dumps and turn into c# objects
         var workingPath = Directory.GetCurrentDirectory();
         var dumpPath = $"{workingPath}//dumps";
         var parsedBots = BotParser.ParseAsync(dumpPath, botTypes.ToHashSet());
 
-        // put in dictionary for better use later on
+        // Put in dictionary for better use later on
         var rawBotsCache = new Dictionary<string, List<Datum>>(40);
         foreach (var rawBot in parsedBots)
         {
             if (rawBotsCache.TryGetValue(rawBot.Info.Settings.Role.ToLower(), out var botList))
+            {
                 botList.Add(rawBot);
-            else
-                rawBotsCache.Add(rawBot.Info.Settings.Role.ToLower(), new List<Datum> {rawBot});
+
+                continue;
+            }
+
+            // Doesnt exist, add key and bot
+            rawBotsCache.Add(rawBot.Info.Settings.Role.ToLower(), new List<Datum> { rawBot });
         }
-        
+
         if (parsedBots.Count == 0)
         {
-            LoggingHelpers.LogToConsole("no bots found, unable to continue");
+            LoggingHelpers.LogToConsole("No bots found, unable to continue");
             LoggingHelpers.LogToConsole("Check your dumps are in 'Generator\\bin\\Debug\\net6.0\\dumps' and start with 'resp.' NOT 'req.'");
             return;
         }
 
         // Generate the base bot class with basic details (health/body part hp etc) and then append everything else
         var bots = BaseBotGenerator.GenerateBaseDetails(parsedBots, workingPath, botTypes)
-            .AddGear(rawBotsCache) // Add weapons/armor
-            .AddLoot(rawBotsCache)
-            .AddChances(rawBotsCache); // Add mod/equipment chances
+                                .AddGear(rawBotsCache) // Add weapons/armor
+                                .AddLoot(rawBotsCache)
+                                .AddChances(rawBotsCache); // Add mod/equipment chances
 
         // Output bot to json file
         var jsonWriter = new JsonWriter(workingPath, "output");

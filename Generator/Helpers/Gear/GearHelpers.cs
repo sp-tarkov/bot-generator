@@ -12,30 +12,10 @@ namespace Generator.Helpers.Gear
             var modItemsInRawBot = new List<Item>();
             var itemsWithModsInRawBot = new List<Item>();
 
-
-                //foreach (var inv in rawParsedBot.Inventory.items.Where(x => x.slotId == "mod_magazine"))
-                //{
-                //var count = rawParsedBot.Inventory.items.Where(x => x.slotId == "mod_magazine").Count();
-                //    if (inv._tpl == "60dc519adf4c47305f6d410d")
-                //    {
-                //        var y = 1;
-                //    }
-                //}
-
             modItemsInRawBot = rawParsedBot.Inventory.items
                 .Where(x => x.slotId != null && (x.slotId.StartsWith("mod_") || x.slotId.StartsWith("patron_in_weapon"))).ToList();
 
-            //var x = new List<Item>();
-            //foreach (var item in rawParsedBot.Inventory.items.Where(x=>x.slotId == "mod_magazine"))
-            //{
-            //    if (item._tpl == "60dc519adf4c47305f6d410d")
-            //    { 
-            //        var wow = 1; 
-            //    }
-            //    x.Add(item);
-            //}
-
-            // get items with Mods by iterating over mod items and getting the parent item
+            // Get items with Mods by iterating over mod items and getting the parent item
             itemsWithModsInRawBot.AddRange(modItemsInRawBot
                 .Select(modItem => rawParsedBot.Inventory.items
                 .Find(x => x._id == modItem.parentId)));
@@ -44,6 +24,16 @@ namespace Generator.Helpers.Gear
             foreach (var itemToAdd in itemsWithModsInRawBot)
             {
                 var modsToAdd = modItemsInRawBot.Where(x => x.parentId == itemToAdd._id).ToList();
+
+                // fix pistolgrip that changes slot id name
+                if (itemToAdd._tpl == "56e0598dd2720bb5668b45a6")
+                {
+                    var badMod = modsToAdd.FirstOrDefault(x => x.slotId == "mod_pistol_grip" && x._tpl == "56e05a6ed2720bd0748b4567");
+                    if (badMod != null)
+                    {
+                        badMod.slotId = "mod_pistolgrip";
+                    }
+                }
 
                 AddItemToDictionary(itemToAdd, modsToAdd, itemsWithModsDictionary);
 
@@ -64,14 +54,17 @@ namespace Generator.Helpers.Gear
 
         internal static void AddAmmo(Bot botToUpdate, Datum bot)
         {
-            var weightService = new WeightingService();
-            foreach (var inventoryItem in bot.Inventory.items.Where(x => x.slotId != null && (x.slotId == "patron_in_weapon" ||  x.slotId == "cartridges" || x.slotId.StartsWith("camora"))))
+            //var weightService = new WeightingService();
+            foreach (var ammo in bot.Inventory.items.Where(
+                x => x.slotId != null 
+            && (x.slotId == "patron_in_weapon"
+            || (x.slotId == "cartridges" && bot.Inventory.items.FirstOrDefault(parent => parent._id == x.parentId)?.slotId != "main") // Ignore cartridges in ammo boxes for ammo usage calc
+            || x.slotId.StartsWith("camora"))))
             {
-                var caliber = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl)._props.ammoCaliber;
-
+                var caliber = ItemTemplateHelper.GetTemplateById(ammo._tpl)._props.ammoCaliber;
                 if (caliber == null)
                 {
-                    caliber = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl)._props.Caliber;
+                    caliber = ItemTemplateHelper.GetTemplateById(ammo._tpl)._props.Caliber;
                 }
 
                 // Create key if caliber doesnt exist
@@ -80,8 +73,34 @@ namespace Generator.Helpers.Gear
                     botToUpdate.inventory.Ammo[caliber] = new Dictionary<string, int>();
                 }
 
-                botToUpdate.inventory.Ammo[caliber].AddUnique(inventoryItem._tpl, weightService.GetAmmoWeight(inventoryItem._tpl, botToUpdate.botType, caliber));
+                if (!botToUpdate.inventory.Ammo[caliber].ContainsKey(ammo._tpl))
+                {
+                    botToUpdate.inventory.Ammo[caliber][ammo._tpl] = 0;
+                }
+
+                botToUpdate.inventory.Ammo[caliber][ammo._tpl] ++;
             }
+        }
+
+        public static int CommonDivisor(List<int> numbers)
+        {
+            int result = numbers[0];
+            for (int i = 1; i < numbers.Count; i++)
+            {
+                result = GCD(result, numbers[i]);
+            }
+            return result;
+        }
+
+        private static int GCD(int a, int b)
+        {
+            while (b != 0)
+            {
+                int temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
         }
 
         public static void AddEquippedGear(Bot botToUpdate, Datum bot)
@@ -93,51 +112,61 @@ namespace Generator.Helpers.Gear
                 switch (inventoryItem.slotId?.ToLower())
                 {
                     case "headwear":
-                        botToUpdate.inventory.equipment.Headwear.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "headwear"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.Headwear, inventoryItem._tpl);
                         break;
                     case "earpiece":
-                        botToUpdate.inventory.equipment.Earpiece.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "earpiece"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.Earpiece, inventoryItem._tpl);
                         break;
                     case "facecover":
-                        botToUpdate.inventory.equipment.FaceCover.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "facecover"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.FaceCover, inventoryItem._tpl);
                         break;
                     case "armorvest":
-                        botToUpdate.inventory.equipment.ArmorVest.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "armorvest"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.ArmorVest, inventoryItem._tpl);
                         break;
                     case "eyewear":
-                        botToUpdate.inventory.equipment.Eyewear.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "eyewear"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.Eyewear, inventoryItem._tpl);
                         break;
                     case "armband":
-                        botToUpdate.inventory.equipment.ArmBand.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "armband"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.ArmBand, inventoryItem._tpl);
                         break;
                     case "tacticalvest":
-                        botToUpdate.inventory.equipment.TacticalVest.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "tacticalvest"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.TacticalVest, inventoryItem._tpl);
                         break;
                     case "backpack":
-                        botToUpdate.inventory.equipment.Backpack.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "backpack"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.Backpack, inventoryItem._tpl);
                         break;
                     case "firstprimaryweapon":
-                        botToUpdate.inventory.equipment.FirstPrimaryWeapon.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "firstprimaryweapon"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.FirstPrimaryWeapon, inventoryItem._tpl);
                         break;
                     case "secondprimaryweapon":
-                        botToUpdate.inventory.equipment.SecondPrimaryWeapon.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "secondprimaryweapon"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.SecondPrimaryWeapon, inventoryItem._tpl);
                         break;
                     case "holster":
-                        botToUpdate.inventory.equipment.Holster.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "holster"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.Holster, inventoryItem._tpl);
                         break;
                     case "scabbard":
-                        botToUpdate.inventory.equipment.Scabbard.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "scabbard"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.Scabbard, inventoryItem._tpl);
                         break;
                     case "pockets":
-                        botToUpdate.inventory.equipment.Pockets.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "pockets"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.Pockets, inventoryItem._tpl);
                         break;
                     case "securedcontainer":
-                        botToUpdate.inventory.equipment.SecuredContainer.AddUnique(inventoryItem._tpl, weightService.GetItemWeight(inventoryItem._tpl, botToUpdate.botType, "securedcontainer"));
+                        IncrementDictionaryValue(botToUpdate.inventory.equipment.SecuredContainer, inventoryItem._tpl);
                         break;
                     default:
                         break;
                 }
             }
+        }
+
+        public static void IncrementDictionaryValue(Dictionary<string, int> dictToIncrement, string key)
+        {
+            if (!dictToIncrement.ContainsKey(key))
+            {
+                dictToIncrement[key] = 0;
+            }
+
+            dictToIncrement[key]++;
         }
 
         public static void AddCartridges(Bot botToUpdate, Datum rawParsedBot)
@@ -249,6 +278,73 @@ namespace Generator.Helpers.Gear
             }
 
             return itemsThatTakeCartridgesDict;
+        }
+
+        internal static void ReduceAmmoWeightValues(Bot botToUpdate)
+        {
+            foreach (var caliber in botToUpdate.inventory.Ammo)
+            {
+                foreach (var cartridge in botToUpdate.inventory.Ammo.Keys)
+                {
+                    var cartridgeWithWeights = botToUpdate.inventory.Ammo[cartridge];
+                    var weights = cartridgeWithWeights.Values.Select(x => x).ToList();
+                    var commonAmmoDivisor = CommonDivisor(weights);
+
+                    foreach (var cartridgeWeightKvP in cartridgeWithWeights)
+                    {
+                        botToUpdate.inventory.Ammo[cartridge][cartridgeWeightKvP.Key] /= commonAmmoDivisor;
+                    }
+                }
+            }            
+        }
+
+        public static void ReduceEquipmentWeightValues(Equipment equipment)
+        {
+            ReduceWeightValues(equipment.Headwear);
+            ReduceWeightValues(equipment.Earpiece);
+            ReduceWeightValues(equipment.FaceCover);
+            ReduceWeightValues(equipment.ArmorVest);
+            ReduceWeightValues(equipment.Eyewear);
+            ReduceWeightValues(equipment.ArmBand);
+            ReduceWeightValues(equipment.TacticalVest);
+            ReduceWeightValues(equipment.Backpack);
+            ReduceWeightValues(equipment.FirstPrimaryWeapon);
+            ReduceWeightValues(equipment.SecondPrimaryWeapon);
+            ReduceWeightValues(equipment.Scabbard);
+            ReduceWeightValues(equipment.Holster);
+            ReduceWeightValues(equipment.Pockets);
+            ReduceWeightValues(equipment.SecuredContainer);
+        }
+
+        public static void ReduceWeightValues(Dictionary<string, int> equipmentDict)
+        {
+            // No values, nothing to reduce
+            if (equipmentDict.Count == 0)
+            {
+                return;
+            }
+
+            // Only one value, quickly set to 1 and exit
+            if (equipmentDict.Count == 1)
+            {
+                equipmentDict[equipmentDict.First().Key] = 1;
+
+                return;
+            }
+
+            var weights = equipmentDict.Values.Select(x => x).ToList();
+            var commonAmmoDivisor = CommonDivisor(weights);
+
+            // No point in dividing by 1
+            if (commonAmmoDivisor == 1)
+            {
+                return;
+            }
+
+            foreach (var itemTplWithWeight in equipmentDict)
+            {
+                equipmentDict[itemTplWithWeight.Key] /= commonAmmoDivisor;
+            }
         }
     }
 }

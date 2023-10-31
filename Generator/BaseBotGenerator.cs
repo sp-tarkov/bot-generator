@@ -3,6 +3,7 @@ using Common.Models;
 using Common.Models.Input;
 using Common.Models.Output;
 using Generator.Helpers;
+using Generator.Helpers.Gear;
 using System.Diagnostics;
 
 namespace Generator
@@ -52,7 +53,6 @@ namespace Generator
                     AddVoice(botToUpdate, rawParsedBot);
                 }
             }
-
 
             stopwatch.Stop();
             LoggingHelpers.LogToConsole($"Finished processing bot base. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
@@ -155,10 +155,15 @@ namespace Generator
 
         private static void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
         {
+            GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.feet, rawBot.Customization.Feet);
+            //botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet, 1);
+            GearHelpers.ReduceWeightValues(botToUpdate.appearance.feet);
+
+            GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.body, rawBot.Customization.Body);
+            GearHelpers.ReduceWeightValues(botToUpdate.appearance.body);
+
             botToUpdate.appearance.head.AddUnique(rawBot.Customization.Head);
-            botToUpdate.appearance.body.AddUnique(rawBot.Customization.Body, 1);
             botToUpdate.appearance.hands.AddUnique(rawBot.Customization.Hands);
-            botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet, 1);
         }
 
         private static void AddName(Bot botToUpdate, Datum rawBot)

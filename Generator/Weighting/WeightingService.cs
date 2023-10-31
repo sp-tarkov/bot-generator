@@ -15,8 +15,8 @@ namespace Generator.Weighting
     public class WeightingService
     {
         private readonly Dictionary<BotType, Weightings> _weights;
-
         private readonly Dictionary<string, Dictionary<string, GenerationWeightData>> _generationWeights;
+
         public WeightingService()
         {
             var assetsPath = $"{Directory.GetCurrentDirectory()}\\Assets";

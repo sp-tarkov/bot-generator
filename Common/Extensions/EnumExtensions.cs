@@ -4,13 +4,14 @@ using System.Collections.Generic;
 namespace Common.Extensions;
 public static class EnumExtensions
 {
-    private static readonly List<BotType> bossTypes = new List<BotType>(){
+    private static readonly List<BotType> bossTypes = new(){
             BotType.bossbully,
             BotType.bossgluhar,
             BotType.bosskilla,
             BotType.bosskojaniy,
             BotType.bosssanitar,
-            BotType.bosstagilla
+            BotType.bosstagilla,
+            BotType.bossboar
             };
 
     public static bool IsBoss(this BotType self)
