@@ -62,7 +62,7 @@ namespace Generator
 
         private static void AddSkills(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
         {
-            var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
+            var firstBotOfDesiredType = rawBotsOfSameType.Last();
 
             // Find the smallest and biggest value for each skill
             foreach (var skill in firstBotOfDesiredType.Skills.Common)
@@ -91,7 +91,7 @@ namespace Generator
 
         private static void AddStandingForKill(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
         {
-            var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
+            var firstBotOfDesiredType = rawBotsOfSameType.Last();
 
             botToUpdate.experience.standingForKill = firstBotOfDesiredType.Info.Settings.StandingForKill;
             botToUpdate.experience.aggressorBonus = firstBotOfDesiredType.Info.Settings.AggressorBonus;
@@ -99,7 +99,7 @@ namespace Generator
 
         private static void AddExperience(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
         {
-            var firstBotOfDesiredType = rawBotsOfSameType.FirstOrDefault();
+            var firstBotOfDesiredType = rawBotsOfSameType.Last();
 
             botToUpdate.experience.reward.min = firstBotOfDesiredType.Info.Settings.Experience;
             botToUpdate.experience.reward.max = firstBotOfDesiredType.Info.Settings.Experience;
