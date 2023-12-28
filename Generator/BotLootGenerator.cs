@@ -27,7 +27,7 @@ namespace Generator
                     {
                         if (!rawBots.TryGetValue(botType, out rawBotsOfSameType))
                         {
-                            Console.WriteLine($"Unable to find {botType} on rawBots data");
+                            Console.WriteLine($"(loot) Unable to find {botType} on rawBots data");
                             return;
                         }
                     }

@@ -379,6 +379,7 @@
     "DEFAULT_USEC_BEHAVIOUR": "Attack",
     "BOSS_IGNORE_LOYALTY": true,
     "FRIENDLY_BOT_TYPES": ["exUsec"],
+    "REVENGE_BOT_TYPES": ["exUsec", "gifter", "bossKnight", "followerBigPipe", "followerBirdEye"],
     "WARN_BOT_TYPES": []
   },
   "Boss": {

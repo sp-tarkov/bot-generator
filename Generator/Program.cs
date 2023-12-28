@@ -13,7 +13,7 @@ internal static class Program
        "marksman",
        "pmcbot",
        "exusec",
-    
+
        "bossbully",
        "bossgluhar",
        "bosskilla",
@@ -24,6 +24,7 @@ internal static class Program
        "bosszryachiy",
        "bossboar",
        "bossboarsniper",
+       "bosskolontay",
 
        "followerbully",
        "followergluharassault",
@@ -37,6 +38,10 @@ internal static class Program
        "followerbigpipe",
         "followerzryachiy",
         "followerboar",
+        "followerboarclose1",
+        "followerboarclose2",
+        "followerkolontayassault",
+        "followerkolontaysecurity",
 
        "cursedassault",
        "sectantpriest",

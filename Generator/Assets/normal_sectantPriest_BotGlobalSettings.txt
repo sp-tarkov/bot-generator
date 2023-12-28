@@ -399,7 +399,8 @@
     "TALK_WITH_QUERY": true,
     "WILL_PERSUE_AXEMAN": true,
     "REVENGE_FOR_SAVAGE_PLAYERS": false,
-    "DEFAULT_SAVAGE_BEHAVIOUR": "Attack"
+    "DEFAULT_SAVAGE_BEHAVIOUR": "Attack",
+    "REVENGE_BOT_TYPES" : []
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 100.0,

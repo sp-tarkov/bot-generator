@@ -11,7 +11,8 @@ public static class EnumExtensions
             BotType.bosskojaniy,
             BotType.bosssanitar,
             BotType.bosstagilla,
-            BotType.bossboar
+            BotType.bossboar,
+            BotType.bosskojaniy
             };
 
     public static bool IsBoss(this BotType self)

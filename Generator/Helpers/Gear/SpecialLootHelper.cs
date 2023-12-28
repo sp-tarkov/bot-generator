@@ -113,6 +113,10 @@ namespace Generator.Helpers.Gear
                     break;
                 case BotType.usec:
                     break;
+                case BotType.bossboar:
+                    break;
+                case BotType.bosstagilla:
+                    break;
                 default:
                     break;
             }

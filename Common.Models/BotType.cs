@@ -35,6 +35,12 @@
         crazyassaultevent = 33,
         bossboar = 34,
         followerboar = 35,
-        bossboarsniper = 36
+        bossboarsniper = 36,
+        followerboarclose1 = 37,
+        followerboarclose2 = 38,
+        bosskolontay = 39,
+        followerkolontayassault = 40,
+        followerkolontaysecurity = 41
+
     }
 }
