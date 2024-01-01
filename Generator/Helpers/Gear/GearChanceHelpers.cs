@@ -14,7 +14,7 @@ namespace Generator.Helpers.Gear
         {
             // TODO: Further split these counts by equipment slot? (ex. "FirstPrimaryWeapon", "Holster", etc.)
 
-            var validSlots = new List<string> { "FirstPrimaryWeapon", "SecondPrimaryWeapon", "Holster", "Headwear" };
+            var validSlots = new List<string> { "FirstPrimaryWeapon", "SecondPrimaryWeapon", "Holster", "Headwear", "ArmorVest" };
 
             var modCounts = new Dictionary<string, int>();
             var slotCounts = new Dictionary<string, int>();
@@ -41,15 +41,15 @@ namespace Generator.Helpers.Gear
                     var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
                     var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
 
-                    if ((inventoryItem.slotId?.StartsWith("mod_") ?? false) && !(parentTemplate?._props?.Slots?.FirstOrDefault(s => s._name == inventoryItem.slotId)?._required ?? false))
+                    if (!(parentTemplate?._props?.Slots?.FirstOrDefault(slot => slot._name == inventoryItem.slotId)?._required ?? false))
                     {
-                        if (modCounts.ContainsKey(inventoryItem.slotId))
+                        if (modCounts.ContainsKey(inventoryItem.slotId.ToLower()))
                         {
-                            modCounts[inventoryItem.slotId]++;
+                            modCounts[inventoryItem.slotId.ToLower()]++;
                         }
                         else
                         {
-                            modCounts.Add(inventoryItem.slotId, 1);
+                            modCounts.Add(inventoryItem.slotId.ToLower(), 1);
                         }
                     }
 
@@ -59,20 +59,30 @@ namespace Generator.Helpers.Gear
                         continue;
                     }
 
-                    foreach (var slot in template._props.Slots.Where(s => s._name.StartsWith("mod_")))
+                    foreach (var slot in template._props.Slots)
                     {
+                        if (slot._name == "Back_plate")
+                        {
+                            var x = 1;
+                        }
+
                         if (slot._required)
                         {
                             continue;
                         }
 
-                        if (slotCounts.ContainsKey(slot._name))
+                        if (slot._name.StartsWith("camora"))
                         {
-                            slotCounts[slot._name]++;
+                            continue;
+                        }
+
+                        if (slotCounts.ContainsKey(slot._name.ToLower()))
+                        {
+                            slotCounts[slot._name.ToLower()]++;
                         }
                         else
                         {
-                            slotCounts.Add(slot._name, 1);
+                            slotCounts.Add(slot._name.ToLower(), 1);
                         }
                     }
                 }

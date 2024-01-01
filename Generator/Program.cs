@@ -48,7 +48,9 @@ internal static class Program
        "sectantwarrior",
        "gifter",
        "arenafighterevent",
-       "crazyassaultevent"
+       "crazyassaultevent",
+
+       "shooterbtr"
        };
 
         // Read raw bot dumps and turn into c# objects

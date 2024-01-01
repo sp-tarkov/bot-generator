@@ -121,7 +121,8 @@ namespace Generator
 
                 foreach (var item in bot.Inventory.items)
                 {
-                    if (item.parentId == null)
+                    // Filter out root items and equipment mod items
+                    if (item.parentId == null || item.location == null)
                     {
                         continue;
                     }

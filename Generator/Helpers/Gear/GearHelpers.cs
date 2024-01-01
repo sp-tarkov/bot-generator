@@ -13,7 +13,17 @@ namespace Generator.Helpers.Gear
             var itemsWithModsInRawBot = new List<Item>();
 
             modItemsInRawBot = rawParsedBot.Inventory.items
-                .Where(x => x.slotId != null && (x.slotId.StartsWith("mod_") || x.slotId.StartsWith("patron_in_weapon"))).ToList();
+                .Where(x => x.slotId != null 
+                    && (x.slotId.StartsWith("mod_")
+                        || x.slotId.ToLower().StartsWith("patron_in_weapon")
+                        || x.slotId.ToLower().StartsWith("helmet_")
+                        || x.slotId.ToLower().StartsWith("front_")
+                        || x.slotId.ToLower().StartsWith("back_")
+                        || x.slotId.ToLower().StartsWith("collar")
+                        || x.slotId.ToLower().StartsWith("groin")
+                        || x.slotId.ToLower().StartsWith("left")
+                        || x.slotId.ToLower().StartsWith("right")
+                        || x.slotId.ToLower().StartsWith("soft_"))).ToList();
 
             // Get items with Mods by iterating over mod items and getting the parent item
             itemsWithModsInRawBot.AddRange(modItemsInRawBot

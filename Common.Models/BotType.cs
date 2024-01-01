@@ -38,9 +38,10 @@
         bossboarsniper = 36,
         followerboarclose1 = 37,
         followerboarclose2 = 38,
-        bosskolontay = 39,
-        followerkolontayassault = 40,
-        followerkolontaysecurity = 41
+        bosskolontay = 43,
+        followerkolontayassault = 44,
+        followerkolontaysecurity = 45,
+        shooterbtr = 46,
 
     }
 }
