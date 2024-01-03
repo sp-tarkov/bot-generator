@@ -12,6 +12,7 @@
     <None Remove="Assets\easy_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\easy_cursedAssault_BotGlobalSettings.txt" />
     <None Remove="Assets\easy_marksman_BotGlobalSettings.txt" />
+    <None Remove="Assets\forcedLoot.json" />
     <None Remove="Assets\hard_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\hard_cursedAssault_BotGlobalSettings.txt" />
     <None Remove="Assets\hard_marksman_BotGlobalSettings.txt" />
@@ -174,6 +175,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Include="Assets\forcedLoot.json">
+	<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Page>
     <Page Include="Assets\normal_arenaFighterEvent_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>

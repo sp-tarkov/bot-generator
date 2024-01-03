@@ -37,7 +37,7 @@ namespace Generator
                         return;
                     }
 
-                    AddLootToContainers(botToUpdate, rawBotsOfSameType);
+                    AddLootToContainers(botType, botToUpdate, rawBotsOfSameType);
 
                     //foreach (var rawParsedBot in rawBotsOfSameType)
                     //{
@@ -59,40 +59,7 @@ namespace Generator
             return botsWithGear;
         }
 
-        private static void AddPocketLoot(Bot botToUpdate, Datum rawBot)
-        {
-            // pocket loot
-            foreach (var lootItem in rawBot.Inventory.items.Where(x => x?.slotId?.StartsWith("pocket") == true))
-            {
-                botToUpdate.inventory.items.Pockets.AddUnique(lootItem._tpl);
-            }
-        }
-
-        private static void AddTacticalVestLoot(Bot botToUpdate, IEnumerable<Datum> rawBots)
-        {
-            var tacVestItems = GetItemsStoredInEquipmentItem(rawBots, "TacticalVest");
-            botToUpdate.inventory.items.TacticalVest.AddRange(tacVestItems);
-        }
-
-        private static void AddBackpackLoot(Bot botToUpdate, IEnumerable<Datum> rawBots)
-        {
-            // add generic keys to bosses
-            if (botToUpdate.botType.IsBoss())
-            {
-                botToUpdate.inventory.items.Backpack.AddRange(SpecialLootHelper.GetGenericBossKeys());
-            }
-
-            var backpackItems = GetItemsStoredInEquipmentItem(rawBots, "Backpack");
-            botToUpdate.inventory.items.Backpack.AddRange(backpackItems);
-        }
-
-        private static void AddSecureContainerLoot(Bot botToUpdate, IEnumerable<Datum> rawBots)
-        {
-            var tacVestItems = GetItemsStoredInEquipmentItem(rawBots, "SecuredContainer");
-            botToUpdate.inventory.items.SecuredContainer.AddRange(tacVestItems);
-        }
-
-        private static void AddLootToContainers(Bot botToUpdate, List<Datum> rawBotsOfSameType)
+        private static void AddLootToContainers(string botType, Bot botToUpdate, List<Datum> rawBotsOfSameType)
         {
             var containerDict = new Dictionary<string, List<string>>();
             foreach (var bot in rawBotsOfSameType)
@@ -134,13 +101,24 @@ namespace Generator
                     }
                 }
 
+                var forcedLoot = ForcedLootHelper.GetForcedLoot();
+                forcedLoot.TryGetValue(botType, out var lootToAdd);
+
                 if (backpack != null)
                 {
+                    if (lootToAdd?.Backpack != null)
+                    {
+                        botToUpdate.inventory.items.Backpack.AddUniqueRange(lootToAdd.Backpack);
+                    }
                     botToUpdate.inventory.items.Backpack.AddUniqueRange(containerDict[backpack._id]);
                 }
 
                 if (pocket != null)
                 {
+                    if (lootToAdd?.Pockets != null)
+                    {
+                        botToUpdate.inventory.items.Pockets.AddUniqueRange(lootToAdd.Pockets);
+                    }
                     botToUpdate.inventory.items.Pockets.AddUniqueRange(containerDict[pocket._id]);
                 }
 
@@ -151,6 +129,10 @@ namespace Generator
 
                 if (tacVest != null)
                 {
+                    if (lootToAdd?.TacticalVest != null)
+                    {
+                        botToUpdate.inventory.items.TacticalVest.AddUniqueRange(lootToAdd.TacticalVest);
+                    }
                     botToUpdate.inventory.items.TacticalVest.AddUniqueRange(containerDict[tacVest._id]);
                 }
 
