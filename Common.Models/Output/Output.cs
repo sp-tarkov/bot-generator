@@ -133,7 +133,8 @@ public class Chances
     }
 
     public EquipmentChances equipment { get; set; }
-    public Dictionary<string, int> mods { get; set; }
+    public Dictionary<string, int> weaponMods { get; set; }
+    public Dictionary<string, int> equipmentMods { get; set; }
 }
 
 public class EquipmentChances

@@ -13,8 +13,83 @@ namespace Generator.Helpers.Gear
         public static void CalculateModChances(Bot bot, List<Datum> baseBots)
         {
             // TODO: Further split these counts by equipment slot? (ex. "FirstPrimaryWeapon", "Holster", etc.)
+            var validSlots = new List<string> { "FirstPrimaryWeapon", "SecondPrimaryWeapon", "Holster" };
 
-            var validSlots = new List<string> { "FirstPrimaryWeapon", "SecondPrimaryWeapon", "Holster", "Headwear", "ArmorVest" };
+            var modCounts = new Dictionary<string, int>();
+            var slotCounts = new Dictionary<string, int>();
+
+            foreach (var baseBot in baseBots)
+            {
+                var validParents = new List<string>();
+                foreach (var inventoryItem in baseBot.Inventory.items)
+                {
+                    if (validSlots.Contains(inventoryItem.slotId))
+                    {
+                        validParents.Add(inventoryItem._id);
+                    }
+                    else if (validParents.Contains(inventoryItem.parentId))
+                    {
+                        validParents.Add(inventoryItem._id);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
+                    var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
+
+                    if (!(parentTemplate?._props?.Slots?.FirstOrDefault(slot => slot._name == inventoryItem.slotId)?._required ?? false))
+                    {
+                        if (modCounts.ContainsKey(inventoryItem.slotId.ToLower()))
+                        {
+                            modCounts[inventoryItem.slotId.ToLower()]++;
+                        }
+                        else
+                        {
+                            modCounts.Add(inventoryItem.slotId.ToLower(), 1);
+                        }
+                    }
+
+                    if ((template?._props?.Slots?.Count ?? 0) < 1)
+                    {
+                        // Item has no slots, nothing to count here
+                        continue;
+                    }
+
+                    foreach (var slot in template._props.Slots)
+                    {
+                        if (slot._required)
+                        {
+                            continue;
+                        }
+
+                        if (slot._name.StartsWith("camora"))
+                        {
+                            continue;
+                        }
+
+                        if (slotCounts.ContainsKey(slot._name.ToLower()))
+                        {
+                            slotCounts[slot._name.ToLower()]++;
+                        }
+                        else
+                        {
+                            slotCounts.Add(slot._name.ToLower(), 1);
+                        }
+                    }
+                }
+            }
+
+            bot.chances.weaponMods = slotCounts.ToDictionary(
+                kvp => kvp.Key,
+                kvp => GetPercent(kvp.Value, modCounts.GetValueOrDefault(kvp.Key)));
+        }
+
+        public static void CalculateEquipmentModChances(Bot bot, List<Datum> baseBots)
+        {
+            // TODO: Further split these counts by equipment slot? (ex. "FirstPrimaryWeapon", "Holster", etc.)
+            var validSlots = new List<string> { "Headwear", "ArmorVest", "TacticalVest" };
 
             var modCounts = new Dictionary<string, int>();
             var slotCounts = new Dictionary<string, int>();
@@ -61,11 +136,6 @@ namespace Generator.Helpers.Gear
 
                     foreach (var slot in template._props.Slots)
                     {
-                        if (slot._name == "Back_plate")
-                        {
-                            var x = 1;
-                        }
-
                         if (slot._required)
                         {
                             continue;
@@ -88,7 +158,7 @@ namespace Generator.Helpers.Gear
                 }
             }
 
-            bot.chances.mods = slotCounts.ToDictionary(
+            bot.chances.equipmentMods = slotCounts.ToDictionary(
                 kvp => kvp.Key,
                 kvp => GetPercent(kvp.Value, modCounts.GetValueOrDefault(kvp.Key)));
         }
@@ -108,53 +178,53 @@ namespace Generator.Helpers.Gear
             switch (botToUpdate.botType)
             {
                 case BotType.bosskojaniy:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
-                    botToUpdate.chances.mods["mod_scope"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_scope"] = 100;
                     break;
                 case BotType.bosstagilla:
-                    botToUpdate.chances.mods["mod_tactical"] = 100; // force ultima thermal camera
-                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_tactical"] = 100; // force ultima thermal camera
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
                     break;
                 case BotType.bossbully:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
                     break;
                 case BotType.bosskilla:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
-                    botToUpdate.chances.mods["mod_stock_001"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock_001"] = 100;
                     break;
                 case BotType.bosssanitar:
-                    botToUpdate.chances.mods["mod_scope"] = 100;
+                    botToUpdate.chances.weaponMods["mod_scope"] = 100;
                     break;
                 case BotType.pmcbot:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
                     break;
                 case BotType.followerbully:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
-                    botToUpdate.chances.mods["mod_stock_000"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock_000"] = 100;
                     break;
                 case BotType.followergluharassault:
                 case BotType.followergluharscout:
                 case BotType.followergluharsecurity:
                 case BotType.followergluharsnipe:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
                     break;
                 case BotType.followerkojaniy:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
                     break;
                 case BotType.sectantpriest:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
                     break;
                 case BotType.sectantwarrior:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
                     break;
                 case BotType.marksman:
-                    botToUpdate.chances.mods["mod_scope"] = 100;
-                    botToUpdate.chances.mods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_scope"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
                     break;
                 case BotType.exusec:
-                    botToUpdate.chances.mods["mod_stock"] = 100;
-                    botToUpdate.chances.mods["mod_stock_000"] = 100;
-                    botToUpdate.chances.mods["mod_stock_001"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock_000"] = 100;
+                    botToUpdate.chances.weaponMods["mod_stock_001"] = 100;
                     break;
 
             }

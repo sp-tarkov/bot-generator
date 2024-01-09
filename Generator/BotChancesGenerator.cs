@@ -42,6 +42,7 @@ namespace Generator
                     GearChanceHelpers.CalculateEquipmentChances(botToUpdate, rawBotsOfSameType);
                     GearChanceHelpers.AddGenerationChances(botToUpdate, weightHelper);
                     GearChanceHelpers.CalculateModChances(botToUpdate, rawBotsOfSameType);
+                    GearChanceHelpers.CalculateEquipmentModChances(botToUpdate, rawBotsOfSameType);
                     GearChanceHelpers.ApplyModChanceOverrides(botToUpdate);
                     GearChanceHelpers.ApplyEquipmentChanceOverrides(botToUpdate);
                 }));
