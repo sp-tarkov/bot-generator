@@ -23,7 +23,8 @@ namespace Generator.Helpers.Gear
                         || x.slotId.ToLower().StartsWith("groin")
                         || x.slotId.ToLower().StartsWith("left")
                         || x.slotId.ToLower().StartsWith("right")
-                        || x.slotId.ToLower().StartsWith("soft_"))).ToList();
+                        || x.slotId.ToLower().StartsWith("soft_")
+                        || x.slotId.ToLower().StartsWith("shoulder"))).ToList();
 
             // Get items with Mods by iterating over mod items and getting the parent item
             itemsWithModsInRawBot.AddRange(modItemsInRawBot

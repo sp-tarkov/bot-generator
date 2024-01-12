@@ -1,8 +1,5 @@
-﻿using System;
-using Common.Models.Input;
+﻿using Common.Models.Input;
 using Common.Models.Output;
-using System.Collections.Generic;
-using System.Linq;
 using Common.Models;
 using Generator.Weighting;
 
