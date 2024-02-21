@@ -69,7 +69,7 @@ namespace Generator
             foreach (var rawBot in rawBotsOfSameType)
             {
                 // Filter out base inventory items and equipment mod items
-                var rawBotItems = rawBot.Inventory.items.Where(x => x.parentId != null || x.location != null).ToList();
+                var rawBotItems = rawBot.Inventory.items.Where(x => x.parentId != null && x.location != null).ToList();
                 
                 var botBackpack = rawBotItems.FirstOrDefault(item => item.slotId == "Backpack");
                 if (botBackpack != null)
