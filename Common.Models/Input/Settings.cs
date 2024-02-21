@@ -225,6 +225,18 @@ namespace Common.Models.Input
         public int LastAccess { get; set; }
     }
 
+    public class Stats
+    {
+        public EftStats Eft { get; set; }
+    }
+
+    public class EftStats
+    {
+        public SessionCounters SessionCounters { get; set; }
+        public OverallCounters OverallCounters { get; set; }
+    }
+
+
     public class SessionCounters
     {
         public List<object> Items { get; set; }
@@ -235,15 +247,9 @@ namespace Common.Models.Input
         public List<object> Items { get; set; }
     }
 
-    public class Stats
+    public class TaskConditionCounters
     {
-        public SessionCounters SessionCounters { get; set; }
-        public OverallCounters OverallCounters { get; set; }
-    }
-
-    public class ConditionCounters
-    {
-        public List<object> Counters { get; set; }
+        public object Counters { get; set; }
     }
 
     public class BackendCounters
@@ -284,8 +290,7 @@ namespace Common.Models.Input
         public Skills Skills { get; set; }
         public Stats Stats { get; set; }
         public object Encyclopedia { get; set; }
-        public ConditionCounters ConditionCounters { get; set; }
-        public BackendCounters BackendCounters { get; set; }
+        public TaskConditionCounters TaskConditionCounters { get; set; }
         public List<object> InsuredItems { get; set; }
         public Hideout Hideout { get; set; }
         public IEnumerable<object> Bonuses { get; set; }

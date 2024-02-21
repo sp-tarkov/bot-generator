@@ -15,7 +15,7 @@ namespace Generator
             LoggingHelpers.LogToConsole("Started processing bot loot");
 
             var dictionaryLock = new object();
-            
+
             var tasks = new List<Task>(50);
             foreach (var botToUpdate in botsWithGear)
             {
@@ -38,6 +38,10 @@ namespace Generator
                     }
 
                     AddLootToContainers(botType, botToUpdate, rawBotsOfSameType);
+                    GearHelpers.ReduceWeightValues(botToUpdate.inventory.equipment.Backpack);
+                    GearHelpers.ReduceWeightValues(botToUpdate.inventory.equipment.Pockets);
+                    GearHelpers.ReduceWeightValues(botToUpdate.inventory.equipment.TacticalVest);
+                    GearHelpers.ReduceWeightValues(botToUpdate.inventory.equipment.SecuredContainer);
 
                     //foreach (var rawParsedBot in rawBotsOfSameType)
                     //{
@@ -61,123 +65,86 @@ namespace Generator
 
         private static void AddLootToContainers(string botType, Bot botToUpdate, List<Datum> rawBotsOfSameType)
         {
-            var containerDict = new Dictionary<string, List<string>>();
-            foreach (var bot in rawBotsOfSameType)
+            // Process each bot
+            foreach (var rawBot in rawBotsOfSameType)
             {
-                var backpack = bot.Inventory.items.FirstOrDefault(x => x.slotId == "Backpack");
-                if (backpack != null)
+                // Filter out base inventory items and equipment mod items
+                var rawBotItems = rawBot.Inventory.items.Where(x => x.parentId != null || x.location != null).ToList();
+                
+                var botBackpack = rawBotItems.FirstOrDefault(item => item.slotId == "Backpack");
+                if (botBackpack != null)
                 {
-                    containerDict.Add(backpack._id, new List<string>());
-                }
-                var pocket = bot.Inventory.items.FirstOrDefault(x => x.slotId == "Pockets");
-                if (pocket != null)
-                {
-                    containerDict.Add(pocket._id, new List<string>());
-                }
-                var secure = bot.Inventory.items.FirstOrDefault(x => x.slotId == "SecuredContainer");
-                if (secure != null)
-                {
-                    containerDict.Add(secure._id, new List<string>());
+                    AddLootItemsToContainerDictionary(rawBotItems, botBackpack._id, botToUpdate.inventory.items.Backpack);
                 }
 
-                var tacVest = bot.Inventory.items.FirstOrDefault(x => x.slotId == "TacticalVest");
-                if (tacVest != null)
+                var botPockets = rawBotItems.FirstOrDefault(item => item.slotId == "Pockets");
+                if (botPockets != null)
                 {
-                    containerDict.Add(tacVest._id, new List<string>());
+                    AddLootItemsToContainerDictionary(rawBotItems, botPockets._id, botToUpdate.inventory.items.Pockets);
                 }
 
-                foreach (var item in bot.Inventory.items)
+                var botVest = rawBotItems.FirstOrDefault(item => item.slotId == "TacticalVest");
+                if (botVest != null)
                 {
-                    // Filter out root items and equipment mod items
-                    if (item.parentId == null || item.location == null)
+                    AddLootItemsToContainerDictionary(rawBotItems, botVest._id, botToUpdate.inventory.items.TacticalVest);
+                }
+
+                var botSecure = rawBotItems.FirstOrDefault(item => item.slotId == "SecuredContainer");
+                if (botSecure != null)
+                {
+                    AddLootItemsToContainerDictionary(rawBotItems, botSecure._id, botToUpdate.inventory.items.SecuredContainer);
+                }
+
+                // Add generic keys to bosses
+                if (botToUpdate.botType.IsBoss())
+                {
+                    var keys = SpecialLootHelper.GetGenericBossKeysDictionary();
+                    foreach (var bosskey in keys)
                     {
-                        continue;
-                    }
-
-                    // Container (backpack etc) exists in dict
-                    if (containerDict.ContainsKey(item.parentId))
-                    {
-                        containerDict[item.parentId].AddUnique(item._tpl);
+                        if (!botToUpdate.inventory.items.Backpack.ContainsKey(bosskey.Key))
+                        {
+                            botToUpdate.inventory.items.Backpack.Add(bosskey.Key, bosskey.Value);
+                        }
                     }
                 }
 
-                var forcedLoot = ForcedLootHelper.GetForcedLoot();
-                forcedLoot.TryGetValue(botType, out var lootToAdd);
-
-                if (backpack != null)
-                {
-                    if (lootToAdd?.Backpack != null)
-                    {
-                        botToUpdate.inventory.items.Backpack.AddUniqueRange(lootToAdd.Backpack);
-                    }
-                    botToUpdate.inventory.items.Backpack.AddUniqueRange(containerDict[backpack._id]);
-                }
-
-                if (pocket != null)
-                {
-                    if (lootToAdd?.Pockets != null)
-                    {
-                        botToUpdate.inventory.items.Pockets.AddUniqueRange(lootToAdd.Pockets);
-                    }
-                    botToUpdate.inventory.items.Pockets.AddUniqueRange(containerDict[pocket._id]);
-                }
-
-                if (secure != null)
-                {
-                    botToUpdate.inventory.items.SecuredContainer.AddUniqueRange(containerDict[secure._id]);
-                }
-
-                if (tacVest != null)
-                {
-                    if (lootToAdd?.TacticalVest != null)
-                    {
-                        botToUpdate.inventory.items.TacticalVest.AddUniqueRange(lootToAdd.TacticalVest);
-                    }
-                    botToUpdate.inventory.items.TacticalVest.AddUniqueRange(containerDict[tacVest._id]);
-                }
-
-                containerDict.Clear();
+                AddSpecialLoot(botToUpdate);
             }
+        }
 
-            // Add generic keys to bosses
-            if (botToUpdate.botType.IsBoss())
+        /// <summary>
+        /// Look for items inside itemsToFilter that have the parentid of `containerId` and add them to dictToAddTo
+        /// Keep track of how many items are added in the dictToAddTo value
+        /// </summary>
+        /// <param name="itemsToFilter">Bots inventory items</param>
+        /// <param name="containerId"></param>
+        /// <param name="dictToAddTo"></param>
+        private static void AddLootItemsToContainerDictionary(List<Item> itemsToFilter, string containerId, Dictionary<string, int> dictToAddTo)
+        {
+            var backpackLootItems = itemsToFilter.Where(item => item.parentId == containerId);
+            foreach (var backpackItem in backpackLootItems)
             {
-                var keys = SpecialLootHelper.GetGenericBossKeys().ToList();
-                botToUpdate.inventory.items.Backpack.AddUniqueRange(keys);
-            }
+                if (!dictToAddTo.ContainsKey(backpackItem._tpl))
+                {
+                    dictToAddTo[backpackItem._tpl] = 1;
 
-            AddSpecialLoot(botToUpdate);
+                    return;
+                }
+
+                dictToAddTo[backpackItem._tpl]++;
+            }
         }
 
         private static void AddSpecialLoot(Bot botToUpdate)
         {
-            botToUpdate.inventory.items.SpecialLoot.AddRange(SpecialLootHelper.GetSpecialLootForBotType(botToUpdate.botType));
-        }
-
-        private static IEnumerable<string> GetItemsStoredInEquipmentItem(IEnumerable<Datum> rawBots, string containerName)
-        {
-            var itemsStoredInContainer = new List<string>();
-            var containers = new List<string>();
-            foreach (var bot in rawBots)
+            var itemsToAdd = SpecialLootHelper.GetSpecialLootForBotType(botToUpdate.botType);
+            foreach (var item in itemsToAdd)
             {
-                // find the container type we want on this bot (backpack etc)
-                // Add to list
-                var botContainers = bot.Inventory.items.Where(x => x.slotId == containerName);
-                foreach (var container in botContainers)
+                if (!botToUpdate.inventory.items.SpecialLoot.ContainsKey(item.Key))
                 {
-                    containers.AddUnique(container._id);
-                }
-
-                foreach (var item in bot.Inventory.items)
-                {
-                    if (containers.Contains(item.parentId))
-                    {
-                        itemsStoredInContainer.AddUnique(item._tpl);
-                    }
+                    botToUpdate.inventory.items.SpecialLoot.Add(item.Key, item.Value);
                 }
             }
-
-            return itemsStoredInContainer;
         }
     }
 }

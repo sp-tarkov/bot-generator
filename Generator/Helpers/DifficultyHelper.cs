@@ -19,7 +19,10 @@ namespace Generator.Helpers
             foreach (var path in pathsWithBotType)
             {
                 var difficultyJson = File.ReadAllText(path);
-                var serialisedDifficultySettings = JsonConvert.DeserializeObject<DifficultySettings>(difficultyJson);
+                var serialisedDifficultySettings = JsonConvert.DeserializeObject<DifficultySettings>(difficultyJson, new JsonSerializerSettings
+                {
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                });
 
                 serialisedDifficultySettings = ApplyCustomDifficultyValues(botType, serialisedDifficultySettings);
 

@@ -59,17 +59,17 @@ namespace Common.Models.Output
     {
         public Items()
         {
-            TacticalVest = new List<string>();
-            Pockets = new List<string>();
-            Backpack = new List<string>();
-            SecuredContainer = new List<string>();
-            SpecialLoot = new List<string>();
+            TacticalVest = new Dictionary<string, int>();
+            Pockets = new Dictionary<string, int>();
+            Backpack = new Dictionary<string, int>();
+            SecuredContainer = new Dictionary<string, int>();
+            SpecialLoot = new Dictionary<string, int>();
         }
 
-        public List<string> TacticalVest { get; set; }
-        public List<string> Pockets { get; set; }
-        public List<string> Backpack { get; set; }
-        public List<string> SecuredContainer { get; set; }
-        public List<string> SpecialLoot { get; set; }
+        public Dictionary<string, int> TacticalVest { get; set; }
+        public Dictionary<string, int> Pockets { get; set; }
+        public Dictionary<string, int> Backpack { get; set; }
+        public new Dictionary<string, int> SecuredContainer { get; set; }
+        public new Dictionary<string, int> SpecialLoot { get; set; }
     }
 }

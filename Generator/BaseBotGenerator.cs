@@ -107,7 +107,8 @@ namespace Generator
 
         private static void AddVoice(Bot bot, Datum rawBot)
         {
-            bot.appearance.voice.AddUnique(rawBot.Info.Voice);
+            GearHelpers.IncrementDictionaryValue(bot.appearance.voice, rawBot.Info.Voice);
+            GearHelpers.ReduceWeightValues(bot.appearance.voice);
         }
 
         private static void AddDifficulties(Bot bot, string workingPath)
@@ -156,14 +157,16 @@ namespace Generator
         private static void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
         {
             GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.feet, rawBot.Customization.Feet);
-            //botToUpdate.appearance.feet.AddUnique(rawBot.Customization.Feet, 1);
             GearHelpers.ReduceWeightValues(botToUpdate.appearance.feet);
 
             GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.body, rawBot.Customization.Body);
             GearHelpers.ReduceWeightValues(botToUpdate.appearance.body);
 
-            botToUpdate.appearance.head.AddUnique(rawBot.Customization.Head);
-            botToUpdate.appearance.hands.AddUnique(rawBot.Customization.Hands);
+            GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.head, rawBot.Customization.Head);
+            GearHelpers.ReduceWeightValues(botToUpdate.appearance.head);
+
+            GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.hands, rawBot.Customization.Hands);
+            GearHelpers.ReduceWeightValues(botToUpdate.appearance.hands);
         }
 
         private static void AddName(Bot botToUpdate, Datum rawBot)

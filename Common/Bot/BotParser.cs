@@ -23,12 +23,12 @@ public static class BotParser
         var botFiles = Directory.GetFiles(dumpPath, "*.json", SearchOption.TopDirectoryOnly).ToList();
         LoggingHelpers.LogToConsole($"{botFiles.Count} bot dump files found");
 
-        var parsedBotsDict = new HashSet<Datum>();
+        var parsedBotsDict = new Dictionary<string, Datum>();
         var dictionaryLock = new object();
         
         int totalDupeCount = 0;
         
-        var tasks = new List<Task>(50);
+        var tasks = new List<Task>(45);
         foreach (var file in botFiles)
         {
             tasks.Add(Task.Factory.StartNew(() =>
@@ -72,26 +72,23 @@ public static class BotParser
 
                     lock (dictionaryLock)
                     {
+                        bot.Stats = null;
+                        bot.Encyclopedia = null;
+                        bot.Hideout = null;
+                        bot.TaskConditionCounters = null;
+                        bot.Bonuses = null;
+                        bot.InsuredItems = null;
+
                         // Bot already exists in dictionary, skip
-                        if (parsedBotsDict.Contains(bot))
+                        if (parsedBotsDict.TryAdd(bot._id, bot))
                         {
-                            //var existingBot = parsedBotsDict[bot._id];
+                            // Success - Null out data we don't need for generating bots to save RAM
+                        }
+                        else
+                        {
+                            //var existingBot = parsedBotsDict.FirstOrDefault(x => x._id == bot._id);
                             dupeCount++;
                             continue;
-                        }
-
-
-                        if (!parsedBotsDict.Contains(bot))
-                        {
-                            // Null out data we don't need for generating bots to save RAM
-                            bot.Stats = null;
-                            bot.Encyclopedia = null;
-                            bot.Hideout = null;
-                            bot.ConditionCounters = null;
-                            bot.Bonuses = null;
-                            bot.BackendCounters = null;
-                            bot.InsuredItems = null;
-                            parsedBotsDict.Add(bot);
                         }
                     }
                 }
@@ -105,7 +102,7 @@ public static class BotParser
         
         LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBotsDict.Count} bots. {totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-        return parsedBotsDict.ToList();
+        return [.. parsedBotsDict.Values];
     }
 
     private static string PruneMalformedBsgJson(string json, string fileName)

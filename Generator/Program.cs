@@ -10,32 +10,32 @@ internal static class Program
         // Create list of bots we want to process
         string[] botTypes = {
         "assault",
-       "marksman",
-       "pmcbot",
-       "exusec",
+        "marksman",
+        "pmcbot",
+        "exusec",
 
-       "bossbully",
-       "bossgluhar",
-       "bosskilla",
-       "bosskojaniy",
-       "bosssanitar",
-       "bosstagilla",
-       "bossknight",
-       "bosszryachiy",
-       "bossboar",
-       "bossboarsniper",
-       "bosskolontay",
+        "bossbully",
+        "bossgluhar",
+        "bosskilla",
+        "bosskojaniy",
+        "bosssanitar",
+        "bosstagilla",
+        "bossknight",
+        "bosszryachiy",
+        "bossboar",
+        "bossboarsniper",
+        "bosskolontay",
 
-       "followerbully",
-       "followergluharassault",
-       "followergluharscout",
-       "followergluharsecurity",
-       "followergluharsnipe",
-       "followerkojaniy",
-       "followersanitar",
-       "followerstormtrooper",
-       "followerbirdeye",
-       "followerbigpipe",
+        "followerbully",
+        "followergluharassault",
+        "followergluharscout",
+        "followergluharsecurity",
+        "followergluharsnipe",
+        "followerkojaniy",
+        "followersanitar",
+        "followerstormtrooper",
+        "followerbirdeye",
+        "followerbigpipe",
         "followerzryachiy",
         "followerboar",
         "followerboarclose1",
@@ -43,14 +43,16 @@ internal static class Program
         "followerkolontayassault",
         "followerkolontaysecurity",
 
-       "cursedassault",
-       "sectantpriest",
-       "sectantwarrior",
-       "gifter",
-       "arenafighterevent",
-       "crazyassaultevent",
+        "ravangezryachiyevent",
+        "peacefullzryachiyevent",
+        "cursedassault",
+        "sectantpriest",
+        "sectantwarrior",
+        "gifter",
+        "arenafighterevent",
+        "crazyassaultevent",
 
-       "shooterbtr"
+        "shooterbtr"
        };
 
         // Read raw bot dumps and turn into c# objects
@@ -59,7 +61,7 @@ internal static class Program
         var parsedBots = BotParser.ParseAsync(dumpPath, botTypes.ToHashSet());
 
         // Put in dictionary for better use later on
-        var rawBotsCache = new Dictionary<string, List<Datum>>(40);
+        var rawBotsCache = new Dictionary<string, List<Datum>>(45);
         foreach (var rawBot in parsedBots)
         {
             if (rawBotsCache.TryGetValue(rawBot.Info.Settings.Role.ToLower(), out var botList))

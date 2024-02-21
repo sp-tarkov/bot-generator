@@ -49,16 +49,16 @@ public class Appearance
     {
         body = new Dictionary<string, int>();
         feet = new Dictionary<string, int>();
-        hands = new List<string>();
-        head = new List<string>();
-        voice = new List<string>();
+        hands = new Dictionary<string, int>();
+        head = new Dictionary<string, int>();
+        voice = new Dictionary<string, int>();
     }
 
     public Dictionary<string, int> body { get; set; }
     public Dictionary<string, int> feet { get; set; }
-    public List<string> hands { get; set; }
-    public List<string> head { get; set; }
-    public List<string> voice { get; set; }
+    public Dictionary<string, int> hands { get; set; }
+    public Dictionary<string, int> head { get; set; }
+    public Dictionary<string, int> voice { get; set; }
 }
 
 public class Experience

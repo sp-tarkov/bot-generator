@@ -1,5 +1,6 @@
 ﻿using Common.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Generator.Helpers.Gear
 {
@@ -63,9 +64,14 @@ namespace Generator.Helpers.Gear
             return _genericBossKeys;
         }
 
-        public static IEnumerable<string> GetSpecialLootForBotType(BotType botType)
+        public static Dictionary<string, int> GetGenericBossKeysDictionary()
         {
-            var results = new List<string>();
+            return _genericBossKeys.ToDictionary(x => x, y => 1);
+        }
+
+        public static Dictionary<string, int> GetSpecialLootForBotType(BotType botType)
+        {
+            var results = new Dictionary<string, int>();
             switch (botType)
             {
                 case BotType.assault:
@@ -81,11 +87,11 @@ namespace Generator.Helpers.Gear
                 case BotType.bosskilla:
                     break;
                 case BotType.bosskojaniy:
-                    results.Add("5d08d21286f774736e7c94c3"); // Shturman's stash key
-                    results.Add("5c94bbff86f7747ee735c08f"); // labs keycard
+                    results.Add("5d08d21286f774736e7c94c3", 1); // Shturman's stash key
+                    results.Add("5c94bbff86f7747ee735c08f", 1); // labs keycard
                     break;
                 case BotType.bosssanitar:
-                    results.Add("5efde6b4f5448336730dbd61"); // Keycard with a blue marking
+                    results.Add("5efde6b4f5448336730dbd61", 1); // Keycard with a blue marking
                     break;
                 case BotType.bossstormtrooper:
                     break;
