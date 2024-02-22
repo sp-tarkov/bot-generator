@@ -69,27 +69,27 @@ namespace Generator
             foreach (var rawBot in rawBotsOfSameType)
             {
                 // Filter out base inventory items and equipment mod items
-                var rawBotItems = rawBot.Inventory.items.Where(x => x.parentId != null && x.location != null).ToList();
+                var rawBotItems = rawBot.Inventory.items.Where(item => item.location != null).ToList();
                 
-                var botBackpack = rawBotItems.FirstOrDefault(item => item.slotId == "Backpack");
+                var botBackpack = rawBot.Inventory.items.FirstOrDefault(item => item.slotId == "Backpack");
                 if (botBackpack != null)
                 {
                     AddLootItemsToContainerDictionary(rawBotItems, botBackpack._id, botToUpdate.inventory.items.Backpack);
                 }
 
-                var botPockets = rawBotItems.FirstOrDefault(item => item.slotId == "Pockets");
+                var botPockets = rawBot.Inventory.items.FirstOrDefault(item => item.slotId == "Pockets");
                 if (botPockets != null)
                 {
                     AddLootItemsToContainerDictionary(rawBotItems, botPockets._id, botToUpdate.inventory.items.Pockets);
                 }
 
-                var botVest = rawBotItems.FirstOrDefault(item => item.slotId == "TacticalVest");
+                var botVest = rawBot.Inventory.items.FirstOrDefault(item => item.slotId == "TacticalVest");
                 if (botVest != null)
                 {
                     AddLootItemsToContainerDictionary(rawBotItems, botVest._id, botToUpdate.inventory.items.TacticalVest);
                 }
 
-                var botSecure = rawBotItems.FirstOrDefault(item => item.slotId == "SecuredContainer");
+                var botSecure = rawBot.Inventory.items.FirstOrDefault(item => item.slotId == "SecuredContainer");
                 if (botSecure != null)
                 {
                     AddLootItemsToContainerDictionary(rawBotItems, botSecure._id, botToUpdate.inventory.items.SecuredContainer);
@@ -121,17 +121,17 @@ namespace Generator
         /// <param name="dictToAddTo"></param>
         private static void AddLootItemsToContainerDictionary(List<Item> itemsToFilter, string containerId, Dictionary<string, int> dictToAddTo)
         {
-            var backpackLootItems = itemsToFilter.Where(item => item.parentId == containerId);
-            foreach (var backpackItem in backpackLootItems)
+            var lootItems = itemsToFilter.Where(item => item.parentId == containerId);
+            foreach (var itemToAdd in lootItems)
             {
-                if (!dictToAddTo.ContainsKey(backpackItem._tpl))
+                if (!dictToAddTo.ContainsKey(itemToAdd._tpl))
                 {
-                    dictToAddTo[backpackItem._tpl] = 1;
+                    dictToAddTo[itemToAdd._tpl] = 1;
 
                     return;
                 }
 
-                dictToAddTo[backpackItem._tpl]++;
+                dictToAddTo[itemToAdd._tpl]++;
             }
         }
 
