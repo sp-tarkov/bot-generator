@@ -73,18 +73,12 @@ namespace Generator
                     skills.Add(bot.Skills.Common.Find(x => x.Id == skill.Id));
                 }
 
-                var min = skills.Min(x => x.Progress);
-                var max = skills.Max(x => x.Progress);
+                var min = skills.Min(x => x?.Progress);
+                var max = skills.Max(x => x?.Progress);
 
-                botToUpdate.skills.Common.Add(skill.Id, new MinMax(min, max));
-            }
-
-            // Do any bots have mastering skills? debug time
-            foreach (var bot in rawBotsOfSameType)
-            {
-                if (bot.Skills.Mastering.Count > 0)
+                if (min.HasValue && max.HasValue)
                 {
-                    var x = 2;
+                    botToUpdate.skills.Common.Add(skill.Id, new MinMax(min.Value, max.Value));
                 }
             }
         }
