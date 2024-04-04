@@ -52,7 +52,10 @@ internal static class Program
         "arenafighterevent",
         "crazyassaultevent",
 
-        "shooterbtr"
+        "shooterbtr",
+
+        "spiritspring",
+        "spiritwinter"
        };
 
         // Read raw bot dumps and turn into c# objects

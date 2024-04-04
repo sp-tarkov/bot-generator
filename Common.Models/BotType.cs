@@ -46,6 +46,8 @@
         followerkolontayassault = 44,
         followerkolontaysecurity = 45,
         shooterbtr = 46,
+        spiritwinter = 47,
+        spiritspring = 48
 
     }
 }
