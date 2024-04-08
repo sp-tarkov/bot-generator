@@ -235,6 +235,8 @@ namespace Generator.Helpers.Gear
                 weightsData["healing"],
                 weightsData["drugs"],
                 weightsData["stims"],
+                weightsData["food"],
+                weightsData["drinks"],
                 weightsData["backpackLoot"],
                 weightsData["pocketLoot"],
                 weightsData["vestLoot"],

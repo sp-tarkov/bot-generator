@@ -1,177 +1,209 @@
 {
   "assault": {
     "backpackLoot": {
-      "weights": {
-        "0": 1,
-        "1": 2,
-        "2": 2,
-        "3": 1,
-        "4": 1,
-        "5": 1,
-        "6": 1
+        "weights": {
+          "0": 1,
+          "1": 6,
+          "2": 6,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "drugs": {
-      "weights": {
-        "0": 1,
-        "1": 2,
-        "2": 0
+      "drugs": {
+        "weights": {
+          "0": 30,
+          "1": 9,
+          "2": 1
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "grenades": {
-      "weights": {
-        "0": 3,
-        "1": 4,
-        "2": 2,
-        "3": 1,
-        "4": 0,
-        "5": 0
+	  "food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "healing": {
-      "weights": {
-        "0": 1,
-        "1": 2,
-        "2": 1
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "magazines": {
-      "weights": {
-        "0": 0,
-        "1": 0,
-        "2": 1,
-        "3": 3,
-        "4": 1
+      "grenades": {
+        "weights": {
+          "0": 8,
+          "1": 6,
+          "2": 2,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "pocketLoot": {
-      "weights": {
-        "0": 1,
-        "1": 6,
-        "2": 3,
-        "3": 1,
-        "4": 1
+      "healing": {
+        "weights": {
+          "0": 5,
+          "1": 6,
+          "2": 1
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "specialItems": {
-      "weights": {
-        "0": 1,
-        "1": 0
+      "magazines": {
+        "weights": {
+          "0": 0,
+          "1": 5,
+          "2": 4,
+          "3": 2,
+          "4": 1
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "stims": {
-      "weights": {
-        "0": 15,
-        "1": 3,
-        "2": 1
+      "pocketLoot": {
+        "weights": {
+          "0": 2,
+          "1": 9,
+          "2": 3,
+          "3": 1,
+          "4": 1
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "vestLoot": {
-      "weights": {
-        "0": 1,
-        "1": 1,
-        "2": 2,
-        "3": 1,
-        "4": 0,
-        "5": 0,
-        "6": 0
+      "specialItems": {
+        "weights": {
+          "0": 1,
+          "1": 0
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    }
+      "stims": {
+        "weights": {
+          "0": 45,
+          "1": 3,
+          "2": 1
+        },
+        "whitelist": []
+      },
+      "vestLoot": {
+        "weights": {
+          "0": 1,
+          "1": 3,
+          "2": 4,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "whitelist": []
+      }
   },
   "bossbully": {
     "backpackLoot": {
-      "weights": {
-        "0": 1,
-        "1": 1,
-        "2": 2,
-        "3": 1,
-        "4": 1,
-        "5": 1,
-        "6": 1,
-        "7": 0
+        "weights": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 0
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "drugs": {
-      "weights": {
-        "0": 1,
-        "1": 2
+      "drugs": {
+        "weights": {
+          "0": 1,
+          "1": 2
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "grenades": {
-      "weights": {
-        "0": 1,
-        "1": 1,
-        "2": 5,
-        "3": 2,
-        "4": 1,
-        "5": 1
+	  "food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "healing": {
-      "weights": {
-        "1": 1,
-        "2": 2
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "magazines": {
-      "weights": {
-        "0": 0,
-        "1": 0,
-        "2": 1,
-        "3": 3,
-        "4": 2
+      "grenades": {
+        "weights": {
+          "0": 1,
+          "1": 1,
+          "2": 5,
+          "3": 2,
+          "4": 1,
+          "5": 1
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "pocketLoot": {
-      "weights": {
-        "0": 1,
-        "1": 6,
-        "2": 3,
-        "3": 1,
-        "4": 1
+      "healing": {
+        "weights": {
+          "1": 1,
+          "2": 2
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "specialItems": {
-      "weights": {
-        "0": 0
+      "magazines": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 3,
+          "4": 2
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "stims": {
-      "weights": {
-        "0": 2,
-        "1": 1,
-        "2": 0
+      "pocketLoot": {
+        "weights": {
+          "0": 1,
+          "1": 6,
+          "2": 3,
+          "3": 1,
+          "4": 1
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    },
-    "vestLoot": {
-      "weights": {
-        "0": 1,
-        "1": 3,
-        "2": 5,
-        "3": 1,
-        "4": 1,
-        "5": 1,
-        "6": 1
+      "specialItems": {
+        "weights": {
+          "0": 0
+        },
+        "whitelist": []
       },
-      "whitelist": []
-    }
+      "stims": {
+        "weights": {
+          "0": 2,
+          "1": 1,
+          "2": 0
+        },
+        "whitelist": []
+      },
+      "vestLoot": {
+        "weights": {
+          "0": 1,
+          "1": 3,
+          "2": 5,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1
+        },
+        "whitelist": []
+      }
   },
   "bossgluhar": {
     "backpackLoot": {
@@ -194,6 +226,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -278,6 +326,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -362,6 +426,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -452,6 +532,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -541,6 +637,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -629,6 +741,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -716,6 +844,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -809,6 +953,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -840,10 +1000,10 @@
     },
     "pocketLoot": {
       "weights": {
-        "0": 3,
-        "1": 10,
+        "0": 10,
+        "1": 35,
         "2": 3,
-        "3": 1,
+        "3": 2,
         "4": 1
       },
       "whitelist": []
@@ -898,6 +1058,22 @@
       },
       "whitelist": []
     },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
     "grenades": {
       "weights": {
         "0": 1,
@@ -964,5 +1140,108 @@
       },
       "whitelist": []
     }
+  },
+  "gifter": {
+    "backpackLoot": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "10": 1,
+          "2": 0,
+          "3": 0,
+          "4": 8,
+          "5": 5,
+          "6": 2,
+          "7": 1
+        },
+        "whitelist": []
+      },
+      "drugs": {
+        "weights": {
+          "0": 1,
+          "1": 2,
+          "2": 0
+        },
+        "whitelist": []
+      },
+	  "food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+      "grenades": {
+        "weights": {
+          "0": 1,
+          "1": 2,
+          "2": 1
+        },
+        "whitelist": []
+      },
+      "healing": {
+        "weights": {
+          "0": 1,
+          "1": 2,
+          "2": 1
+        },
+        "whitelist": []
+      },
+      "magazines": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 3,
+          "4": 0
+        },
+        "whitelist": []
+      },
+      "pocketLoot": {
+        "weights": {
+          "0": 1,
+          "1": 3,
+          "2": 6,
+          "3": 1,
+          "4": 1
+        },
+        "whitelist": []
+      },
+      "specialItems": {
+        "weights": {
+          "0": 1,
+          "1": 0
+        },
+        "whitelist": []
+      },
+      "stims": {
+        "weights": {
+          "0": 2,
+          "1": 1,
+          "2": 0
+        },
+        "whitelist": []
+      },
+      "vestLoot": {
+        "weights": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "whitelist": []
+      }
   }
 }
