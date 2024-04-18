@@ -237,15 +237,12 @@ namespace Generator.Helpers.Gear
                 weightsData["stims"],
                 weightsData["food"],
                 weightsData["drinks"],
+                weightsData["currency"],
                 weightsData["backpackLoot"],
                 weightsData["pocketLoot"],
                 weightsData["vestLoot"],
                 weightsData["magazines"],
                 weightsData["grenades"]);
-
-            // it makes some crazy values, one assault bot has 10 grenades!
-            //AddGrenadeMinMax(bot, rawBots);
-
         }
 
         public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)

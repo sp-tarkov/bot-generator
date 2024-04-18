@@ -189,6 +189,7 @@ public class GenerationChances
         GenerationWeightData stimItems,
         GenerationWeightData foodItems,
         GenerationWeightData drinkItems,
+        GenerationWeightData currencyitems,
         GenerationWeightData backpackLootItems,
         GenerationWeightData pocketLootItems,
         GenerationWeightData vestLootItems,
@@ -203,6 +204,7 @@ public class GenerationChances
             stims = stimItems,
             food = foodItems,
             drink = drinkItems,
+            currency = currencyitems,
             backpackLoot = backpackLootItems,
             pocketLoot = pocketLootItems,
             vestLoot = vestLootItems,
@@ -227,6 +229,9 @@ public class ItemChances
         healing = new GenerationWeightData(); // 1, 2
         drugs = new GenerationWeightData(); // 0, 1
         stims = new GenerationWeightData(); // 0, 1
+        food = new GenerationWeightData();
+        drink = new GenerationWeightData();
+        currency = new GenerationWeightData();
         backpackLoot = new GenerationWeightData(); //0,3
         pocketLoot = new GenerationWeightData();
         vestLoot = new GenerationWeightData();
@@ -240,6 +245,8 @@ public class ItemChances
     public GenerationWeightData stims { get; set; }
     public GenerationWeightData food { get; set; }
     public GenerationWeightData drink { get; set; }
+
+    public GenerationWeightData currency { get; set; }
     public GenerationWeightData backpackLoot { get; set; }
     public GenerationWeightData pocketLoot { get; set; }
     public GenerationWeightData vestLoot { get; set; }
