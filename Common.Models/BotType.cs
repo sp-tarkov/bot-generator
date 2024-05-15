@@ -47,7 +47,12 @@
         followerkolontaysecurity = 45,
         shooterbtr = 46,
         spiritwinter = 47,
-        spiritspring = 48
+        spiritspring = 48,
+        assaultgroup = 49,
+        pmcbear = 50,
+        pmcusec = 51,
+        skier = 52,
+        peacemaker = 53
 
     }
 }

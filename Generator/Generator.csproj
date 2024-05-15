@@ -261,6 +261,9 @@
     <None Update="Assets\normal_peacefullZryachiyEvent_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\normal_peacemaker_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\normal_ravangeZryachiyEvent_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -268,6 +271,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\normal_shooterBTR_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_skier_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\__BotGlobalSettings.txt">

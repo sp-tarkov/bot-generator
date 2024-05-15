@@ -10,6 +10,7 @@ internal static class Program
         // Create list of bots we want to process
         string[] botTypes = {
         "assault",
+        "assaultgroup",
         "marksman",
         "pmcbot",
         "exusec",
@@ -55,7 +56,10 @@ internal static class Program
         "shooterbtr",
 
         "spiritspring",
-        "spiritwinter"
+        "spiritwinter",
+
+        "skier",
+        "peacemaker"
        };
 
         // Read raw bot dumps and turn into c# objects
