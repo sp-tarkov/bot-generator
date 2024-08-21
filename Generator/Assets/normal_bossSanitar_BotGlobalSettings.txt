@@ -395,12 +395,12 @@
     "MEDS_ONLY_SAFE_CONTAINER": false,
     "CAN_TAKE_ITEMS": false,
     "TALK_WITH_QUERY": true,
-    "DEFAULT_SAVAGE_BEHAVIOUR": "Ignore",
-    "DEFAULT_BEAR_BEHAVIOUR": "Attack",
-    "DEFAULT_USEC_BEHAVIOUR": "Attack",
+    "DEFAULT_SAVAGE_BEHAVIOUR": "Neutral",
+    "DEFAULT_BEAR_BEHAVIOUR": "AlwaysEnemies",
+    "DEFAULT_USEC_BEHAVIOUR": "AlwaysEnemies",
     "FRIENDLY_BOT_TYPES": [],
     "WARN_BOT_TYPES": ["assault"],
-    "ENEMY_BOT_TYPES": []
+    "ENEMY_BOT_TYPES": ["pmcBEAR","pmcUSEC"]
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 34.0,

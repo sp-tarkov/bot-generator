@@ -73,8 +73,8 @@ public class Experience
 
     public MinMax level { get; set; }
     public MinMax reward { get; set; }
-    public double standingForKill { get; set; }
-    public double aggressorBonus { get; set; }
+    public object standingForKill { get; set; }
+    public object aggressorBonus { get; set; }
 }
 
 public class BodyParts

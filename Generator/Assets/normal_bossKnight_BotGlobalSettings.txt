@@ -401,12 +401,13 @@
     "CAN_TAKE_ITEMS": false,
     "TALK_WITH_QUERY": true,
     "DEFAULT_SAVAGE_BEHAVIOUR": "Warn",
-    "DEFAULT_BEAR_BEHAVIOUR": "Attack",
-    "DEFAULT_USEC_BEHAVIOUR": "Attack",
+    "DEFAULT_BEAR_BEHAVIOUR": "AlwaysEnemies",
+    "DEFAULT_USEC_BEHAVIOUR": "AlwaysEnemies",
     "BOSS_IGNORE_LOYALTY": true,
     "FRIENDLY_BOT_TYPES": ["exUsec"],
     "REVENGE_BOT_TYPES": ["exUsec", "gifter", "bossKnight", "followerBigPipe", "followerBirdEye"],
-    "WARN_BOT_TYPES": []
+    "WARN_BOT_TYPES": [],
+    "ENEMY_BOT_TYPES": ["pmcBEAR","pmcUSEC"]
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 34.0,

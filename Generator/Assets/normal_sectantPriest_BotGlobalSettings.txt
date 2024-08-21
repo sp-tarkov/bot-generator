@@ -399,7 +399,7 @@
     "TALK_WITH_QUERY": true,
     "WILL_PERSUE_AXEMAN": true,
     "REVENGE_FOR_SAVAGE_PLAYERS": false,
-    "DEFAULT_SAVAGE_BEHAVIOUR": "Attack",
+    "DEFAULT_SAVAGE_BEHAVIOUR": "AlwaysEnemies",
     "REVENGE_BOT_TYPES" : []
   },
   "Boss": {

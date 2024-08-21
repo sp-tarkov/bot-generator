@@ -26,6 +26,7 @@ internal static class Program
         "bossboar",
         "bossboarsniper",
         "bosskolontay",
+        "bosspartisan",
 
         "followerbully",
         "followergluharassault",

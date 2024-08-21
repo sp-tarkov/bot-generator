@@ -25,6 +25,7 @@
     <None Remove="Assets\normal_bossGluhar_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossKilla_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossKojaniy_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_bossPartisan_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossSanitar_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossStormtrooper_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossTagilla_BotGlobalSettings.txt" />
@@ -93,6 +94,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_bossKojaniy_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_bossPartisan_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_bossSanitar_BotGlobalSettings.txt">

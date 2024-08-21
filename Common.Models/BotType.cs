@@ -52,7 +52,8 @@
         pmcbear = 50,
         pmcusec = 51,
         skier = 52,
-        peacemaker = 53
+        peacemaker = 53,
+        bosspartisan = 54
 
     }
 }

@@ -376,7 +376,7 @@
     "HIT_DELAY_WHEN_PEACE": -1.0,
     "TALK_WITH_QUERY": true,
     "DEFAULT_SAVAGE_BEHAVIOUR": "Warn",
-    "DEFAULT_BEAR_BEHAVIOUR": "Attack",
+    "DEFAULT_BEAR_BEHAVIOUR": "AlwaysEnemies",
     "DEFAULT_USEC_BEHAVIOUR": "Warn",
     "FRIENDLY_BOT_TYPES": [],
     "WARN_BOT_TYPES": ["assault"],
