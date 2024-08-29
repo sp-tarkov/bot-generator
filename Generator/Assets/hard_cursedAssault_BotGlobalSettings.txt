@@ -73,6 +73,7 @@
     "NO_RUN_FROM_AI_GRENADES": false,
     "MAX_THROW_POWER": 18.7,
     "GrenadePrecision": 0.1,
+    "GRENADE_PRECISION_PORTALS": 0.1,
     "WAIT_TIME_TURN_AWAY": 0.2,
     "ANG_TYPE": 4,
   },
