@@ -9,43 +9,88 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\easy_assaultGroup_BotGlobalSettings.txt" />
     <None Remove="Assets\easy_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\easy_cursedAssault_BotGlobalSettings.txt" />
+    <None Remove="Assets\easy_infectedAssault_BotGlobalSettings.txt" />
+    <None Remove="Assets\easy_infectedCivil_BotGlobalSettings.txt" />
+    <None Remove="Assets\easy_infectedLaborant_BotGlobalSettings.txt" />
+    <None Remove="Assets\easy_infectedPmc_BotGlobalSettings.txt" />
     <None Remove="Assets\easy_marksman_BotGlobalSettings.txt" />
+    <None Remove="Assets\easy_pmcBEAR_BotGlobalSettings.txt" />
+    <None Remove="Assets\easy_pmcUSEC_BotGlobalSettings.txt" />
     <None Remove="Assets\forcedLoot.json" />
+    <None Remove="Assets\hard_assaultGroup_BotGlobalSettings.txt" />
     <None Remove="Assets\hard_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\hard_cursedAssault_BotGlobalSettings.txt" />
+    <None Remove="Assets\hard_infectedAssault_BotGlobalSettings.txt" />
+    <None Remove="Assets\hard_infectedCivil_BotGlobalSettings.txt" />
+    <None Remove="Assets\hard_infectedLaborant_BotGlobalSettings.txt" />
+    <None Remove="Assets\hard_infectedPmc_BotGlobalSettings.txt" />
     <None Remove="Assets\hard_marksman_BotGlobalSettings.txt" />
+    <None Remove="Assets\hard_pmcBEAR_BotGlobalSettings.txt" />
+    <None Remove="Assets\hard_pmcUSEC_BotGlobalSettings.txt" />
+    <None Remove="Assets\impossible_assaultGroup_BotGlobalSettings.txt" />
     <None Remove="Assets\impossible_assault_BotGlobalSettings.txt" />
     <None Remove="Assets\impossible_cursedAssault_BotGlobalSettings.txt" />
     <None Remove="Assets\impossible_marksman_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_arenaFighterEvent_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_arenaFighter_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_assaultGroup_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_assault_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_bossBoarSniper_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_bossBoar_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossBully_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossGluhar_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossKilla_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_bossKnight_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossKojaniy_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_bossKolontay_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossPartisan_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossSanitar_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossStormtrooper_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossTagilla_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_bossTest_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_bossZryachiy_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_crazyAssaultEvent_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_cursedAssault_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_exUsec_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_followerBigPipe_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_followerBirdEye_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_followerBoarClose1_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_followerBoarClose2_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_followerBoar_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerBully_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerGluharAssault_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerGluharScout_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerGluharSecurity_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerGluharSnipe_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerKojaniy_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_followerKolontayAssault_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_followerKolontaySecurity_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerSanitar_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerStormtrooper_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerTagilla_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_followerTest_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_followerZryachiy_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_gifter_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_infectedAssault_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_infectedCivil_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_infectedLaborant_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_infectedPmc_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_infectedTagilla_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_marksman_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_peacefullZryachiyEvent_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_peacemaker_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_pmcBEAR_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_pmcBot_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_pmcUSEC_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_ravangeZryachiyEvent_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_sectactPriestEvent_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_sectantOni_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_sectantPredvestnik_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_sectantPriest_BotGlobalSettings.txt" />
+    <None Remove="Assets\normal_sectantPrizrak_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_sectantWarrior_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_spiritSpring_BotGlobalSettings.txt" />
     <None Remove="Assets\normal_spiritWinter_BotGlobalSettings.txt" />
@@ -54,13 +99,37 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Assets\easy_assaultGroup_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\easy_assault_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\easy_cursedAssault_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\easy_infectedAssault_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\easy_infectedCivil_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\easy_infectedLaborant_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\easy_infectedPmc_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\easy_marksman_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\easy_pmcBEAR_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\easy_pmcUSEC_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\hard_assaultGroup_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\hard_assault_BotGlobalSettings.txt">
@@ -69,7 +138,28 @@
     <Content Include="Assets\hard_cursedAssault_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\hard_infectedAssault_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\hard_infectedCivil_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\hard_infectedLaborant_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\hard_infectedPmc_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\hard_marksman_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\hard_pmcBEAR_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\hard_pmcUSEC_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\impossible_assaultGroup_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\impossible_assault_BotGlobalSettings.txt">
@@ -81,7 +171,19 @@
     <Content Include="Assets\impossible_marksman_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_arenaFighter_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_assaultGroup_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_assault_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_bossBoarSniper_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_bossBoar_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_bossBully_BotGlobalSettings.txt">
@@ -93,7 +195,13 @@
     <Content Include="Assets\normal_bossKilla_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_bossKnight_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_bossKojaniy_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_bossKolontay_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_bossPartisan_BotGlobalSettings.txt">
@@ -111,10 +219,31 @@
     <Content Include="Assets\normal_bossTest_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_bossZryachiy_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_crazyAssaultEvent_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_cursedAssault_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_exUsec_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_followerBigPipe_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_followerBirdEye_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_followerBoarClose1_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_followerBoarClose2_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_followerBoar_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_followerBully_BotGlobalSettings.txt">
@@ -135,6 +264,12 @@
     <Content Include="Assets\normal_followerKojaniy_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_followerKolontayAssault_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_followerKolontaySecurity_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_followerSanitar_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -147,16 +282,58 @@
     <Content Include="Assets\normal_followerTest_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_followerZryachiy_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_gifter_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_infectedAssault_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_infectedCivil_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_infectedLaborant_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_infectedPmc_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_infectedTagilla_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_marksman_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_peacefullZryachiyEvent_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_peacemaker_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_pmcBEAR_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_pmcBot_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\normal_pmcUSEC_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_ravangeZryachiyEvent_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_sectactPriestEvent_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_sectantPredvestnik_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\normal_sectantPriest_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\normal_sectantPrizrak_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\normal_sectantWarrior_BotGlobalSettings.txt">
@@ -196,83 +373,15 @@
     <Page Include="Assets\normal_arenaFighterEvent_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
+    <Page Include="Assets\normal_sectantOni_BotGlobalSettings.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\easy_assaultGroup_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Assets\generationWeights.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\hard_assaultGroup_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\impossible_assaultGroup_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\items.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_arenaFighter_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_assaultGroup_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_bossBoarSniper_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_bossBoar_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_bossKnight_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_bossKolontay_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_bossZryachiy_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_crazyAssaultEvent_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_followerBigPipe_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_followerBirdEye_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_followerBoarClose1_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_followerBoarClose2_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_followerBoar_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_followerKolontayAssault_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_followerKolontaySecurity_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_followerZryachiy_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_peacefullZryachiyEvent_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_peacemaker_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_ravangeZryachiyEvent_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\normal_sectactPriestEvent_BotGlobalSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\normal_shooterBTR_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
