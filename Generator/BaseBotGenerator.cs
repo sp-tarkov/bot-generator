@@ -45,6 +45,7 @@ namespace Generator
                 AddExperience(botToUpdate, rawBotsOfSameType);
                 AddStandingForKill(botToUpdate, rawBotsOfSameType);
                 AddSkills(botToUpdate, rawBotsOfSameType);
+                botToUpdate.experience.useSimpleAnimator = rawBotsOfSameType.First().Info.Settings.UseSimpleAnimator;
 
                 foreach (var rawParsedBot in rawBotsOfSameType)
                 {

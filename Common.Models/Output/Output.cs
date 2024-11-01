@@ -69,12 +69,14 @@ public class Experience
         reward = new MinMax(-1, -1);
         standingForKill = -0.02;
         aggressorBonus = 0.01;
+        useSimpleAnimator = false;
     }
 
     public MinMax level { get; set; }
     public MinMax reward { get; set; }
     public object standingForKill { get; set; }
     public object aggressorBonus { get; set; }
+    public bool useSimpleAnimator { get; set; }
 }
 
 public class BodyParts

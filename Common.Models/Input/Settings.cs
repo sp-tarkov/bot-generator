@@ -12,6 +12,7 @@ namespace Common.Models.Input
         public int Experience { get; set; }
         public object StandingForKill { get; set; }
         public object AggressorBonus { get; set; }
+        public bool UseSimpleAnimator { get; set; }
     }
 
     public class Info
