@@ -34,7 +34,8 @@ namespace Generator.Helpers.Gear
                     }
 
                     var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
-                    var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
+                    var parentId = baseBot.Inventory.items.SingleOrDefault(i => i._id == inventoryItem.parentId)?._tpl;
+                    var parentTemplate = parentId != null ? ItemTemplateHelper.GetTemplateById(parentId) : null;
 
                     if (!(parentTemplate?._props?.Slots?.FirstOrDefault(slot => slot._name == inventoryItem.slotId)?._required ?? false))
                     {
@@ -111,7 +112,8 @@ namespace Generator.Helpers.Gear
                     }
 
                     var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
-                    var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
+                    var parentId = baseBot.Inventory.items.SingleOrDefault(i => i._id == inventoryItem.parentId)?._tpl;
+                    var parentTemplate = parentId != null ? ItemTemplateHelper.GetTemplateById(parentId) : null;
 
                     if (!(parentTemplate?._props?.Slots?.FirstOrDefault(slot => slot._name == inventoryItem.slotId)?._required ?? false))
                     {

@@ -53,7 +53,14 @@
         pmcusec = 51,
         skier = 52,
         peacemaker = 53,
-        bosspartisan = 54
-
+        bosspartisan = 54,
+        sectantpredvestnik = 55,
+        sectantprizrak = 56,
+        sectantoni = 57,
+        infectedassault = 58,
+        infectedpmc = 59,
+        infectedcivil = 60,
+        infectedlaborant = 61,
+        infectedtagilla = 62
     }
 }
