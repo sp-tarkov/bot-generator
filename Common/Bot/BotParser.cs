@@ -94,20 +94,14 @@ public static class BotParser
             bot.InsuredItems = null;
 
             // Add bot if not already added
-            if (parsedBotsDict.TryAdd(bot._id, bot))
-            {
-                // Success
-                // Null out more data to save ram
-                bot.Inventory.items.RemoveAll(x => x.parentId == null);
-            }
-            else
+            if (!parsedBotsDict.TryAdd(bot._id, bot))
             {
                 dupeCount++;
             }
         }
 
         totalDupeCount += dupeCount;
-        Console.WriteLine($"Parsed file: {filePath}");
+        //Console.WriteLine($"Parsed file: {filePath}");
         return totalDupeCount;
     }
 
