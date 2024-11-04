@@ -14,11 +14,14 @@ namespace Generator.Weighting
     
     public class WeightingService
     {
-        private readonly Dictionary<BotType, Weightings> _weights;
-        private readonly Dictionary<string, Dictionary<string, GenerationWeightData>> _generationWeights;
+        private static Dictionary<BotType, Weightings> _weights = null;
+        private static Dictionary<string, Dictionary<string, GenerationWeightData>> _generationWeights = null;
 
         public WeightingService()
         {
+            // Cache the loaded  data
+            if (_weights != null && _generationWeights != null) return;
+
             var assetsPath = $"{Directory.GetCurrentDirectory()}\\Assets";
             var weightsFilePath = $"{assetsPath}\\weights.json";
             if (!File.Exists(weightsFilePath))

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Common.Models.Output;
@@ -18,6 +19,7 @@ public class Bot
     public Bot(BotType botType)
     {
         this.botType = botType;
+        botCount = 0;
         appearance = new Appearance();
         experience = new Experience();
         health = new Health();
@@ -32,6 +34,8 @@ public class Bot
 
     [JsonIgnore]
     public BotType botType { get; set; }
+    [JsonIgnore]
+    public int botCount { get; set; }
     public Appearance appearance { get; set; }
     public Experience experience { get; set; }
     public Health health { get; set; }
@@ -79,7 +83,7 @@ public class Experience
     public bool useSimpleAnimator { get; set; }
 }
 
-public class BodyParts
+public class BodyParts : IEquatable<BodyParts>
 {
     public BodyParts()
     {
@@ -90,6 +94,17 @@ public class BodyParts
         RightArm = new MinMax(60, 60);
         LeftLeg = new MinMax(65, 65);
         RightLeg = new MinMax(65, 65);
+    }
+
+    public bool Equals(BodyParts other)
+    {
+        return this.Head.Equals(other.Head) &&
+            this.Chest.Equals(other.Chest) &&
+            this.Stomach.Equals(other.Stomach) &&
+            this.LeftArm.Equals(other.LeftArm) &&
+            this.RightArm.Equals(other.RightArm) &&
+            this.LeftLeg.Equals(other.LeftLeg) &&
+            this.RightLeg.Equals(other.RightLeg);
     }
 
     public MinMax Head { get; set; }
@@ -256,12 +271,17 @@ public class ItemChances
     public GenerationWeightData grenades { get; set; }
 }
 
-public class MinMax
+public class MinMax : IEquatable<MinMax>
 {
     public MinMax(int min, int max)
     {
         this.min = min;
         this.max = max;
+    }
+
+    public bool Equals(MinMax other)
+    {
+        return this.min == other.min && this.max == other.max;
     }
 
     public int min { get; set; }

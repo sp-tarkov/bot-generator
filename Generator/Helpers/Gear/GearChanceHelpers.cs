@@ -7,75 +7,102 @@ namespace Generator.Helpers.Gear
 {
     public static class GearChanceHelpers
     {
-        public static void CalculateModChances(Bot bot, List<Datum> baseBots)
+        private static Dictionary<string, Dictionary<string, int>> weaponModCount = new Dictionary<string, Dictionary<string, int>>();
+        private static Dictionary<string, Dictionary<string, int>> weaponSlotCount = new Dictionary<string, Dictionary<string, int>>();
+        private static Dictionary<string, Dictionary<string, int>> equipmentModCount = new Dictionary<string, Dictionary<string, int>>();
+        private static Dictionary<string, Dictionary<string, int>> equipmentSlotCount = new Dictionary<string, Dictionary<string, int>>();
+
+
+        public static void AddModChances(Bot bot, Datum baseBot)
         {
             // TODO: Further split these counts by equipment slot? (ex. "FirstPrimaryWeapon", "Holster", etc.)
             var validSlots = new List<string> { "FirstPrimaryWeapon", "SecondPrimaryWeapon", "Holster" };
 
-            var modCounts = new Dictionary<string, int>();
-            var slotCounts = new Dictionary<string, int>();
-
-            foreach (var baseBot in baseBots)
+            if (!weaponModCount.TryGetValue(baseBot.Info.Settings.Role.ToLower(), out var modCounts))
             {
-                var validParents = new List<string>();
-                foreach (var inventoryItem in baseBot.Inventory.items)
+                modCounts = new Dictionary<string, int>();
+                weaponModCount.Add(baseBot.Info.Settings.Role.ToLower(), modCounts);
+            }
+
+            if (!weaponSlotCount.TryGetValue(baseBot.Info.Settings.Role.ToLower(), out var slotCounts))
+            {
+                slotCounts = new Dictionary<string, int>();
+                weaponSlotCount.Add(baseBot.Info.Settings.Role.ToLower(), slotCounts);
+            }
+
+            var validParents = new List<string>();
+            foreach (var inventoryItem in baseBot.Inventory.items)
+            {
+                if (validSlots.Contains(inventoryItem.slotId))
                 {
-                    if (validSlots.Contains(inventoryItem.slotId))
+                    validParents.Add(inventoryItem._id);
+                }
+                else if (validParents.Contains(inventoryItem.parentId))
+                {
+                    validParents.Add(inventoryItem._id);
+                }
+                else
+                {
+                    continue;
+                }
+
+                var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
+                var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
+
+                if (!(parentTemplate?._props?.Slots?.FirstOrDefault(slot => slot._name == inventoryItem.slotId)?._required ?? false))
+                {
+                    if (modCounts.ContainsKey(inventoryItem.slotId.ToLower()))
                     {
-                        validParents.Add(inventoryItem._id);
-                    }
-                    else if (validParents.Contains(inventoryItem.parentId))
-                    {
-                        validParents.Add(inventoryItem._id);
+                        modCounts[inventoryItem.slotId.ToLower()]++;
                     }
                     else
                     {
-                        continue;
-                    }
-
-                    var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
-                    var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
-
-                    if (!(parentTemplate?._props?.Slots?.FirstOrDefault(slot => slot._name == inventoryItem.slotId)?._required ?? false))
-                    {
-                        if (modCounts.ContainsKey(inventoryItem.slotId.ToLower()))
-                        {
-                            modCounts[inventoryItem.slotId.ToLower()]++;
-                        }
-                        else
-                        {
-                            modCounts.Add(inventoryItem.slotId.ToLower(), 1);
-                        }
-                    }
-
-                    if ((template?._props?.Slots?.Count ?? 0) < 1)
-                    {
-                        // Item has no slots, nothing to count here
-                        continue;
-                    }
-
-                    foreach (var slot in template._props.Slots)
-                    {
-                        if (slot._required)
-                        {
-                            continue;
-                        }
-
-                        if (slot._name.StartsWith("camora"))
-                        {
-                            continue;
-                        }
-
-                        if (slotCounts.ContainsKey(slot._name.ToLower()))
-                        {
-                            slotCounts[slot._name.ToLower()]++;
-                        }
-                        else
-                        {
-                            slotCounts.Add(slot._name.ToLower(), 1);
-                        }
+                        modCounts.Add(inventoryItem.slotId.ToLower(), 1);
                     }
                 }
+
+                if ((template?._props?.Slots?.Count ?? 0) < 1)
+                {
+                    // Item has no slots, nothing to count here
+                    continue;
+                }
+
+                foreach (var slot in template._props.Slots)
+                {
+                    if (slot._required)
+                    {
+                        continue;
+                    }
+
+                    if (slot._name.StartsWith("camora"))
+                    {
+                        continue;
+                    }
+
+                    if (slotCounts.ContainsKey(slot._name.ToLower()))
+                    {
+                        slotCounts[slot._name.ToLower()]++;
+                    }
+                    else
+                    {
+                        slotCounts.Add(slot._name.ToLower(), 1);
+                    }
+                }
+            }
+        }
+
+        public static void CalculateModChances(Bot bot)
+        {
+            if (!weaponModCount.TryGetValue(bot.botType.ToString(), out var modCounts))
+            {
+                modCounts = new Dictionary<string, int>();
+                weaponModCount.Add(bot.botType.ToString(), modCounts);
+            }
+
+            if (!weaponSlotCount.TryGetValue(bot.botType.ToString(), out var slotCounts))
+            {
+                slotCounts = new Dictionary<string, int>();
+                weaponSlotCount.Add(bot.botType.ToString(), slotCounts);
             }
 
             bot.chances.weaponMods = slotCounts.ToDictionary(
@@ -83,76 +110,97 @@ namespace Generator.Helpers.Gear
                 kvp => GetPercent(kvp.Value, modCounts.GetValueOrDefault(kvp.Key)));
         }
 
-        public static void CalculateEquipmentModChances(Bot bot, List<Datum> baseBots)
+        public static void AddEquipmentModChances(Bot bot, Datum baseBot)
         {
+            if (!equipmentModCount.TryGetValue(baseBot.Info.Settings.Role.ToLower(), out var modCounts))
+            {
+                modCounts = new Dictionary<string, int>();
+                equipmentModCount.Add(baseBot.Info.Settings.Role.ToLower(), modCounts);
+            }
+
+            if (!equipmentSlotCount.TryGetValue(baseBot.Info.Settings.Role.ToLower(), out var slotCounts))
+            {
+                slotCounts = new Dictionary<string, int>();
+                equipmentSlotCount.Add(baseBot.Info.Settings.Role.ToLower(), slotCounts);
+            }
+
             // TODO: Further split these counts by equipment slot? (ex. "FirstPrimaryWeapon", "Holster", etc.)
             var validSlots = new List<string> { "Headwear", "ArmorVest", "TacticalVest" };
 
-            var modCounts = new Dictionary<string, int>();
-            var slotCounts = new Dictionary<string, int>();
+            var validParents = new List<string>();
 
-            foreach (var baseBot in baseBots)
+            foreach (var inventoryItem in baseBot.Inventory.items)
             {
-                var validParents = new List<string>();
-
-                foreach (var inventoryItem in baseBot.Inventory.items)
+                if (validSlots.Contains(inventoryItem.slotId))
                 {
-                    if (validSlots.Contains(inventoryItem.slotId))
+                    validParents.Add(inventoryItem._id);
+                }
+                else if (validParents.Contains(inventoryItem.parentId))
+                {
+                    validParents.Add(inventoryItem._id);
+                }
+                else
+                {
+                    continue;
+                }
+
+                var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
+                var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
+
+                if (!(parentTemplate?._props?.Slots?.FirstOrDefault(slot => slot._name == inventoryItem.slotId)?._required ?? false))
+                {
+                    if (modCounts.ContainsKey(inventoryItem.slotId.ToLower()))
                     {
-                        validParents.Add(inventoryItem._id);
-                    }
-                    else if (validParents.Contains(inventoryItem.parentId))
-                    {
-                        validParents.Add(inventoryItem._id);
+                        modCounts[inventoryItem.slotId.ToLower()]++;
                     }
                     else
                     {
-                        continue;
-                    }
-
-                    var template = ItemTemplateHelper.GetTemplateById(inventoryItem._tpl);
-                    var parentTemplate = ItemTemplateHelper.GetTemplateById(baseBot.Inventory.items.Single(i => i._id == inventoryItem.parentId)._tpl);
-
-                    if (!(parentTemplate?._props?.Slots?.FirstOrDefault(slot => slot._name == inventoryItem.slotId)?._required ?? false))
-                    {
-                        if (modCounts.ContainsKey(inventoryItem.slotId.ToLower()))
-                        {
-                            modCounts[inventoryItem.slotId.ToLower()]++;
-                        }
-                        else
-                        {
-                            modCounts.Add(inventoryItem.slotId.ToLower(), 1);
-                        }
-                    }
-
-                    if ((template?._props?.Slots?.Count ?? 0) < 1)
-                    {
-                        // Item has no slots, nothing to count here
-                        continue;
-                    }
-
-                    foreach (var slot in template._props.Slots)
-                    {
-                        if (slot._required)
-                        {
-                            continue;
-                        }
-
-                        if (slot._name.StartsWith("camora"))
-                        {
-                            continue;
-                        }
-
-                        if (slotCounts.ContainsKey(slot._name.ToLower()))
-                        {
-                            slotCounts[slot._name.ToLower()]++;
-                        }
-                        else
-                        {
-                            slotCounts.Add(slot._name.ToLower(), 1);
-                        }
+                        modCounts.Add(inventoryItem.slotId.ToLower(), 1);
                     }
                 }
+
+                if ((template?._props?.Slots?.Count ?? 0) < 1)
+                {
+                    // Item has no slots, nothing to count here
+                    continue;
+                }
+
+                foreach (var slot in template._props.Slots)
+                {
+                    if (slot._required)
+                    {
+                        continue;
+                    }
+
+                    if (slot._name.StartsWith("camora"))
+                    {
+                        continue;
+                    }
+
+                    if (slotCounts.ContainsKey(slot._name.ToLower()))
+                    {
+                        slotCounts[slot._name.ToLower()]++;
+                    }
+                    else
+                    {
+                        slotCounts.Add(slot._name.ToLower(), 1);
+                    }
+                }
+            }
+        }
+
+        public static void CalculateEquipmentModChances(Bot bot)
+        {
+            if (!equipmentModCount.TryGetValue(bot.botType.ToString(), out var modCounts))
+            {
+                modCounts = new Dictionary<string, int>();
+                equipmentModCount.Add(bot.botType.ToString(), modCounts);
+            }
+
+            if (!equipmentSlotCount.TryGetValue(bot.botType.ToString(), out var slotCounts))
+            {
+                slotCounts = new Dictionary<string, int>();
+                equipmentSlotCount.Add(bot.botType.ToString(), slotCounts);
             }
 
             bot.chances.equipmentMods = slotCounts.ToDictionary(
@@ -245,47 +293,47 @@ namespace Generator.Helpers.Gear
                 weightsData["grenades"]);
         }
 
-        public static void CalculateEquipmentChances(Bot bot, List<Datum> baseBots)
+        public static void AddEquipmentChances(Bot bot, Datum baseBot)
         {
-            // TODO: Convert to dynamic?
-            var totalBotsCount = baseBots.Count;
-            int headwearCount = 0, earCount = 0, faceCoverCount = 0, armorVestCount = 0, eyeWearCount = 0, armBandCount = 0,
-                tacticalVestCount = 0, backpackCount = 0, firstPrimaryCount = 0, secondPrimaryCount = 0, holsterCount = 0,
-                scabbardCount = 0, pocketsCount = 0, securedContainerCount = 0;
+            bot.chances.equipment.Headwear += baseBot.Inventory.items.Count(x => x.slotId == "Headwear");
+            bot.chances.equipment.Earpiece += baseBot.Inventory.items.Count(x => x.slotId == "Earpiece");
+            bot.chances.equipment.FaceCover += baseBot.Inventory.items.Count(x => x.slotId == "FaceCover");
+            bot.chances.equipment.ArmorVest += baseBot.Inventory.items.Count(x => x.slotId == "ArmorVest");
+            bot.chances.equipment.Eyewear += baseBot.Inventory.items.Count(x => x.slotId == "Eyewear");
+            bot.chances.equipment.ArmBand += baseBot.Inventory.items.Count(x => x.slotId == "ArmBand");
+            bot.chances.equipment.TacticalVest += baseBot.Inventory.items.Count(x => x.slotId == "TacticalVest");
+            bot.chances.equipment.Backpack += baseBot.Inventory.items.Count(x => x.slotId == "Backpack");
+            bot.chances.equipment.FirstPrimaryWeapon += baseBot.Inventory.items.Count(x => x.slotId == "FirstPrimaryWeapon");
+            bot.chances.equipment.SecondPrimaryWeapon += baseBot.Inventory.items.Count(x => x.slotId == "SecondPrimaryWeapon");
+            bot.chances.equipment.Holster += baseBot.Inventory.items.Count(x => x.slotId == "Holster");
+            bot.chances.equipment.Scabbard += baseBot.Inventory.items.Count(x => x.slotId == "Scabbard");
+            bot.chances.equipment.Pockets += baseBot.Inventory.items.Count(x => x.slotId == "Pockets");
+            bot.chances.equipment.SecuredContainer += baseBot.Inventory.items.Count(x => x.slotId == "SecuredContainer");
+        }
 
-            foreach (var baseBot in baseBots)
+        public static void CalculateEquipmentChances(Bot bot)
+        {
+            if (bot.botCount == 0)
             {
-                headwearCount += baseBot.Inventory.items.Count(x => x.slotId == "Headwear");
-                earCount += baseBot.Inventory.items.Count(x => x.slotId == "Earpiece");
-                faceCoverCount += baseBot.Inventory.items.Count(x => x.slotId == "FaceCover");
-                armorVestCount += baseBot.Inventory.items.Count(x => x.slotId == "ArmorVest");
-                eyeWearCount += baseBot.Inventory.items.Count(x => x.slotId == "Eyewear");
-                armBandCount += baseBot.Inventory.items.Count(x => x.slotId == "ArmBand");
-                tacticalVestCount += baseBot.Inventory.items.Count(x => x.slotId == "TacticalVest");
-                backpackCount += baseBot.Inventory.items.Count(x => x.slotId == "Backpack");
-                firstPrimaryCount += baseBot.Inventory.items.Count(x => x.slotId == "FirstPrimaryWeapon");
-                secondPrimaryCount += baseBot.Inventory.items.Count(x => x.slotId == "SecondPrimaryWeapon");
-                holsterCount += baseBot.Inventory.items.Count(x => x.slotId == "Holster");
-                scabbardCount += baseBot.Inventory.items.Count(x => x.slotId == "Scabbard");
-                pocketsCount += baseBot.Inventory.items.Count(x => x.slotId == "Pockets");
-                securedContainerCount += baseBot.Inventory.items.Count(x => x.slotId == "SecuredContainer");
+                // No bots, don't do anything
+                return;
             }
 
             bot.chances.equipment = new EquipmentChances(
-                  GetPercent(totalBotsCount, headwearCount),
-                  GetPercent(totalBotsCount, earCount),
-                  GetPercent(totalBotsCount, faceCoverCount),
-                  GetPercent(totalBotsCount, armorVestCount),
-                  GetPercent(totalBotsCount, eyeWearCount),
-                  GetPercent(totalBotsCount, armBandCount),
-                  GetPercent(totalBotsCount, tacticalVestCount),
-                  GetPercent(totalBotsCount, backpackCount),
-                  GetPercent(totalBotsCount, firstPrimaryCount),
-                  GetPercent(totalBotsCount, secondPrimaryCount),
-                  GetPercent(totalBotsCount, holsterCount),
-                  GetPercent(totalBotsCount, scabbardCount),
-                  GetPercent(totalBotsCount, pocketsCount),
-                  GetPercent(totalBotsCount, securedContainerCount));
+                  GetPercent(bot.botCount, bot.chances.equipment.Headwear),
+                  GetPercent(bot.botCount, bot.chances.equipment.Earpiece),
+                  GetPercent(bot.botCount, bot.chances.equipment.FaceCover),
+                  GetPercent(bot.botCount, bot.chances.equipment.ArmorVest),
+                  GetPercent(bot.botCount, bot.chances.equipment.Eyewear),
+                  GetPercent(bot.botCount, bot.chances.equipment.ArmBand),
+                  GetPercent(bot.botCount, bot.chances.equipment.TacticalVest),
+                  GetPercent(bot.botCount, bot.chances.equipment.Backpack),
+                  GetPercent(bot.botCount, bot.chances.equipment.FirstPrimaryWeapon),
+                  GetPercent(bot.botCount, bot.chances.equipment.SecondPrimaryWeapon),
+                  GetPercent(bot.botCount, bot.chances.equipment.Holster),
+                  GetPercent(bot.botCount, bot.chances.equipment.Scabbard),
+                  GetPercent(bot.botCount, bot.chances.equipment.Pockets),
+                  GetPercent(bot.botCount, bot.chances.equipment.SecuredContainer));
         }
 
         private static int GetPercent(int total, int count)

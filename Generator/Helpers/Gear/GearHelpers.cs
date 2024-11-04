@@ -65,7 +65,6 @@ namespace Generator.Helpers.Gear
 
         internal static void AddAmmo(Bot botToUpdate, Datum bot)
         {
-            //var weightService = new WeightingService();
             foreach (var ammo in bot.Inventory.items.Where(
                 x => x.slotId != null 
             && (x.slotId == "patron_in_weapon"
@@ -117,7 +116,6 @@ namespace Generator.Helpers.Gear
         public static void AddEquippedGear(Bot botToUpdate, Datum bot)
         {
             // add equipped gear
-            var weightService = new WeightingService();
             foreach (var inventoryItem in bot.Inventory.items.Where(x=>x.slotId != null))
             {
                 switch (inventoryItem.slotId?.ToLower())
@@ -306,7 +304,7 @@ namespace Generator.Helpers.Gear
                         botToUpdate.inventory.Ammo[cartridge][cartridgeWeightKvP.Key] /= commonAmmoDivisor;
                     }
                 }
-            }            
+            }
         }
 
         public static void ReduceEquipmentWeightValues(Equipment equipment)
