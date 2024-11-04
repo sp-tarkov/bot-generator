@@ -60,7 +60,13 @@ internal static class Program
         "spiritwinter",
 
         "skier",
-        "peacemaker"
+        "peacemaker",
+
+        "infectedassault",
+        "infectedpmc",
+        "infectedcivil",
+        "infectedlaborant",
+        "infectedtagilla",
        };
 
         // Read raw bot dumps and turn into c# objects
