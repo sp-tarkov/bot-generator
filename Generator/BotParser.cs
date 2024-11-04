@@ -8,12 +8,127 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Common.Models.Output;
+using Common.Models;
+using Generator;
+using Generator.Helpers.Gear;
 
 namespace Common.Bots;
 
 public static class BotParser
 {
     private static readonly JsonSerializerOptions serialiserOptions = new() { };
+
+    public static List<Bot> Parse(string dumpPath, HashSet<string> botTypes)
+    {
+        var stopwatch = Stopwatch.StartNew();
+
+        // Build the list of base bot data
+        var baseBots = new HashSet<Bot>();
+        foreach (var botType in botTypes)
+        {
+            var typeToAdd = (BotType)Enum.Parse(typeof(BotType), botType);
+            baseBots.Add(new Bot(typeToAdd));
+        }
+
+        DiskHelpers.CreateDirIfDoesntExist(dumpPath);
+
+        var botFiles = Directory.GetFiles(dumpPath, "*.json", SearchOption.TopDirectoryOnly);
+        LoggingHelpers.LogToConsole($"{botFiles.Length} bot dump files found");
+
+        // Store a list of parsed bots so we don't parse the same bot twice
+        int totalDupeCount = 0;
+        var parsedBotIds = new HashSet<string>();
+        int i = 0;
+        foreach (var filePath in botFiles)
+        {
+            i++;
+            if (i % 100 == 0) Console.WriteLine($"Processing file {i}");
+            ProcessBotFileSync(baseBots, filePath, parsedBotIds, totalDupeCount);
+        }
+
+        // Handle things we can only do once all data has been processed, or only needs to run once per bot type
+        foreach (var bot in baseBots)
+        {
+            // Skip any bots we didn't handle
+            if (bot.botCount == 0) continue;
+
+            BaseBotGenerator.AddDifficulties(bot);
+            GearChanceHelpers.CalculateModChances(bot);
+            GearChanceHelpers.CalculateEquipmentModChances(bot);
+            GearChanceHelpers.CalculateEquipmentChances(bot);
+            GearChanceHelpers.ApplyModChanceOverrides(bot);
+            GearChanceHelpers.ApplyEquipmentChanceOverrides(bot);
+
+            GearHelpers.ReduceAmmoWeightValues(bot);
+            GearHelpers.ReduceEquipmentWeightValues(bot.inventory.equipment);
+            GearHelpers.ReduceWeightValues(bot.appearance.voice);
+            GearHelpers.ReduceWeightValues(bot.appearance.feet);
+            GearHelpers.ReduceWeightValues(bot.appearance.body);
+            GearHelpers.ReduceWeightValues(bot.appearance.head);
+            GearHelpers.ReduceWeightValues(bot.appearance.hands);
+        }
+
+        stopwatch.Stop();
+        LoggingHelpers.LogToConsole($"{totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+
+        return baseBots.ToList();
+    }
+
+    private static void ProcessBotFileSync(
+        HashSet<Bot> baseBots,
+        string filePath,
+        HashSet<string> parsedBotIds,
+        int totalDupeCount)
+    {
+        var splitFilePath = filePath.Split("\\");
+
+        int dupeCount = 0;
+
+        List<Datum> bots = [];
+        try
+        {
+            // Parse the bots inside the json file
+            using (var reader = new StreamReader(filePath))
+            {
+                var deSerialisedObject = JsonSerializer.Deserialize<Root>(reader.ReadToEnd(), serialiserOptions);
+
+                foreach (var botData in deSerialisedObject.data)
+                {
+                    // Bot fucks up something, never allow it in
+                    if (botData._id == "6483938c53cc9087c70eae86")
+                    {
+                        Console.WriteLine("oh no");
+                        continue;
+                    }
+
+                    var baseBot = baseBots.SingleOrDefault(bot => bot.botType.ToString().Equals(botData.Info.Settings.Role, StringComparison.OrdinalIgnoreCase));
+                    if (baseBot == null)
+                    {
+                        //Console.WriteLine($"Skipping {botData._id} due to unknown role {botData.Info.Settings.Role}");
+                        continue;
+                    }
+
+                    // Add bot if not already added
+                    if (!parsedBotIds.Add(botData._id))
+                    {
+                        dupeCount++;
+                    }
+                    baseBot.botCount += 1;
+                    BaseBotGenerator.UpdateBaseDetails(baseBot, botData);
+                    BotGearGenerator.AddGear(baseBot, botData);
+                    BotLootGenerator.AddLoot(baseBot, botData);
+                    BotChancesGenerator.AddChances(baseBot, botData);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"File parse fucked up: {filePath}");
+            throw;
+        }
+
+        totalDupeCount += dupeCount;
+    }
 
     public static async Task<List<Datum>> ParseAsync(string dumpPath, HashSet<string> botTypes)
     {

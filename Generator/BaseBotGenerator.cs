@@ -10,104 +10,56 @@ namespace Generator
 {
     public static class BaseBotGenerator
     {
-        //TODO: pass in bot types and use those to create the classes in rawBots list
-        public static IEnumerable<Bot> GenerateBaseDetails(IEnumerable<Datum> rawBots, string workingPath, IEnumerable<string> botTypes)
+        public static void UpdateBaseDetails(Bot botData, Datum rawBotData)
         {
-            var stopwatch = Stopwatch.StartNew();
-            LoggingHelpers.LogToConsole("Started processing bot base");
+            UpdateBodyPartHealth(botData, rawBotData);
+            AddExperience(botData, rawBotData);
+            AddStandingForKill(botData, rawBotData);
+            AddSkills(botData, rawBotData);
+            botData.experience.useSimpleAnimator = rawBotData.Info.Settings.UseSimpleAnimator;
 
-            // Create a list of bot objects ready to be hydrated
-            var baseBots = new List<Bot>();
-            foreach (var botType in botTypes)
-            {
-                var typeToAdd = (BotType)Enum.Parse(typeof(BotType), botType);
-                baseBots.Add(new Bot(typeToAdd));
-            }
-
-            // Iterate over each bot type we just made and put some data into them
-            foreach (var botToUpdate in baseBots)
-            {
-                var rawBotType = botToUpdate.botType.ToString();
-                var rawBotsOfSameType = rawBots.Where(x => string.Equals(x.Info.Settings.Role, rawBotType, StringComparison.OrdinalIgnoreCase))
-                                                .ToList();
-                var rawBotsOfSameTypeCount = rawBotsOfSameType.Count.ToString();
-
-                if (rawBotsOfSameType.Count == 0)
-                {
-                    LoggingHelpers.LogToConsole($"no bots of type {rawBotType}, skipping", ConsoleColor.DarkRed);
-                    continue;
-                }
-
-                LoggingHelpers.LogToConsole($"Found {rawBotsOfSameTypeCount} bots of type: {rawBotType}");
-
-                UpdateBodyPartHealth(botToUpdate, rawBotsOfSameType);
-                AddDifficulties(botToUpdate, workingPath);
-                AddExperience(botToUpdate, rawBotsOfSameType);
-                AddStandingForKill(botToUpdate, rawBotsOfSameType);
-                AddSkills(botToUpdate, rawBotsOfSameType);
-                botToUpdate.experience.useSimpleAnimator = rawBotsOfSameType.First().Info.Settings.UseSimpleAnimator;
-
-                foreach (var rawParsedBot in rawBotsOfSameType)
-                {
-                    AddVisualAppearanceItems(botToUpdate, rawParsedBot);
-                    AddName(botToUpdate, rawParsedBot);
-                    AddVoice(botToUpdate, rawParsedBot);
-                }
-            }
-
-            stopwatch.Stop();
-            LoggingHelpers.LogToConsole($"Finished processing bot base. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
-
-            return baseBots;
+            AddVisualAppearanceItems(botData, rawBotData);
+            AddName(botData, rawBotData);
+            AddVoice(botData, rawBotData);
         }
 
-        private static void AddSkills(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
+        private static void AddSkills(Bot botToUpdate, Datum rawBotData)
         {
-            var firstBotOfDesiredType = rawBotsOfSameType.Last();
-
             // Find the smallest and biggest value for each skill
-            foreach (var skill in firstBotOfDesiredType.Skills.Common)
+            foreach (var skill in rawBotData.Skills.Common)
             {
-                var skills = new List<Common.Models.Input.Common>();
-                foreach (var bot in rawBotsOfSameType)
+                if (botToUpdate.skills.Common.TryGetValue(skill.Id, out var existingSkill))
                 {
-                    skills.Add(bot.Skills.Common.Find(x => x.Id == skill.Id));
+                    existingSkill.min = Math.Min(existingSkill.min, skill.Progress);
+                    existingSkill.max = Math.Max(existingSkill.max, skill.Progress);
                 }
-
-                var min = skills.Min(x => x?.Progress);
-                var max = skills.Max(x => x?.Progress);
-
-                if (min.HasValue && max.HasValue)
+                else
                 {
-                    botToUpdate.skills.Common.Add(skill.Id, new MinMax(min.Value, max.Value));
+                    botToUpdate.skills.Common.Add(skill.Id, new MinMax(skill.Progress, skill.Progress));
                 }
             }
         }
 
-        private static void AddStandingForKill(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
+        private static void AddStandingForKill(Bot botToUpdate, Datum rawBotData)
         {
-            var firstBotOfDesiredType = rawBotsOfSameType.Last();
-
-            botToUpdate.experience.standingForKill = firstBotOfDesiredType.Info.Settings.StandingForKill;
-            botToUpdate.experience.aggressorBonus = firstBotOfDesiredType.Info.Settings.AggressorBonus;
+            botToUpdate.experience.standingForKill = rawBotData.Info.Settings.StandingForKill;
+            botToUpdate.experience.aggressorBonus = rawBotData.Info.Settings.AggressorBonus;
         }
 
-        private static void AddExperience(Bot botToUpdate, IEnumerable<Datum> rawBotsOfSameType)
+        private static void AddExperience(Bot botToUpdate, Datum rawBotData)
         {
-            var firstBotOfDesiredType = rawBotsOfSameType.Last();
-
-            botToUpdate.experience.reward.min = firstBotOfDesiredType.Info.Settings.Experience;
-            botToUpdate.experience.reward.max = firstBotOfDesiredType.Info.Settings.Experience;
+            botToUpdate.experience.reward.min = rawBotData.Info.Settings.Experience;
+            botToUpdate.experience.reward.max = rawBotData.Info.Settings.Experience;
         }
 
         private static void AddVoice(Bot bot, Datum rawBot)
         {
             GearHelpers.IncrementDictionaryValue(bot.appearance.voice, rawBot.Info.Voice);
-            GearHelpers.ReduceWeightValues(bot.appearance.voice);
         }
 
-        private static void AddDifficulties(Bot bot, string workingPath)
+        public static void AddDifficulties(Bot bot)
         {
+            string workingPath = Directory.GetCurrentDirectory();
             string botType = bot.botType.ToString();
             var botDifficultyFiles = Directory
                 .GetFiles($"{workingPath}//Assets", "*.txt", SearchOption.TopDirectoryOnly)
@@ -117,51 +69,34 @@ namespace Generator
             DifficultyHelper.AddDifficultySettings(bot, botDifficultyFiles);
         }
 
-        private static void UpdateBodyPartHealth(Bot botToUpdate, List<Datum> rawBots)
+        private static void UpdateBodyPartHealth(Bot botToUpdate, Datum rawBot)
         {
-            var uniqueHealthSetups = new Dictionary<int, Common.Models.Output.BodyParts>();
-            foreach (var bot in rawBots)
+            var bodyPartHpToAdd = new Common.Models.Output.BodyParts()
             {
-                var healthTotal = bot.Health.BodyParts.GetHpMaxTotal();
-                var alreadyExists = uniqueHealthSetups.ContainsKey(healthTotal);
+                Head = new MinMax(rawBot.Health.BodyParts.Head.Health.Current, rawBot.Health.BodyParts.Head.Health.Maximum),
+                Chest = new MinMax(rawBot.Health.BodyParts.Chest.Health.Current, rawBot.Health.BodyParts.Chest.Health.Maximum),
+                Stomach = new MinMax(rawBot.Health.BodyParts.Stomach.Health.Current, rawBot.Health.BodyParts.Stomach.Health.Maximum),
+                LeftArm = new MinMax(rawBot.Health.BodyParts.LeftArm.Health.Current, rawBot.Health.BodyParts.LeftArm.Health.Maximum),
+                RightArm = new MinMax(rawBot.Health.BodyParts.RightArm.Health.Current, rawBot.Health.BodyParts.RightArm.Health.Maximum),
+                LeftLeg = new MinMax(rawBot.Health.BodyParts.LeftLeg.Health.Current, rawBot.Health.BodyParts.LeftLeg.Health.Maximum),
+                RightLeg = new MinMax(rawBot.Health.BodyParts.RightLeg.Health.Current, rawBot.Health.BodyParts.RightLeg.Health.Maximum)
+            };
 
-                if (!alreadyExists)
-                {
-                    var bodyPartHpToAdd = new Common.Models.Output.BodyParts()
-                    {
-                        Head = new MinMax(bot.Health.BodyParts.Head.Health.Current, bot.Health.BodyParts.Head.Health.Maximum),
-                        Chest = new MinMax(bot.Health.BodyParts.Chest.Health.Current, bot.Health.BodyParts.Chest.Health.Maximum),
-                        Stomach = new MinMax(bot.Health.BodyParts.Stomach.Health.Current, bot.Health.BodyParts.Stomach.Health.Maximum),
-                        LeftArm = new MinMax(bot.Health.BodyParts.LeftArm.Health.Current, bot.Health.BodyParts.LeftArm.Health.Maximum),
-                        RightArm = new MinMax(bot.Health.BodyParts.RightArm.Health.Current, bot.Health.BodyParts.RightArm.Health.Maximum),
-                    };
-
-                    bodyPartHpToAdd.LeftLeg.min = bot.Health.BodyParts.LeftLeg.Health.Current;
-                    bodyPartHpToAdd.LeftLeg.max = bot.Health.BodyParts.LeftLeg.Health.Maximum;
-
-                    bodyPartHpToAdd.RightLeg.min = bot.Health.BodyParts.RightLeg.Health.Current;
-                    bodyPartHpToAdd.RightLeg.max = bot.Health.BodyParts.RightLeg.Health.Maximum;
-
-                    uniqueHealthSetups.Add(healthTotal, bodyPartHpToAdd);
-                }
+            if (!botToUpdate.health.BodyParts.Contains(bodyPartHpToAdd))
+            {
+                botToUpdate.health.BodyParts.Add(bodyPartHpToAdd);
             }
-
-            botToUpdate.health.BodyParts = uniqueHealthSetups.Values.ToList();
         }
 
         private static void AddVisualAppearanceItems(Bot botToUpdate, Datum rawBot)
         {
             GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.feet, rawBot.Customization.Feet);
-            GearHelpers.ReduceWeightValues(botToUpdate.appearance.feet);
 
             GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.body, rawBot.Customization.Body);
-            GearHelpers.ReduceWeightValues(botToUpdate.appearance.body);
 
             GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.head, rawBot.Customization.Head);
-            GearHelpers.ReduceWeightValues(botToUpdate.appearance.head);
 
             GearHelpers.IncrementDictionaryValue(botToUpdate.appearance.hands, rawBot.Customization.Hands);
-            GearHelpers.ReduceWeightValues(botToUpdate.appearance.hands);
         }
 
         private static void AddName(Bot botToUpdate, Datum rawBot)
