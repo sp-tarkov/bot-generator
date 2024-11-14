@@ -33,7 +33,7 @@ public static class BotParser
         DiskHelpers.CreateDirIfDoesntExist(dumpPath);
 
         var botFiles = Directory.GetFiles(dumpPath, "*.json", SearchOption.TopDirectoryOnly);
-        LoggingHelpers.LogToConsole($"{botFiles.Length} bot dump files found");
+        LoggingHelpers.LogToConsole($"{botFiles.Length.ToString()} bot dump files found");
 
         // Store a list of parsed bots so we don't parse the same bot twice
         int totalDupeCount = 0;
@@ -42,7 +42,7 @@ public static class BotParser
         foreach (var filePath in botFiles)
         {
             i++;
-            if (i % 100 == 0) Console.WriteLine($"Processing file {i}");
+            if (i % 100 == 0) Console.WriteLine($"Processing file {i.ToString()}");
             ProcessBotFileSync(baseBots, filePath, parsedBotIds, totalDupeCount);
         }
 
@@ -69,7 +69,7 @@ public static class BotParser
         }
 
         stopwatch.Stop();
-        LoggingHelpers.LogToConsole($"{totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+        LoggingHelpers.LogToConsole($"{totalDupeCount.ToString()} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
         return baseBots.ToList();
     }
@@ -137,7 +137,7 @@ public static class BotParser
         DiskHelpers.CreateDirIfDoesntExist(dumpPath);
 
         var botFiles = Directory.GetFiles(dumpPath, "*.json", SearchOption.TopDirectoryOnly);
-        LoggingHelpers.LogToConsole($"{botFiles.Length} bot dump files found");
+        LoggingHelpers.LogToConsole($"{botFiles.Length.ToString()} bot dump files found");
 
         // key = bot type
         // Store bots keyed against their ID so we never get duplicates
@@ -153,9 +153,9 @@ public static class BotParser
         await Task.WhenAll(tasks.ToArray());
         stopwatch.Stop();
         
-        LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBotsDict.Count} bots. {totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
         return [.. parsedBotsDict.Values];
+        LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBotsDict.Count.ToString()} bots. {totalDupeCount.ToString()} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
     }
 
     private static async Task<int> ProcessBotFile(
@@ -235,8 +235,8 @@ public static class BotParser
 
         if (jItemsToReplace != null && jItemsToReplace.Any())
         {
-            LoggingHelpers.LogToConsole($"file {fileName} has {jItemsToReplace.Count()} json issues, cleaning up.", ConsoleColor.Yellow);
             foreach (var item in jItemsToReplace)
+            LoggingHelpers.LogToConsole($"file {fileName} has {jItemsToReplace.Count().ToString()} json issues, cleaning up.", ConsoleColor.Yellow);
             {
                 var obj = new { x = 1, y = 0, r = 0 };
                 item.Replace(JToken.FromObject(obj));
