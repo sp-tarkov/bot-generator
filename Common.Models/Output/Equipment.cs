@@ -69,7 +69,7 @@ namespace Common.Models.Output
         public Dictionary<string, int> TacticalVest { get; set; }
         public Dictionary<string, int> Pockets { get; set; }
         public Dictionary<string, int> Backpack { get; set; }
-        public new Dictionary<string, int> SecuredContainer { get; set; }
-        public new Dictionary<string, int> SpecialLoot { get; set; }
+        public Dictionary<string, int> SecuredContainer { get; set; }
+        public Dictionary<string, int> SpecialLoot { get; set; }
     }
 }
