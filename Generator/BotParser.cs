@@ -33,7 +33,7 @@ public static class BotParser
         DiskHelpers.CreateDirIfDoesntExist(dumpPath);
 
         var botFiles = Directory.GetFiles(dumpPath, "*.json", SearchOption.TopDirectoryOnly);
-        LoggingHelpers.LogToConsole($"{botFiles.Length} bot dump files found");
+        LoggingHelpers.LogToConsole($"{botFiles.Length.ToString()} bot dump files found");
 
         // Store a list of parsed bots so we don't parse the same bot twice
         int totalDupeCount = 0;
@@ -42,7 +42,7 @@ public static class BotParser
         foreach (var filePath in botFiles)
         {
             i++;
-            if (i % 100 == 0) Console.WriteLine($"Processing file {i}");
+            if (i % 500 == 0) Console.WriteLine($"Processing file {i.ToString()}");
             ProcessBotFileSync(baseBots, filePath, parsedBotIds, totalDupeCount);
         }
 
@@ -69,7 +69,7 @@ public static class BotParser
         }
 
         stopwatch.Stop();
-        LoggingHelpers.LogToConsole($"{totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+        LoggingHelpers.LogToConsole($"{totalDupeCount.ToString()} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
         return baseBots.ToList();
     }
@@ -84,15 +84,14 @@ public static class BotParser
 
         int dupeCount = 0;
 
-        List<Datum> bots = [];
+        List<Datum> bots = new List<Datum>();
         try
         {
             // Parse the bots inside the json file
             using (var reader = new StreamReader(filePath))
             {
                 var deSerialisedObject = JsonSerializer.Deserialize<Root>(reader.ReadToEnd(), serialiserOptions);
-
-                foreach (var botData in deSerialisedObject.data)
+                foreach (var botData in deSerialisedObject.data.ToList())
                 {
                     // Bot fucks up something, never allow it in
                     if (botData._id == "6483938c53cc9087c70eae86")
@@ -101,10 +100,22 @@ public static class BotParser
                         continue;
                     }
 
-                    var baseBot = baseBots.SingleOrDefault(bot => bot.botType.ToString().Equals(botData.Info.Settings.Role, StringComparison.OrdinalIgnoreCase));
+                    var role = botData.Info.Settings.Role;
+                    var botType = Enum.Parse<BotType>(role, true);
+                    
+                    Bot baseBot = null;
+                    foreach (var bot in baseBots)
+                    {
+                        if (bot.botType == botType)
+                        {
+                            baseBot = bot;
+                            break;
+                        }
+                    }
+
                     if (baseBot == null)
                     {
-                        //Console.WriteLine($"Skipping {botData._id} due to unknown role {botData.Info.Settings.Role}");
+                        Console.WriteLine($"Skipping {botData._id} due to unknown role {botData.Info.Settings.Role}");
                         continue;
                     }
 
@@ -121,7 +132,7 @@ public static class BotParser
                 }
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Console.WriteLine($"File parse fucked up: {filePath}");
             throw;
@@ -137,12 +148,12 @@ public static class BotParser
         DiskHelpers.CreateDirIfDoesntExist(dumpPath);
 
         var botFiles = Directory.GetFiles(dumpPath, "*.json", SearchOption.TopDirectoryOnly);
-        LoggingHelpers.LogToConsole($"{botFiles.Length} bot dump files found");
+        LoggingHelpers.LogToConsole($"{botFiles.Length.ToString()} bot dump files found");
 
         // key = bot type
         // Store bots keyed against their ID so we never get duplicates
         var parsedBotsDict = new ConcurrentDictionary<string, Datum>();
-        
+
         int totalDupeCount = 0;
         var tasks = new List<Task>();
         foreach (var filePath in botFiles)
@@ -152,10 +163,10 @@ public static class BotParser
 
         await Task.WhenAll(tasks.ToArray());
         stopwatch.Stop();
-        
-        LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBotsDict.Count} bots. {totalDupeCount} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
 
-        return [.. parsedBotsDict.Values];
+        LoggingHelpers.LogToConsole($"Cleaned and Parsed: {parsedBotsDict.Count.ToString()} bots. {totalDupeCount.ToString()} dupes were ignored. Took {LoggingHelpers.LogTimeTaken(stopwatch.Elapsed.TotalSeconds)} seconds");
+
+        return parsedBotsDict.Values.ToList();
     }
 
     private static async Task<int> ProcessBotFile(
@@ -168,17 +179,27 @@ public static class BotParser
 
         int dupeCount = 0;
 
-        List<Datum> bots = [];
+        List<Datum> bots = new List<Datum>();
         try
         {
             // Parse the bots inside the json file
-            using (var reader = new StreamReader(filePath))
+            using var reader = new StreamReader(filePath);
+            var deSerialisedObject = await JsonSerializer.DeserializeAsync<Root>(reader.BaseStream, serialiserOptions);
+
+            var botTypesLower = new HashSet<string>(botTypes, StringComparer.OrdinalIgnoreCase);
+            var filteredBots = new List<Datum>();
+            foreach (var botData in deSerialisedObject.data.ToList())
             {
-                var deSerialisedObject = JsonSerializer.Deserialize<Root>(reader.ReadToEnd(), serialiserOptions);
-                bots.AddRange(deSerialisedObject.data.Where(botData => botTypes.Contains(botData.Info.Settings.Role.ToLower())));
+                var roleLower = botData.Info.Settings.Role.ToLower();
+                if (botTypesLower.Contains(roleLower))
+                {
+                    filteredBots.Add(botData);
+                }
             }
+
+            bots.AddRange(filteredBots);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Console.WriteLine($"File parse fucked up: {filePath}");
             throw;
@@ -235,8 +256,9 @@ public static class BotParser
 
         if (jItemsToReplace != null && jItemsToReplace.Any())
         {
-            LoggingHelpers.LogToConsole($"file {fileName} has {jItemsToReplace.Count()} json issues, cleaning up.", ConsoleColor.Yellow);
-            foreach (var item in jItemsToReplace)
+            LoggingHelpers.LogToConsole($"file {fileName} has {jItemsToReplace.Count().ToString()} json issues, cleaning up.", ConsoleColor.Yellow);
+            var jItemsToReplaceList = jItemsToReplace.ToList();
+            foreach (var item in jItemsToReplaceList)
             {
                 var obj = new { x = 1, y = 0, r = 0 };
                 item.Replace(JToken.FromObject(obj));
