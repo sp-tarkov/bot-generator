@@ -71,14 +71,14 @@ public class Experience
     {
         level = new MinMax(0, 1);
         reward = new MinMax(-1, -1);
-        standingForKill = -0.02;
-        aggressorBonus = 0.01;
+        standingForKill = new Dictionary<string, object>();
+        aggressorBonus = null;
         useSimpleAnimator = false;
     }
 
     public MinMax level { get; set; }
     public MinMax reward { get; set; }
-    public object standingForKill { get; set; }
+    public Dictionary<string, object> standingForKill { get; set; }
     public object aggressorBonus { get; set; }
     public bool useSimpleAnimator { get; set; }
 }

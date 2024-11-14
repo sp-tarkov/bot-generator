@@ -4,7 +4,6 @@ using Common.Models.Input;
 using Common.Models.Output;
 using Generator.Helpers;
 using Generator.Helpers.Gear;
-using System.Diagnostics;
 
 namespace Generator
 {
@@ -42,8 +41,14 @@ namespace Generator
 
         private static void AddStandingForKill(Bot botToUpdate, Datum rawBotData)
         {
-            botToUpdate.experience.standingForKill = rawBotData.Info.Settings.StandingForKill;
-            botToUpdate.experience.aggressorBonus = rawBotData.Info.Settings.AggressorBonus;
+            botToUpdate.experience.standingForKill ??= new Dictionary<string, object>();
+
+            if (!botToUpdate.experience.standingForKill.ContainsKey(rawBotData.Info.Settings.BotDifficulty))
+            {
+                botToUpdate.experience.standingForKill.Add(rawBotData.Info.Settings.BotDifficulty, rawBotData.Info.Settings.StandingForKill);
+            }
+
+            botToUpdate.experience.aggressorBonus ??= rawBotData.Info.Settings.AggressorBonus;
         }
 
         private static void AddExperience(Bot botToUpdate, Datum rawBotData)
