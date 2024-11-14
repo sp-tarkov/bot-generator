@@ -14,6 +14,7 @@ namespace Generator
             UpdateBodyPartHealth(botData, rawBotData);
             AddExperience(botData, rawBotData);
             AddStandingForKill(botData, rawBotData);
+            AddAggressorBonus(botData, rawBotData);
             AddSkills(botData, rawBotData);
             botData.experience.useSimpleAnimator = rawBotData.Info.Settings.UseSimpleAnimator;
 
@@ -47,14 +48,33 @@ namespace Generator
             {
                 botToUpdate.experience.standingForKill.Add(rawBotData.Info.Settings.BotDifficulty, rawBotData.Info.Settings.StandingForKill);
             }
+        }
 
-            botToUpdate.experience.aggressorBonus ??= rawBotData.Info.Settings.AggressorBonus;
+        private static void AddAggressorBonus(Bot botToUpdate, Datum rawBotData)
+        {
+            botToUpdate.experience.aggressorBonus ??= new Dictionary<string, object>();
+
+            if (!botToUpdate.experience.aggressorBonus.ContainsKey(rawBotData.Info.Settings.BotDifficulty))
+            {
+                botToUpdate.experience.aggressorBonus.Add(rawBotData.Info.Settings.BotDifficulty, rawBotData.Info.Settings.AggressorBonus);
+            }
         }
 
         private static void AddExperience(Bot botToUpdate, Datum rawBotData)
         {
-            botToUpdate.experience.reward.min = rawBotData.Info.Settings.Experience;
-            botToUpdate.experience.reward.max = rawBotData.Info.Settings.Experience;
+            botToUpdate.experience.reward ??= new();
+
+            botToUpdate.experience.reward.TryGetValue(rawBotData.Info.Settings.BotDifficulty, out var minMaxValues);
+            if (minMaxValues is null)
+            {
+                botToUpdate.experience.reward.Add(rawBotData.Info.Settings.BotDifficulty, new(rawBotData.Info.Settings.Experience, rawBotData.Info.Settings.Experience));
+
+                return;
+            }
+
+            minMaxValues.min = Math.Min(minMaxValues.min, rawBotData.Info.Settings.Experience);
+            minMaxValues.max = Math.Max(minMaxValues.max, rawBotData.Info.Settings.Experience);
+
         }
 
         private static void AddVoice(Bot bot, Datum rawBot)
