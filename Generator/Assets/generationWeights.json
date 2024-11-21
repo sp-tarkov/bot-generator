@@ -1353,7 +1353,7 @@
         },
         "whitelist": []
       },
-      "drink": {
+      "drinks": {
         "weights": {
           "0": 1
         },
@@ -1427,7 +1427,7 @@
         },
         "whitelist": []
       },
-      "drink": {
+      "drinks": {
         "weights": {
           "0": 1
         },
@@ -1501,7 +1501,7 @@
         },
         "whitelist": []
       },
-      "drink": {
+      "drinks": {
         "weights": {
           "0": 1
         },
@@ -1575,7 +1575,7 @@
         },
         "whitelist": []
       },
-      "drink": {
+      "drinks": {
         "weights": {
           "0": 1
         },
@@ -1649,7 +1649,7 @@
         },
         "whitelist": []
       },
-      "drink": {
+      "drinks": {
         "weights": {
           "0": 1
         },
