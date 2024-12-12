@@ -296,7 +296,13 @@ namespace Generator.Helpers.Gear
                 foreach (var cartridge in botToUpdate.inventory.Ammo.Keys)
                 {
                     var cartridgeWithWeights = botToUpdate.inventory.Ammo[cartridge];
+                    foreach (var cartridgeKvP in cartridgeWithWeights)
+                    {
+                        cartridgeWithWeights[cartridgeKvP.Key] = ReduceValueAccuracy(cartridgeKvP.Value);
+                    }
+
                     var weights = cartridgeWithWeights.Values.Select(x => x).ToList();
+
                     var commonAmmoDivisor = CommonDivisor(weights);
 
                     foreach (var cartridgeWeightKvP in cartridgeWithWeights)
@@ -341,6 +347,11 @@ namespace Generator.Helpers.Gear
                 return;
             }
 
+            foreach (var itemWeightKvp in equipmentDict)
+            {
+                equipmentDict[itemWeightKvp.Key] = ReduceValueAccuracy(itemWeightKvp.Value, 4);
+            }
+
             var weights = equipmentDict.Values.Select(x => x).ToList();
             var commonAmmoDivisor = CommonDivisor(weights);
 
@@ -354,6 +365,14 @@ namespace Generator.Helpers.Gear
             {
                 equipmentDict[itemTplWithWeight.Key] /= commonAmmoDivisor;
             }
+        }
+
+        private static int ReduceValueAccuracy(long x, int digits = 3)
+        {
+            int i = (int)Math.Log10(x);
+            i = Math.Max(0, i - (digits - 1));
+            i = (int)Math.Pow(10, i);
+            return (int)(x / i * i);
         }
     }
 }
