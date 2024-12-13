@@ -58,6 +58,12 @@ namespace Generator
             }
 
             AddSpecialLoot(botToUpdate);
+
+            // Cleanup of weights
+            GearHelpers.ReduceWeightValues(botToUpdate.inventory.items.Backpack);
+            GearHelpers.ReduceWeightValues(botToUpdate.inventory.items.Pockets);
+            GearHelpers.ReduceWeightValues(botToUpdate.inventory.items.TacticalVest);
+            GearHelpers.ReduceWeightValues(botToUpdate.inventory.items.SecuredContainer);
         }
 
         /// <summary>
