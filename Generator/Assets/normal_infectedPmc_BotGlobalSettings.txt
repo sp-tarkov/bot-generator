@@ -322,7 +322,6 @@
   },
   "Mind": {
     "HOW_WORK_OVER_DEAD_BODY": 2,
-    "REACT_ADD_DRUNK_ENEMY": true,
     "MIN_SHOOTS_TIME": 2,
     "MAX_SHOOTS_TIME": 4,
     "TIME_TO_RUN_TO_COVER_CAUSE_SHOOT_SEC": 15.0,

@@ -436,8 +436,7 @@
     "KOJANIY_MANY_ENEMIES_COEF": 1.5,
     "KOJANIY_FIGHT_CENTER_POS_ME": false,
     "SET_CHEAT_VISIBLE_WHEN_ADD_TO_ENEMY": true,
-    "EFFECT_PAINKILLER": true,
-    "ALLOW_REQUEST_SELF": false
+    "EFFECT_PAINKILLER": true
   },
   "Core": {
     "VisibleAngle": 160.0,

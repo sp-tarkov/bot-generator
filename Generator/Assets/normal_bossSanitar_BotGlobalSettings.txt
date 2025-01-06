@@ -451,8 +451,7 @@
     "KILLA_TRIGGER_DOWN_DELAY": 1.0,
     "KILLA_WAIT_IN_COVER_COEF": 1.0,
     "EFFECT_REGENERATION_PER_MIN": 60,
-    "EFFECT_PAINKILLER": true,
-    "ALLOW_REQUEST_SELF": false
+    "EFFECT_PAINKILLER": true
   },
   "Core": {
     "VisibleAngle": 160.0,

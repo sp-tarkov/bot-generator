@@ -419,8 +419,7 @@
     "KILLA_ENEMIES_TO_ATTACK": 3,
     "KILLA_ONE_IS_CLOSE": 30.0,
     "KILLA_TRIGGER_DOWN_DELAY": 1.0,
-    "KILLA_WAIT_IN_COVER_COEF": 1.0,
-    "ALLOW_REQUEST_SELF": false
+    "KILLA_WAIT_IN_COVER_COEF": 1.0
   },
   "Core": {
     "VisibleAngle": 140.0,

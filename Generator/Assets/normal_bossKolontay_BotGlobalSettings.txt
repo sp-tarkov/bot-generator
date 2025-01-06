@@ -504,8 +504,7 @@
     "GLUHAR_FOLLOWERS_SCOUT": 2,
     "GLUHAR_FOLLOWERS_SNIPE": 0,
 	"GLUHAR_BOSS_DIST_TO_ENEMY_WANT_KILL": 25.0,
-    "EFFECT_PAINKILLER": true,
-    "ALLOW_REQUEST_SELF": false
+    "EFFECT_PAINKILLER": true	
   },
   "Core": {
     "VisibleAngle": 160.0,
