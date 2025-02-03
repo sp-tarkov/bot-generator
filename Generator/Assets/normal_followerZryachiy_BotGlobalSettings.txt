@@ -382,7 +382,8 @@
     "HIT_DELAY_WHEN_HAVE_SMT": -1.0,
     "HIT_DELAY_WHEN_PEACE": -1.0,
     "TALK_WITH_QUERY": true,
-    "ENEMY_BOT_TYPES": ["pmcBEAR","pmcUSEC"]
+    "ENEMY_BOT_TYPES": ["pmcBEAR","pmcUSEC"],
+    "FRIENDLY_BOT_TYPES": ["bossZryachiy","followerZryachiy"],
   },
   "Boss": {
     "BOSS_ZRYACHIY_MIN_DIST_TO_TELEPORT": 500.0,
