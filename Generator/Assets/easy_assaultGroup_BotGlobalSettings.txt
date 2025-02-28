@@ -111,6 +111,7 @@
   },
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 2.0,
+    "DITANCE_TO_OFF_AUTO_FIRE": 95.0,
     "RECOIL_PER_METER": 0.1,
     "CAN_STOP_SHOOT_CAUSE_ANIMATOR": true,
     "MAX_RECOIL_PER_METER": 0.2,
@@ -219,14 +220,14 @@
   },
   "Change": {
     "SMOKE_VISION_DIST": 0.6,
-    "SMOKE_GAIN_SIGHT": 1.6,
+    "SMOKE_GAIN_SIGHT": 0.625,
     "SMOKE_SCATTERING": 1.6,
     "SMOKE_PRECICING": 1.6,
     "SMOKE_HEARING": 1.0,
     "SMOKE_ACCURATY": 1.6,
     "SMOKE_LAY_CHANCE": 1.6,
     "FLASH_VISION_DIST": 0.05,
-    "FLASH_GAIN_SIGHT": 1.8,
+    "FLASH_GAIN_SIGHT": 0.555,
     "FLASH_SCATTERING": 1.6,
     "FLASH_PRECICING": 1.6,
     "FLASH_HEARING": 1.0,
@@ -439,7 +440,7 @@
   "Core": {
     "VisibleAngle": 130.0,
     "VisibleDistance": 110.0,
-    "GainSightCoef": 0.2,
+    "GainSightCoef": 1,
     "ScatteringPerMeter": 0.07,
     "ScatteringClosePerMeter": 0.12,
     "DamageCoeff": 1.0,

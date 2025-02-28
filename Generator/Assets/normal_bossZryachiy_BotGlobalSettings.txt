@@ -107,7 +107,9 @@
     "DIST_CHECK_WALL": 20.0,
     "LOOK_LAST_POSENEMY_IF_NO_DANGER_SEC": 25.0,
     "MIN_LOOK_AROUD_TIME": 20.0,
-    "OPTIMIZE_TO_ONLY_BODY": true
+    "OPTIMIZE_TO_ONLY_BODY": true,
+    "LOOK_THROUGH_GRASS": true,
+    "LOOK_THROUGH_PERIOD_BY_HIT": 10
   },
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 1.0,
@@ -218,14 +220,14 @@
   },
   "Change": {
     "SMOKE_VISION_DIST": 0.6,
-    "SMOKE_GAIN_SIGHT": 1.6,
+    "SMOKE_GAIN_SIGHT": 0.625,
     "SMOKE_SCATTERING": 1.6,
     "SMOKE_PRECICING": 1.6,
     "SMOKE_HEARING": 1.0,
     "SMOKE_ACCURATY": 1.6,
     "SMOKE_LAY_CHANCE": 1.6,
     "FLASH_VISION_DIST": 0.05,
-    "FLASH_GAIN_SIGHT": 1.8,
+    "FLASH_GAIN_SIGHT": 0.555,
     "FLASH_SCATTERING": 1.6,
     "FLASH_PRECICING": 1.6,
     "FLASH_HEARING": 1.0,
@@ -436,7 +438,7 @@
   "Core": {
     "VisibleAngle": 188.0,
     "VisibleDistance": 392.0,
-    "GainSightCoef": 0.1,
+    "GainSightCoef": 2,
     "ScatteringPerMeter": 0.002,
     "ScatteringClosePerMeter": 0.12,
     "DamageCoeff": 1.0,
