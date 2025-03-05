@@ -88,7 +88,17 @@ public static class BotParser
         // Parse the bots inside the json file
         using (var reader = new StreamReader(filePath))
         {
-            var deSerialisedObject = JsonSerializer.Deserialize<Root>(reader.ReadToEnd(), serialiserOptions);
+            Root deSerialisedObject;
+            try
+            {
+                deSerialisedObject = JsonSerializer.Deserialize<Root>(reader.ReadToEnd(), serialiserOptions);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Failed to parse file from path: {filePath}, skipping. {e.Message}");
+                return;
+            }
+            
             foreach (var botData in deSerialisedObject.data.ToList())
             {
                 try
@@ -103,15 +113,7 @@ public static class BotParser
                     var role = botData.Info.Settings.Role;
                     var botType = Enum.Parse<BotType>(role, true);
 
-                    Bot baseBot = null;
-                    foreach (var bot in baseBots)
-                    {
-                        if (bot.botType == botType)
-                        {
-                            baseBot = bot;
-                            break;
-                        }
-                    }
+                    var baseBot = baseBots.FirstOrDefault(bot => bot.botType == botType);
 
                     if (baseBot == null)
                     {
