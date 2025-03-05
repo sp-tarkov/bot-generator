@@ -134,7 +134,7 @@ public static class BotParser
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"File parse failed, skipping: {filePath} - {e.Message}");
+                    Console.WriteLine($"Bot in file: {filePath} was invalid, skipping - {e.Message}");
                 }
             }
         }
