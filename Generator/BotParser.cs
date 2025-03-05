@@ -84,14 +84,14 @@ public static class BotParser
 
         int dupeCount = 0;
 
-        List<Datum> bots = new List<Datum>();
-        try
+        List<Datum> bots = [];
+        // Parse the bots inside the json file
+        using (var reader = new StreamReader(filePath))
         {
-            // Parse the bots inside the json file
-            using (var reader = new StreamReader(filePath))
+            var deSerialisedObject = JsonSerializer.Deserialize<Root>(reader.ReadToEnd(), serialiserOptions);
+            foreach (var botData in deSerialisedObject.data.ToList())
             {
-                var deSerialisedObject = JsonSerializer.Deserialize<Root>(reader.ReadToEnd(), serialiserOptions);
-                foreach (var botData in deSerialisedObject.data.ToList())
+                try
                 {
                     // Bot fucks up something, never allow it in
                     if (botData._id == "6483938c53cc9087c70eae86")
@@ -102,7 +102,7 @@ public static class BotParser
 
                     var role = botData.Info.Settings.Role;
                     var botType = Enum.Parse<BotType>(role, true);
-                    
+
                     Bot baseBot = null;
                     foreach (var bot in baseBots)
                     {
@@ -130,12 +130,11 @@ public static class BotParser
                     BotLootGenerator.AddLoot(baseBot, botData);
                     BotChancesGenerator.AddChances(baseBot, botData);
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"File parse failed, skipping: {filePath} - {e.Message}");
+                }
             }
-        }
-        catch (Exception)
-        {
-            Console.WriteLine($"File parse fucked up: {filePath}");
-            throw;
         }
 
         totalDupeCount += dupeCount;
