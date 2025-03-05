@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Common.Models.Input
 {
-    public class Settings
+    public record Settings
     {
         public string Role { get; set; }
         public string BotDifficulty { get; set; }
@@ -15,7 +14,7 @@ namespace Common.Models.Input
         public bool UseSimpleAnimator { get; set; }
     }
 
-    public class Info
+    public record Info
     {
         public string Nickname { get; set; }
         public string LowerNickname { get; set; }
@@ -39,7 +38,7 @@ namespace Common.Models.Input
         public bool IsStreamerModeAvailable { get; set; }
     }
 
-    public class Customization
+    public record Customization
     {
         public string Head { get; set; }
         public string Body { get; set; }
@@ -47,25 +46,25 @@ namespace Common.Models.Input
         public string Hands { get; set; }
     }
 
-    public class Hydration
+    public record Hydration
     {
         public int Current { get; set; }
         public int Maximum { get; set; }
     }
 
-    public class Energy
+    public record Energy
     {
         public int Current { get; set; }
         public int Maximum { get; set; }
     }
 
-    public class Temperature
+    public record Temperature
     {
         public double Current { get; set; }
         public int Maximum { get; set; }
     }
 
-    public class Health
+    public record Health
     {
         public int Current { get; set; }
         public int Maximum { get; set; }
@@ -76,43 +75,43 @@ namespace Common.Models.Input
         public int UpdateTime { get; set; }
     }
 
-    public class Head
+    public record Head
     {
         public BodyPartHealth Health { get; set; }
     }
 
-    public class Chest
+    public record Chest
     {
         public BodyPartHealth Health { get; set; }
     }
 
-    public class Stomach
+    public record Stomach
     {
         public BodyPartHealth Health { get; set; }
     }
 
-    public class LeftArm
+    public record LeftArm
     {
         public BodyPartHealth Health { get; set; }
     }
 
-    public class RightArm
+    public record RightArm
     {
         public BodyPartHealth Health { get; set; }
     }
 
-    public class LeftLeg
+    public record LeftLeg
     {
         public BodyPartHealth Health { get; set; }
     }
 
-    public class RightLeg
+    public record RightLeg
     {
         public BodyPartHealth Health { get; set; }
     }
 
     [DataContract(Name = "Health")]
-    public class BodyPartHealth
+    public record BodyPartHealth
     {
         [DataMember]
         public int Current { get; set; }
@@ -120,7 +119,7 @@ namespace Common.Models.Input
         public int Maximum { get; set; }
     }
 
-    public class BodyParts
+    public record BodyParts
     {
         public Head Head { get; set; }
         public Chest Chest { get; set; }
@@ -142,34 +141,34 @@ namespace Common.Models.Input
         }
     }
 
-    public class Repairable
+    public record Repairable
     {
         public int Durability { get; set; }
         public int MaxDurability { get; set; }
     }
 
-    public class FoodDrink
+    public record FoodDrink
     {
         public int HpPercent { get; set; }
     }
 
-    public class FireMode
+    public record FireMode
     {
         [JsonProperty("FireMode")]
         public string WeaponFireMode { get; set; }
     }
 
-    public class Foldable
+    public record Foldable
     {
         public bool Folded { get; set; }
     }
 
-    public class MedKit
+    public record MedKit
     {
         public int HpResource { get; set; }
     }
 
-    public class Upd
+    public record Upd
     {
         public Repairable Repairable { get; set; }
         public int? StackObjectsCount { get; set; }
@@ -179,14 +178,14 @@ namespace Common.Models.Input
         public MedKit MedKit { get; set; }
     }
 
-    public class Location
+    public record Location
     {
         public int x { get; set; }
         public int y { get; set; }
         public int r { get; set; }
     }
 
-    public class Item
+    public record Item
     {
         public string _id { get; set; }
         public string _tpl { get; set; }
@@ -196,11 +195,11 @@ namespace Common.Models.Input
         public object location { get; set; }
     }
 
-    public class FastPanel
+    public record FastPanel
     {
     }
 
-    public class Inventory
+    public record Inventory
     {
         public List<Item> items { get; set; }
         public string equipment { get; set; }
@@ -211,14 +210,14 @@ namespace Common.Models.Input
         public FastPanel fastPanel { get; set; }
     }
 
-    public class Skills
+    public record Skills
     {
         public List<Common> Common { get; set; }
         public List<object> Mastering { get; set; }
         public int Points { get; set; }
     }
 
-    public class Common
+    public record Common
     {
         public string Id { get; set; }
         public int Progress { get; set; }
@@ -226,42 +225,42 @@ namespace Common.Models.Input
         public int LastAccess { get; set; }
     }
 
-    public class Stats
+    public record Stats
     {
         public EftStats Eft { get; set; }
     }
 
-    public class EftStats
+    public record EftStats
     {
         public SessionCounters SessionCounters { get; set; }
         public OverallCounters OverallCounters { get; set; }
     }
 
 
-    public class SessionCounters
+    public record SessionCounters
     {
         public List<object> Items { get; set; }
     }
 
-    public class OverallCounters
+    public record OverallCounters
     {
         public List<object> Items { get; set; }
     }
 
-    public class TaskConditionCounters
+    public record TaskConditionCounters
     {
         public object Counters { get; set; }
     }
 
-    public class BackendCounters
+    public record BackendCounters
     {
     }
 
-    public class Production
+    public record Production
     {
     }
 
-    public class Area
+    public record Area
     {
         public int type { get; set; }
         public int level { get; set; }
@@ -273,7 +272,7 @@ namespace Common.Models.Input
         public object lastRecipe { get; set; }
     }
 
-    public class Hideout
+    public record Hideout
     {
         public Production Production { get; set; }
         public List<Area> Areas { get; set; }
@@ -315,7 +314,7 @@ namespace Common.Models.Input
         }
     }
 
-    public class Root
+    public record Root
     {
         public int err { get; set; }
         public object errmsg { get; set; }

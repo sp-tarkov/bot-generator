@@ -1,12 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using Common.Models.Input;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Common.Models.Output;
 using Common.Models;
 using Generator;
@@ -80,11 +76,7 @@ public static class BotParser
         HashSet<string> parsedBotIds,
         int totalDupeCount)
     {
-        var splitFilePath = filePath.Split("\\");
-
-        int dupeCount = 0;
-
-        List<Datum> bots = [];
+        var dupeCount = 0;
         // Parse the bots inside the json file
         using (var reader = new StreamReader(filePath))
         {
@@ -103,10 +95,8 @@ public static class BotParser
             {
                 try
                 {
-                    // Bot fucks up something, never allow it in
-                    if (botData._id == "6483938c53cc9087c70eae86")
+                    if (parsedBotIds.Contains(botData._id))
                     {
-                        Console.WriteLine("oh no");
                         continue;
                     }
 
@@ -114,18 +104,14 @@ public static class BotParser
                     var botType = Enum.Parse<BotType>(role, true);
 
                     var baseBot = baseBots.FirstOrDefault(bot => bot.botType == botType);
-
                     if (baseBot == null)
                     {
-                        Console.WriteLine($"Skipping {botData._id} due to unknown role {botData.Info.Settings.Role}");
+                        Console.WriteLine($"Skipping: {botData._id} due to unknown role: {botData.Info.Settings.Role}");
                         continue;
                     }
 
-                    // Add bot if not already added
-                    if (!parsedBotIds.Add(botData._id))
-                    {
-                        dupeCount++;
-                    }
+                    parsedBotIds.Add(botData._id);
+
                     baseBot.botCount += 1;
                     BaseBotGenerator.UpdateBaseDetails(baseBot, botData);
                     BotGearGenerator.AddGear(baseBot, botData);
@@ -138,8 +124,6 @@ public static class BotParser
                 }
             }
         }
-
-        totalDupeCount += dupeCount;
     }
 
     public static async Task<List<Datum>> ParseAsync(string dumpPath, HashSet<string> botTypes)

@@ -1,6 +1,6 @@
 ﻿namespace Common.Models.Input
 {
-    public class ForcedLoot
+    public record ForcedLoot
     {
         public string[] Backpack { get; set; }
         public string[] Pockets { get; set; }

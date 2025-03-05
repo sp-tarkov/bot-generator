@@ -72,6 +72,9 @@ internal static class Program
         "infectedcivil",
         "infectedlaborant",
         "infectedtagilla",
+
+        "pmcusec",
+        "pmcbear"
        };
 
         // Read raw bot dumps and turn into c# objects
