@@ -90,7 +90,13 @@ public static class BotParser
                 Console.WriteLine($"Failed to parse file from path: {filePath}, skipping. {e.Message}");
                 return;
             }
-            
+
+            if (deSerialisedObject?.data is null)
+            {
+                Console.WriteLine($"Failed to process file: {filePath} as its data object is null");
+                return;
+            }
+
             foreach (var botData in deSerialisedObject.data.ToList())
             {
                 try
