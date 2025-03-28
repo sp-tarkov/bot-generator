@@ -78,9 +78,7 @@
     "WAIT_NEW__LOOK_SENSOR": 7.8,
     "LOOK_AROUND_DELTA": 1.1,
     "MAX_VISION_GRASS_METERS": 0.8,
-    "MAX_VISION_GRASS_METERS_FLARE": 8.0,
-    "MAX_VISION_GRASS_METERS_OPT": 0.9090909,
-    "MAX_VISION_GRASS_METERS_FLARE_OPT": 0.125,
+    "MAX_VISION_GRASS_METERS_FLARE": 0.001,
     "LightOnVisionDistance": 95.0,
     "FAR_DISTANCE": 260.0,
     "FarDeltaTimeSec": 3.0,
@@ -385,7 +383,8 @@
     "WARN_BOT_TYPES": ["assault"],
     "ENEMY_BOT_TYPES": [],
     "REVENGE_BOT_TYPES": ["exUsec", "gifter", "bossKnight", "followerBigPipe", "followerBirdEye"],
-    "REVENGE_FOR_SAVAGE_PLAYERS": false
+    "REVENGE_FOR_SAVAGE_PLAYERS": false,
+    "SDIST_TO_DELIVER_INFO_WHEN_ENEMY" : 10000.0
   },
   "Boss": {
     "TOTAL_TIME_KILL_AFTER_START_WARN": 4.0,
