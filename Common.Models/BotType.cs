@@ -58,6 +58,9 @@
         infectedpmc = 56,
         infectedcivil = 57,
         infectedlaborant = 58,
-        infectedtagilla = 59
+        infectedtagilla = 59,
+        bosstagillaagro,
+        bosskillaagro,
+        tagillahelperagro
     }
 }

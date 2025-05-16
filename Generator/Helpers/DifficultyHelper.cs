@@ -15,7 +15,7 @@ namespace Generator.Helpers
             // Save into dictionary with difficulty as key
             var difficultySettingsJsons = new Dictionary<string, DifficultySettings>();
             BotType botType = botToUpdate.botType;
-            var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botType}_", StringComparison.InvariantCultureIgnoreCase));
+            var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botType}_BotGlobal", StringComparison.InvariantCultureIgnoreCase));
             foreach (var path in pathsWithBotType)
             {
                 var difficultyJson = File.ReadAllText(path);

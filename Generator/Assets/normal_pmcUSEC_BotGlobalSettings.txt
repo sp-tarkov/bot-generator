@@ -78,7 +78,9 @@
     "WAIT_NEW__LOOK_SENSOR": 7.8,
     "LOOK_AROUND_DELTA": 1.1,
     "MAX_VISION_GRASS_METERS": 0.8,
-    "MAX_VISION_GRASS_METERS_FLARE": 0.001,
+    "MAX_VISION_GRASS_METERS_FLARE": 8.0,
+    "MAX_VISION_GRASS_METERS_OPT": 0.9090909,
+    "MAX_VISION_GRASS_METERS_FLARE_OPT": 0.125,
     "LightOnVisionDistance": 45.0,
     "FAR_DISTANCE": 160.0,
     "FarDeltaTimeSec": 3.0,
@@ -107,7 +109,6 @@
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 1.0,
     "RECOIL_PER_METER": 0.02,
-    "DITANCE_TO_OFF_AUTO_FIRE": 95.0,
     "MAX_RECOIL_PER_METER": 0.04,
     "HORIZONT_RECOIL_COEF": 0.04,
     "WAIT_NEXT_SINGLE_SHOT": 0.2,
@@ -392,8 +393,7 @@
     "WARN_BOT_TYPES": ["assault"],
     "ENEMY_BOT_TYPES": [],
     "REVENGE_BOT_TYPES": ["pmcBot", "gifter"],
-    "REVENGE_FOR_SAVAGE_PLAYERS": false,
-    "SDIST_TO_DELIVER_INFO_WHEN_ENEMY" : 10000.0
+    "REVENGE_FOR_SAVAGE_PLAYERS": false
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 25.0,
@@ -442,7 +442,7 @@
   "Core": {
     "VisibleAngle": 160.0,
     "VisibleDistance": 142.0,
-    "GainSightCoef": 1.2,
+    "GainSightCoef": 2,
     "ScatteringPerMeter": 0.045,
     "ScatteringClosePerMeter": 0.12,
     "DamageCoeff": 1.0,

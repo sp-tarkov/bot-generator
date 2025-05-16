@@ -83,7 +83,9 @@
     "LOOK_AROUND_DELTA": 1.1,
     "ANGLE_FOR_GETUP": 30.0,
     "MAX_VISION_GRASS_METERS": 0.4,
-    "MAX_VISION_GRASS_METERS_FLARE": 0.001,
+    "MAX_VISION_GRASS_METERS_FLARE": 7.0,
+    "MAX_VISION_GRASS_METERS_OPT": 0.9090909,
+    "MAX_VISION_GRASS_METERS_FLARE_OPT": 0.125,
     "LightOnVisionDistance": 30.0,
     "FAR_DISTANCE": 160.0,
     "FarDeltaTimeSec": 3.0,
@@ -400,8 +402,7 @@
     "HIT_DELAY_WHEN_PEACE": -1.0,
     "TALK_WITH_QUERY": true,
     "WILL_PERSUE_AXEMAN": true,
-    "MAY_BE_CALLED_FOR_HELP": true,
-    "SDIST_TO_DELIVER_INFO_WHEN_ENEMY" : 10000.0
+    "MAY_BE_CALLED_FOR_HELP": true
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 34.0,
@@ -453,7 +454,7 @@
   "Core": {
     "VisibleAngle": 140.0,
     "VisibleDistance": 130.0,
-    "GainSightCoef": 1,
+    "GainSightCoef": 2,
     "ScatteringPerMeter": 0.05,
     "ScatteringClosePerMeter": 0.1,
     "DamageCoeff": 1.0,

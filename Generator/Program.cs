@@ -74,7 +74,11 @@ internal static class Program
         "infectedtagilla",
 
         "pmcusec",
-        "pmcbear"
+        "pmcbear",
+
+        "bosstagillaagro",
+        "bosskillaagro",
+        "tagillahelperagro"
        };
 
         // Read raw bot dumps and turn into c# objects
