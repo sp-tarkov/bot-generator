@@ -7,15 +7,14 @@ namespace Generator.Helpers
 {
     public static class DifficultyHelper
     {
-        private static readonly string[] _difficulties = new[] { "easy", "normal", "hard", "impossible" };
+        private static readonly string[] _difficulties = ["easy", "normal", "hard", "impossible"];
 
         public static void AddDifficultySettings(Bot botToUpdate, List<string> difficultyFilePaths)
         {
             // Read bot setting files from assets folder that match this bots type
             // Save into dictionary with difficulty as key
-            var difficultySettingsJsons = new Dictionary<string, DifficultySettings>();
-            BotType botType = botToUpdate.botType;
-            var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botType}_BotGlobal", StringComparison.InvariantCultureIgnoreCase));
+            Dictionary<string, DifficultySettings> difficultySettingsJsons = new();
+            var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botToUpdate.botType}_BotGlobal", StringComparison.InvariantCultureIgnoreCase));
             foreach (var path in pathsWithBotType)
             {
                 var difficultyJson = File.ReadAllText(path);
@@ -24,13 +23,17 @@ namespace Generator.Helpers
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 });
 
-                serialisedDifficultySettings = ApplyCustomDifficultyValues(botType, serialisedDifficultySettings);
+                serialisedDifficultySettings = ApplyCustomDifficultyValues(botToUpdate.botType, serialisedDifficultySettings);
 
                 var difficultyOfFile = GetFileDifficultyFromPath(path);
                 difficultySettingsJsons.Add(difficultyOfFile, serialisedDifficultySettings);
             }
 
             // Find each difficulty in dictionary and save into bot
+            const string warnKey = "WARN_BOT_TYPES";
+            const string enemyKey = "ENEMY_BOT_TYPES";
+            const string friendlyKey = "FRIENDLY_BOT_TYPES";
+            const string revengeKey = "REVENGE_BOT_TYPES";
             foreach (var difficulty in _difficulties)
             {
                 var settings = difficultySettingsJsons.FirstOrDefault(x => x.Key.Contains(difficulty));
@@ -39,43 +42,44 @@ namespace Generator.Helpers
                 // This is required for many bot types that only have 'normal' difficulty settings
                 if (settings.Key == null)
                 {
+                    Console.WriteLine($"Difficulty: {difficulty} not found for {botToUpdate.botType}, falling back to any value found");
                     settings = difficultySettingsJsons.FirstOrDefault(x => x.Key != null);
+                    if (settings.Key is null)
+                    {
+                        Console.WriteLine($"No difficulty values found for {botToUpdate.botType}");
+                    }
                 }
 
-                var warnKey = "WARN_BOT_TYPES";
                 if (settings.Value.Mind.ContainsKey(warnKey))
                 {
-                    var deserialisedArray = getDeserializedStringArray(settings, warnKey);
+                    var deserialisedArray = GetDeserializedStringArray(settings, warnKey);
                     if (deserialisedArray.Length> 0)
                     {
                         settings.Value.Mind[warnKey] = deserialisedArray;
                     }
                 }
 
-                var enemyKey = "ENEMY_BOT_TYPES";
                 if (settings.Value.Mind.ContainsKey(enemyKey))
                 {
-                    var deserialisedArray = getDeserializedStringArray(settings, enemyKey);
+                    var deserialisedArray = GetDeserializedStringArray(settings, enemyKey);
                     if (deserialisedArray.Length > 0)
                     {
                         settings.Value.Mind[enemyKey] = deserialisedArray;
                     }
                 }
 
-                var friendlyKey = "FRIENDLY_BOT_TYPES";
                 if (settings.Value.Mind.ContainsKey(friendlyKey))
                 {
-                    var deserialisedArray = getDeserializedStringArray(settings, friendlyKey);
+                    var deserialisedArray = GetDeserializedStringArray(settings, friendlyKey);
                     if (deserialisedArray.Length > 0)
                     {
                         settings.Value.Mind[friendlyKey] = deserialisedArray;
                     }
                 }
 
-                var revengeKey = "REVENGE_BOT_TYPES";
                 if (settings.Value.Mind.ContainsKey(revengeKey))
                 {
-                    var deserialisedArray = getDeserializedStringArray(settings, revengeKey);
+                    var deserialisedArray = GetDeserializedStringArray(settings, revengeKey);
                     if (deserialisedArray.Length > 0)
                     {
                         settings.Value.Mind[revengeKey] = deserialisedArray;
@@ -86,7 +90,7 @@ namespace Generator.Helpers
             }
         }
 
-        private static string[] getDeserializedStringArray(KeyValuePair<string, DifficultySettings> settings, string friendlyKey)
+        private static string[] GetDeserializedStringArray(KeyValuePair<string, DifficultySettings> settings, string friendlyKey)
         {
             var serialisedArray = JsonConvert.SerializeObject(settings.Value.Mind[friendlyKey]);
             return JsonConvert.DeserializeObject<string[]>(serialisedArray);
@@ -106,10 +110,9 @@ namespace Generator.Helpers
                 case BotType.bossboar:
                 case BotType.bossboarsniper:
                 case BotType.bossknight:
+                case BotType.bosspartisan:
                 case BotType.bosszryachiy:
                     AddHostileToPMCSettings(difficultySettings);
-                    break;
-                default:
                     break;
             }
 
@@ -118,7 +121,7 @@ namespace Generator.Helpers
 
         private static void AddHostileToPMCSettings(DifficultySettings difficultySettings)
         {
-            var defaultEnemyUsecKey = "DEFAULT_ENEMY_USEC";
+            const string defaultEnemyUsecKey = "DEFAULT_ENEMY_USEC";
             if (difficultySettings.Mind.ContainsKey(defaultEnemyUsecKey))
             {
                 difficultySettings.Mind[defaultEnemyUsecKey] = true;
@@ -128,7 +131,7 @@ namespace Generator.Helpers
                 difficultySettings.Mind.Add(defaultEnemyUsecKey, true);
             }
 
-            var defaultEnemyBearKey = "DEFAULT_ENEMY_BEAR";
+            const string defaultEnemyBearKey = "DEFAULT_ENEMY_BEAR";
             if (difficultySettings.Mind.ContainsKey(defaultEnemyUsecKey))
             {
                 difficultySettings.Mind[defaultEnemyBearKey] = true;
