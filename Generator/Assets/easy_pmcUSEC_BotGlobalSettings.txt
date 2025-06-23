@@ -78,9 +78,7 @@
     "WAIT_NEW__LOOK_SENSOR": 7.8,
     "LOOK_AROUND_DELTA": 1.1,
     "MAX_VISION_GRASS_METERS": 0.8,
-    "MAX_VISION_GRASS_METERS_FLARE": 8.0,
-    "MAX_VISION_GRASS_METERS_OPT": 0.9090909,
-    "MAX_VISION_GRASS_METERS_FLARE_OPT": 0.125,
+    "MAX_VISION_GRASS_METERS_FLARE": 0.001,
     "LightOnVisionDistance": 45.0,
     "FAR_DISTANCE": 160.0,
     "FarDeltaTimeSec": 3.0,
@@ -111,6 +109,7 @@
     "RECOIL_PER_METER": 0.02,
     "MAX_RECOIL_PER_METER": 0.04,
     "HORIZONT_RECOIL_COEF": 0.04,
+    "DITANCE_TO_OFF_AUTO_FIRE": 95.0,
     "WAIT_NEXT_SINGLE_SHOT": 0.2,
     "WAIT_NEXT_SINGLE_SHOT_LONG_MAX": 3.3,
     "WAIT_NEXT_SINGLE_SHOT_LONG_MIN": 0.4,
@@ -141,7 +140,10 @@
     "VALIDATE_MALFUNCTION_CHANCE": 100,
     "REPAIR_MALFUNCTION_IMMEDIATE_CHANCE": 25,
     "DELAY_BEFORE_EXAMINE_MALFUNCTION": 0.5,
-    "DELAY_BEFORE_FIX_MALFUNCTION": 0.5
+    "DELAY_BEFORE_FIX_MALFUNCTION": 0.5,
+    "MISS_AFTER_SPRINT": true,
+    "MISS_TO_HEAD": true,
+    "MISS_ON_TRANSITION": true
   },
   "Move": {
     "BASE_ROTATE_SPEED": 270.0,
@@ -393,7 +395,8 @@
     "WARN_BOT_TYPES": ["assault"],
     "ENEMY_BOT_TYPES": [],
     "REVENGE_BOT_TYPES": ["pmcBot", "gifter"],
-    "REVENGE_FOR_SAVAGE_PLAYERS": false
+    "REVENGE_FOR_SAVAGE_PLAYERS": false,
+    "SDIST_TO_DELIVER_INFO_WHEN_ENEMY" : 10000.0
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 25.0,
@@ -441,7 +444,7 @@
   "Core": {
     "VisibleAngle": 160.0,
     "VisibleDistance": 142.0,
-    "GainSightCoef": 2,
+    "GainSightCoef": 1.2,
     "ScatteringPerMeter": 0.045,
     "ScatteringClosePerMeter": 0.12,
     "DamageCoeff": 1.0,

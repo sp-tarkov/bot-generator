@@ -80,9 +80,7 @@
     "WAIT_NEW__LOOK_SENSOR": 7.8,
     "LOOK_AROUND_DELTA": 1.1,
     "MAX_VISION_GRASS_METERS": 0.8,
-    "MAX_VISION_GRASS_METERS_FLARE": 8.0,
-    "MAX_VISION_GRASS_METERS_OPT": 0.9090909,
-    "MAX_VISION_GRASS_METERS_FLARE_OPT": 0.125,
+    "MAX_VISION_GRASS_METERS_FLARE": 0.001,
     "LightOnVisionDistance": 45.0,
     "FAR_DISTANCE": 160.0,
     "FarDeltaTimeSec": 3.0,
@@ -398,7 +396,8 @@
     "ENEMY_BOT_TYPES": [],
     "REVENGE_BOT_TYPES": [],
     "FRIENDLY_BOT_TYPES": ["infectedCivil", "infectedPmc", "infectedLaborant", "infectedAssault", "infectedTagilla"],
-    "REVENGE_FOR_SAVAGE_PLAYERS": false
+    "REVENGE_FOR_SAVAGE_PLAYERS": false,
+    "SDIST_TO_DELIVER_INFO_WHEN_ENEMY" : 10000.0
   },
   "Boss": {
     "BOSS_DIST_TO_WARNING": 25.0,
