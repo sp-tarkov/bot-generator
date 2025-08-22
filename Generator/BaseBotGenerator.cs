@@ -79,7 +79,7 @@ namespace Generator
 
         private static void AddVoice(Bot bot, Datum rawBot)
         {
-            GearHelpers.IncrementDictionaryValue(bot.appearance.voice, rawBot.Info.Voice);
+            GearHelpers.IncrementDictionaryValue(bot.appearance.voice, rawBot.Customization.Voice);
         }
 
         public static void AddDifficulties(Bot bot)

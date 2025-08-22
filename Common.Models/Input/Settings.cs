@@ -19,7 +19,6 @@ namespace Common.Models.Input
         public string Nickname { get; set; }
         public string LowerNickname { get; set; }
         public string Side { get; set; }
-        public string Voice { get; set; }
         public int Level { get; set; }
         public int Experience { get; set; }
         public int RegistrationDate { get; set; }
@@ -44,6 +43,7 @@ namespace Common.Models.Input
         public string Body { get; set; }
         public string Feet { get; set; }
         public string Hands { get; set; }
+        public string Voice { get; set; }
     }
 
     public record Hydration
