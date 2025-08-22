@@ -28,7 +28,25 @@
     "ANY_PART_SHOOT_TIME": 30.0,
     "Y_TOP_OFFSET_COEF": 0.001,
     "Y_BOTTOM_OFFSET_COEF": 0.015,
-    "SHALL_LAY_PROBABILTY_WHEN_ARTILLERY" : 10
+    "SHALL_LAY_PROBABILTY_WHEN_ARTILLERY" : 10,
+    "UnderbarrelLauncherAiming": {
+      "MAX_AIM_PRECICING": 4.0,
+      "COEF_FROM_COVER": 0.65,
+      "PANIC_COEF": 1.2,
+      "PANIC_ACCURATY_COEF": 1.2,
+      "PANIC_TIME": 2.0,
+      "MAX_AIMING_UPGRADE_BY_TIME": 0.85,
+      "DAMAGE_TO_DISCARD_AIM_0_100": 96.0,
+      "MIN_TIME_DISCARD_AIM_SEC": 2.3,
+      "MAX_TIME_DISCARD_AIM_SEC": 2.6,
+      "BOTTOM_COEF": 0.1,
+      "SCATTERING_DIST_MODIF": 0.55,
+      "SCATTERING_DIST_MODIF_CLOSE": 0.8,
+      "COEF_IF_MOVE": 1.1,
+      "TIME_COEF_IF_MOVE": 1.1,
+      "Y_TOP_OFFSET_COEF": 0.001,
+      "Y_BOTTOM_OFFSET_COEF": 0.015
+    }
   },
   "Look": {
     "MAX_VISION_GRASS_METERS": 0.8,
@@ -38,7 +56,7 @@
     "ENEMY_LIGHT_ADD": 45.0,
     "NO_GREEN_DIST": 5,
     "NO_GRASS_DIST": 5,
-    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0,
+    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0
   },
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 2.0,
@@ -51,7 +69,7 @@
     "CAN_SHOOTS_TIME_TO_AMBUSH": 333,
     "NOT_TO_SEE_ENEMY_TO_WANT_RELOAD_PERCENT": 0.5,
     "CHANCE_TO_CHANGE_WEAPON": 0.0,
-    "CHANCE_TO_CHANGE_WEAPON_WITH_HELMET": 0.0,
+    "CHANCE_TO_CHANGE_WEAPON_WITH_HELMET": 0.0
   },
   "Move": {
     "REACH_DIST_RUN": 0.8,
@@ -64,7 +82,7 @@
       "normal",
       "regular",
       "regular"
-    ],
+    ]
   },
   "Grenade": {
     "RUN_AWAY": 22.0,
@@ -79,7 +97,7 @@
     "GrenadePrecision": 0.1,
     "GRENADE_PRECISION_PORTALS": 0.1,
     "WAIT_TIME_TURN_AWAY": 0.2,
-    "ANG_TYPE": 4,
+    "ANG_TYPE": 4
   },
   "Change": {
     "FLASH_VISION_DIST": 0.05,
@@ -101,12 +119,12 @@
     "HITS_TO_LEAVE_COVER_UNKNOWN": 1,
     "MIN_DEFENCE_LEVEL": 22.0,
     "STATIONARY_WEAPON_NO_ENEMY_GETUP": 20.0,
-    "STATIONARY_WEAPON_MAX_DIST_TO_USE": 25.0,
+    "STATIONARY_WEAPON_MAX_DIST_TO_USE": 25.0
   },
   "Patrol": {
     "MIN_TALK_DELAY": 35.0,
     "VISION_DIST_COEF_PEACE": 0.75,
-    "MAX_YDIST_TO_START_WARN_REQUEST_TO_REQUESTER": 5.0,
+    "MAX_YDIST_TO_START_WARN_REQUEST_TO_REQUESTER": 5.0
   },
   "Hearing": {
     "BOT_CLOSE_PANIC_DIST": 2.0,
@@ -115,7 +133,7 @@
     "CLOSE_DIST": 10.0,
     "HEAR_DELAY_WHEN_PEACE": 0.75,
     "HEAR_DELAY_WHEN_HAVE_SMT": 0.5,
-    "LOOK_ONLY_DANGER_DELTA": 9.0,
+    "LOOK_ONLY_DANGER_DELTA": 9.0
   },
   "Mind": {
     "DAMAGE_REDUCTION_TIME_SEC": 20.0,
@@ -153,6 +171,6 @@
     "ToStopBotAngularSpeed": 80.0,
     "Caution": 0.03,
     "AMPLITUDE_FACTOR": 0.015,
-    "AMPLITUDE_SPEED": 0.001,
+    "AMPLITUDE_SPEED": 0.001
   }
 }

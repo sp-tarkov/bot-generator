@@ -22,7 +22,20 @@
     "COEF_IF_MOVE": 1.0,
     "TIME_COEF_IF_MOVE": 1.1,
     "ANY_PART_SHOOT_TIME": 10.0,
-    "SHALL_LAY_PROBABILTY_WHEN_ARTILLERY" : 10
+    "SHALL_LAY_PROBABILTY_WHEN_ARTILLERY" : 10,
+    "UnderbarrelLauncherAiming": {
+      "MAX_AIM_PRECICING": 4.0,
+      "COEF_FROM_COVER": 0.65,
+      "PANIC_COEF": 1.2,
+      "PANIC_ACCURATY_COEF": 1.2,
+      "PANIC_TIME": 2.0,
+      "MAX_AIMING_UPGRADE_BY_TIME": 0.4,
+      "MAX_TIME_DISCARD_AIM_SEC": 0.9,
+      "BOTTOM_COEF": 0.1,
+      "SCATTERING_DIST_MODIF": 0.55,
+      "COEF_IF_MOVE": 1.0,
+      "TIME_COEF_IF_MOVE": 1.1
+    }
   },
   "Look": {
     "MAX_VISION_GRASS_METERS": 0.8,
@@ -32,7 +45,7 @@
     "ENEMY_LIGHT_ADD": 45.0,
     "NO_GREEN_DIST": 5,
     "NO_GRASS_DIST": 5,
-    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0,
+    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0
   },
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 2.0,
@@ -45,7 +58,7 @@
     "CAN_SHOOTS_TIME_TO_AMBUSH": 333,
     "NOT_TO_SEE_ENEMY_TO_WANT_RELOAD_PERCENT": 0.5,
     "CHANCE_TO_CHANGE_WEAPON": 0.0,
-    "CHANCE_TO_CHANGE_WEAPON_WITH_HELMET": 0.0,
+    "CHANCE_TO_CHANGE_WEAPON_WITH_HELMET": 0.0
   },
   "Move": {
     "REACH_DIST_RUN": 0.8,
@@ -58,7 +71,7 @@
       "normal",
       "regular",
       "regular"
-    ],
+    ]
   },
   "Grenade": {
     "RUN_AWAY": 22.0,
@@ -73,7 +86,7 @@
     "GrenadePrecision": 0.01,
     "WAIT_TIME_TURN_AWAY": 0.2,
     "ANG_TYPE": 4,
-    "MIN_THROW_DIST_PERCENT_0_1": 0.8,
+    "MIN_THROW_DIST_PERCENT_0_1": 0.8
   },
   "Change": {
     "FLASH_VISION_DIST": 0.05,
@@ -90,12 +103,12 @@
     "SHOOT_NEAR_TO_LEAVE": 2,
     "MIN_DEFENCE_LEVEL": 22.0,
     "STATIONARY_WEAPON_NO_ENEMY_GETUP": 20.0,
-    "STATIONARY_WEAPON_MAX_DIST_TO_USE": 25.0,
+    "STATIONARY_WEAPON_MAX_DIST_TO_USE": 25.0
   },
   "Patrol": {
     "MIN_TALK_DELAY": 35.0,
     "VISION_DIST_COEF_PEACE": 1.0,
-    "MAX_YDIST_TO_START_WARN_REQUEST_TO_REQUESTER": 5.0,
+    "MAX_YDIST_TO_START_WARN_REQUEST_TO_REQUESTER": 5.0
   },
   "Hearing": {
     "BOT_CLOSE_PANIC_DIST": 2.0,
@@ -103,7 +116,7 @@
     "DISPERSION_COEF": 10.6,
     "CLOSE_DIST": 20.0,
     "HEAR_DELAY_WHEN_HAVE_SMT": 0.5,
-    "LOOK_ONLY_DANGER_DELTA": 9.0,
+    "LOOK_ONLY_DANGER_DELTA": 9.0
   },
   "Mind": {
     "DAMAGE_REDUCTION_TIME_SEC": 20.0,
@@ -141,6 +154,6 @@
     "ToStopBotAngularSpeed": 80.0,
     "Caution": 0.03,
     "AMPLITUDE_FACTOR": 0.015,
-    "AMPLITUDE_SPEED": 0.001,
+    "AMPLITUDE_SPEED": 0.001
   }
 }
