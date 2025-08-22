@@ -1,12 +1,18 @@
 ﻿using Common.Models;
 using Common.Models.Output;
 using Common.Models.Output.Difficulty;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Generator.Helpers
 {
     public static class DifficultyHelper
     {
+        private static JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip
+        };
+
         private static readonly string[] _difficulties = ["easy", "normal", "hard", "impossible"];
 
         public static void AddDifficultySettings(Bot botToUpdate, List<string> difficultyFilePaths)
@@ -18,10 +24,8 @@ namespace Generator.Helpers
             foreach (var path in pathsWithBotType)
             {
                 var difficultyJson = File.ReadAllText(path);
-                var serialisedDifficultySettings = JsonConvert.DeserializeObject<DifficultySettings>(difficultyJson, new JsonSerializerSettings
-                {
-                    MissingMemberHandling = MissingMemberHandling.Ignore
-                });
+
+                var serialisedDifficultySettings = JsonSerializer.Deserialize<DifficultySettings>(difficultyJson, options);
 
                 serialisedDifficultySettings = ApplyCustomDifficultyValues(botToUpdate.botType, serialisedDifficultySettings);
 
@@ -92,8 +96,10 @@ namespace Generator.Helpers
 
         private static string[] GetDeserializedStringArray(KeyValuePair<string, DifficultySettings> settings, string friendlyKey)
         {
-            var serialisedArray = JsonConvert.SerializeObject(settings.Value.Mind[friendlyKey]);
-            return JsonConvert.DeserializeObject<string[]>(serialisedArray);
+            object serialisedArray = settings.Value.Mind[friendlyKey];
+
+            var json = JsonSerializer.Serialize(serialisedArray);
+            return JsonSerializer.Deserialize<string[]>(json) ?? [];
         }
 
 

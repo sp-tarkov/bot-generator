@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Common.Models.Input
 {
@@ -154,7 +154,7 @@ namespace Common.Models.Input
 
     public record FireMode
     {
-        [JsonProperty("FireMode")]
+        [JsonPropertyName("FireMode")]
         public string WeaponFireMode { get; set; }
     }
 

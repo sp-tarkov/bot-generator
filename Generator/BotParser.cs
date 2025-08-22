@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using Common.Models.Input;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text.Json;
 using Common.Models.Output;
@@ -238,6 +237,7 @@ public static class BotParser
         return deSerialisedObject.data;
     }
 
+    /*
     private static string PruneMalformedBsgJson(string json, string fileName)
     {
         // Bsg send json where an item has a location of 1 but it should be an object with x/y/z coords
@@ -262,4 +262,5 @@ public static class BotParser
 
         return returnString;
     }
+    */
 }

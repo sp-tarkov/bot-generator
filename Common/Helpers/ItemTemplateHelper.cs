@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using Common;
-using Newtonsoft.Json;
 using Item = Common.Models.Item;
 
 namespace Generator.Helpers
@@ -24,7 +23,7 @@ namespace Generator.Helpers
                     }
 
                     var itemsJson = File.ReadAllText(itemsFilePath);
-                    _itemCache = JsonConvert.DeserializeObject<Dictionary<string, Item>>(itemsJson);
+                    _itemCache = JsonSerializer.Deserialize<Dictionary<string, Item>>(itemsJson);
                 }
 
                 return _itemCache;

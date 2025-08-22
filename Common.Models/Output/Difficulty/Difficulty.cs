@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Common.Models.Output.Difficulty
 {
@@ -13,7 +14,7 @@ namespace Common.Models.Output.Difficulty
     public class DifficultySettings
     {
         public Dictionary<string, object> Lay { get; set; }
-        public Dictionary<string, object> Aiming { get; set; }
+        public Dictionary<string, JsonElement> Aiming { get; set; }
         public Dictionary<string, object> Look { get; set; }
         public Dictionary<string, object> Shoot { get; set; }
         public Dictionary<string, object> Move { get; set; }

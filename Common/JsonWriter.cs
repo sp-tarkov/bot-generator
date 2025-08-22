@@ -32,7 +32,7 @@ namespace Common
             var jsonOptions = new JsonSerializerOptions()
             {
                 WriteIndented = true,
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
             };
 
             foreach (var bot in bots)
