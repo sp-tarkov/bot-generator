@@ -33,6 +33,7 @@ namespace Common
             {
                 WriteIndented = true,
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
 
             foreach (var bot in bots)
