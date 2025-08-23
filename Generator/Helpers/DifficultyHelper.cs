@@ -1,6 +1,7 @@
 ﻿using Common.Models;
 using Common.Models.Output;
 using Common.Models.Output.Difficulty;
+using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -10,7 +11,8 @@ namespace Generator.Helpers
     {
         private static JsonSerializerOptions options = new JsonSerializerOptions
         {
-            UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip
+            UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
+            Converters = { new JsonStringEnumConverter() }
         };
 
         private static readonly string[] _difficulties = ["easy", "normal", "hard", "impossible"];
@@ -19,13 +21,15 @@ namespace Generator.Helpers
         {
             // Read bot setting files from assets folder that match this bots type
             // Save into dictionary with difficulty as key
-            Dictionary<string, DifficultySettings> difficultySettingsJsons = new();
+            Dictionary<string, DifficultyCategories> difficultySettingsJsons = new();
             var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botToUpdate.botType}_BotGlobalSettings", StringComparison.InvariantCultureIgnoreCase));
             foreach (var path in pathsWithBotType)
             {
+                Console.WriteLine(path);
+
                 var difficultyJson = File.ReadAllText(path);
 
-                var serialisedDifficultySettings = JsonSerializer.Deserialize<DifficultySettings>(difficultyJson, options);
+                var serialisedDifficultySettings = JsonSerializer.Deserialize<DifficultyCategories>(difficultyJson, options);
 
                 serialisedDifficultySettings = ApplyCustomDifficultyValues(botToUpdate.botType, serialisedDifficultySettings);
 
@@ -54,6 +58,8 @@ namespace Generator.Helpers
                     }
                 }
 
+                //Archangel: Todo, is this still necessary?
+                /*
                 if (settings.Value.Mind.ContainsKey(warnKey))
                 {
                     var deserialisedArray = GetDeserializedStringArray(settings, warnKey);
@@ -89,6 +95,7 @@ namespace Generator.Helpers
                         settings.Value.Mind[revengeKey] = deserialisedArray;
                     }
                 }
+                */
 
                 SaveSettingsIntoBotFile(botToUpdate, difficulty, settings.Value);
             }
@@ -103,7 +110,7 @@ namespace Generator.Helpers
         }
 
 
-        private static DifficultySettings ApplyCustomDifficultyValues(BotType botType, DifficultySettings difficultySettings)
+        private static DifficultyCategories ApplyCustomDifficultyValues(BotType botType, DifficultyCategories difficultySettings)
         {
             switch (botType)
             {
@@ -118,14 +125,16 @@ namespace Generator.Helpers
                 case BotType.bossknight:
                 case BotType.bosspartisan:
                 case BotType.bosszryachiy:
-                    AddHostileToPMCSettings(difficultySettings);
+                    //Archangel: Todo, is this still necessary? DEFAULT_ENEMY doesn't exist
+                    //AddHostileToPMCSettings(difficultySettings);
                     break;
             }
 
             return difficultySettings;
         }
 
-        private static void AddHostileToPMCSettings(DifficultySettings difficultySettings)
+        /*
+        private static void AddHostileToPMCSettings(DifficultyCategories difficultySettings)
         {
             const string defaultEnemyUsecKey = "DEFAULT_ENEMY_USEC";
             if (difficultySettings.Mind.ContainsKey(defaultEnemyUsecKey))
@@ -147,6 +156,7 @@ namespace Generator.Helpers
                 difficultySettings.Mind.Add(defaultEnemyBearKey, true);
             }
         }
+        */
 
         private static string GetFileDifficultyFromPath(string path)
         {
@@ -156,21 +166,21 @@ namespace Generator.Helpers
             return splitPath.Last().Split("_")[0];
         }
 
-        private static void SaveSettingsIntoBotFile(Bot botToUpdate, string difficulty, DifficultySettings settings)
+        private static void SaveSettingsIntoBotFile(Bot botToUpdate, string difficulty, DifficultyCategories categories)
         {
             switch (difficulty)
             {
                 case "easy":
-                    botToUpdate.difficulty.easy = settings;
+                    botToUpdate.difficulty.easy = categories;
                     break;
                 case "normal":
-                    botToUpdate.difficulty.normal = settings;
+                    botToUpdate.difficulty.normal = categories;
                     break;
                 case "hard":
-                    botToUpdate.difficulty.hard = settings;
+                    botToUpdate.difficulty.hard = categories;
                     break;
                 case "impossible":
-                    botToUpdate.difficulty.impossible = settings;
+                    botToUpdate.difficulty.impossible = categories;
                     break;
             }
         }
