@@ -6,7 +6,7 @@ namespace SPTarkov.Server.Core.Models.Eft.Bot.GlobalSettings;
 /// <para>
 /// See GClass611 (To be remapped to BotGlobalsCoreSettingsClass) in the client, this record should match that
 /// </para>
-/// 
+///
 /// <para>
 /// These are all nullable so that only values get written if they are set, we don't want default values to be written to the client
 /// </para>
@@ -41,7 +41,7 @@ public record BotGlobalCoreSettings
     public bool? CanGrenade { get; set; }
 
     [JsonPropertyName("AimingType")]
-    public EAimingType AimingType { get; set; }
+    public EAimingType? AimingType { get; set; }
 
     [JsonPropertyName("PistolFireDistancePref")]
     public float? PistolFireDistancePref { get; set; }

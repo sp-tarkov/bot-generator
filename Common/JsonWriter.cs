@@ -5,6 +5,7 @@ using Common.Models.Input;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
 
 namespace Common
 {
@@ -15,8 +16,9 @@ namespace Common
 
         private static JsonSerializerOptions ignoreNullOptions = new JsonSerializerOptions
         {
-            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
-            WriteIndented = true};
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = true
+        };
 
         public JsonWriter(string workingPath, string outputFolderName)
         {
