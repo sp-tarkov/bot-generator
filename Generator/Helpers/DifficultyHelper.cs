@@ -101,13 +101,15 @@ namespace Generator.Helpers
             }
         }
 
-        private static string[] GetDeserializedStringArray(KeyValuePair<string, DifficultySettings> settings, string friendlyKey)
+        /*
+        private static string[] GetDeserializedStringArray(KeyValuePair<string, DifficultyCategories> settings, string friendlyKey)
         {
             object serialisedArray = settings.Value.Mind[friendlyKey];
 
             var json = JsonSerializer.Serialize(serialisedArray);
             return JsonSerializer.Deserialize<string[]>(json) ?? [];
         }
+        */
 
 
         private static DifficultyCategories ApplyCustomDifficultyValues(BotType botType, DifficultyCategories difficultySettings)
