@@ -1,4 +1,5 @@
 ﻿using Common.Models;
+using Common.Models.Input;
 using Common.Models.Output;
 using Common.Models.Output.Difficulty;
 using SPTarkov.Server.Core.Models.Eft.Common.Tables;
@@ -9,7 +10,7 @@ namespace Generator.Helpers
 {
     public static class DifficultyHelper
     {
-        private static JsonSerializerOptions options = new JsonSerializerOptions
+        private static readonly JsonSerializerOptions options = new()
         {
             UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
             Converters = { new JsonStringEnumConverter() }
@@ -17,7 +18,7 @@ namespace Generator.Helpers
 
         private static readonly string[] _difficulties = ["easy", "normal", "hard", "impossible"];
 
-        public static void AddDifficultySettings(Bot botToUpdate, List<string> difficultyFilePaths)
+        public static async Task AddDifficultySettings(Bot botToUpdate, List<string> difficultyFilePaths)
         {
             // Read bot setting files from assets folder that match this bots type
             // Save into dictionary with difficulty as key
@@ -25,23 +26,14 @@ namespace Generator.Helpers
             var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botToUpdate.botType}_BotGlobalSettings", StringComparison.InvariantCultureIgnoreCase));
             foreach (var path in pathsWithBotType)
             {
-                Console.WriteLine(path);
+                await using FileStream fs = new(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
 
-                var difficultyJson = File.ReadAllText(path);
-
-                var serialisedDifficultySettings = JsonSerializer.Deserialize<DifficultyCategories>(difficultyJson, options);
-
-                serialisedDifficultySettings = ApplyCustomDifficultyValues(botToUpdate.botType, serialisedDifficultySettings);
+                var serialisedDifficultySettings = await JsonSerializer.DeserializeAsync<DifficultyCategories>(fs, options);
 
                 var difficultyOfFile = GetFileDifficultyFromPath(path);
                 difficultySettingsJsons.Add(difficultyOfFile, serialisedDifficultySettings);
             }
 
-            // Find each difficulty in dictionary and save into bot
-            const string warnKey = "WARN_BOT_TYPES";
-            const string enemyKey = "ENEMY_BOT_TYPES";
-            const string friendlyKey = "FRIENDLY_BOT_TYPES";
-            const string revengeKey = "REVENGE_BOT_TYPES";
             foreach (var difficulty in _difficulties)
             {
                 var settings = difficultySettingsJsons.FirstOrDefault(x => x.Key.Contains(difficulty));
@@ -58,107 +50,9 @@ namespace Generator.Helpers
                     }
                 }
 
-                //Archangel: Todo, is this still necessary?
-                /*
-                if (settings.Value.Mind.ContainsKey(warnKey))
-                {
-                    var deserialisedArray = GetDeserializedStringArray(settings, warnKey);
-                    if (deserialisedArray.Length> 0)
-                    {
-                        settings.Value.Mind[warnKey] = deserialisedArray;
-                    }
-                }
-
-                if (settings.Value.Mind.ContainsKey(enemyKey))
-                {
-                    var deserialisedArray = GetDeserializedStringArray(settings, enemyKey);
-                    if (deserialisedArray.Length > 0)
-                    {
-                        settings.Value.Mind[enemyKey] = deserialisedArray;
-                    }
-                }
-
-                if (settings.Value.Mind.ContainsKey(friendlyKey))
-                {
-                    var deserialisedArray = GetDeserializedStringArray(settings, friendlyKey);
-                    if (deserialisedArray.Length > 0)
-                    {
-                        settings.Value.Mind[friendlyKey] = deserialisedArray;
-                    }
-                }
-
-                if (settings.Value.Mind.ContainsKey(revengeKey))
-                {
-                    var deserialisedArray = GetDeserializedStringArray(settings, revengeKey);
-                    if (deserialisedArray.Length > 0)
-                    {
-                        settings.Value.Mind[revengeKey] = deserialisedArray;
-                    }
-                }
-                */
-
                 SaveSettingsIntoBotFile(botToUpdate, difficulty, settings.Value);
             }
         }
-
-        /*
-        private static string[] GetDeserializedStringArray(KeyValuePair<string, DifficultyCategories> settings, string friendlyKey)
-        {
-            object serialisedArray = settings.Value.Mind[friendlyKey];
-
-            var json = JsonSerializer.Serialize(serialisedArray);
-            return JsonSerializer.Deserialize<string[]>(json) ?? [];
-        }
-        */
-
-
-        private static DifficultyCategories ApplyCustomDifficultyValues(BotType botType, DifficultyCategories difficultySettings)
-        {
-            switch (botType)
-            {
-                // make all bosses fight PMCs
-                case BotType.bosskilla:
-                case BotType.bossgluhar:
-                case BotType.bosstagilla:
-                case BotType.bossbully:
-                case BotType.bosskojaniy:
-                case BotType.bossboar:
-                case BotType.bossboarsniper:
-                case BotType.bossknight:
-                case BotType.bosspartisan:
-                case BotType.bosszryachiy:
-                    //Archangel: Todo, is this still necessary? DEFAULT_ENEMY doesn't exist
-                    //AddHostileToPMCSettings(difficultySettings);
-                    break;
-            }
-
-            return difficultySettings;
-        }
-
-        /*
-        private static void AddHostileToPMCSettings(DifficultyCategories difficultySettings)
-        {
-            const string defaultEnemyUsecKey = "DEFAULT_ENEMY_USEC";
-            if (difficultySettings.Mind.ContainsKey(defaultEnemyUsecKey))
-            {
-                difficultySettings.Mind[defaultEnemyUsecKey] = true;
-            }
-            else
-            {
-                difficultySettings.Mind.Add(defaultEnemyUsecKey, true);
-            }
-
-            const string defaultEnemyBearKey = "DEFAULT_ENEMY_BEAR";
-            if (difficultySettings.Mind.ContainsKey(defaultEnemyUsecKey))
-            {
-                difficultySettings.Mind[defaultEnemyBearKey] = true;
-            }
-            else
-            {
-                difficultySettings.Mind.Add(defaultEnemyBearKey, true);
-            }
-        }
-        */
 
         private static string GetFileDifficultyFromPath(string path)
         {

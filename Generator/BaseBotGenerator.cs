@@ -82,7 +82,7 @@ namespace Generator
             GearHelpers.IncrementDictionaryValue(bot.appearance.voice, rawBot.Customization.Voice);
         }
 
-        public static void AddDifficulties(Bot bot)
+        public static async Task AddDifficulties(Bot bot)
         {
             string workingPath = Directory.GetCurrentDirectory();
             string botType = bot.botType.ToString();
@@ -91,7 +91,7 @@ namespace Generator
                 .Where(x => x.Contains(botType, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
 
-            DifficultyHelper.AddDifficultySettings(bot, botDifficultyFiles);
+            await DifficultyHelper.AddDifficultySettings(bot, botDifficultyFiles);
         }
 
         private static void UpdateBodyPartHealth(Bot botToUpdate, Datum rawBot)

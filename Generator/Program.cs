@@ -84,7 +84,7 @@ internal static class Program
         // Read raw bot dumps and turn into c# objects
         var workingPath = Directory.GetCurrentDirectory();
         var dumpPath = $"{workingPath}//dumps";
-        List<Bot> bots = BotParser.Parse(dumpPath, botTypes.ToHashSet());
+        List<Bot> bots = await BotParser.Parse(dumpPath, botTypes.ToHashSet());
 
         if (bots.Count == 0)
         {
