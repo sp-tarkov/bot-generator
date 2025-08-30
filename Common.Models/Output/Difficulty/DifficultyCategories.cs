@@ -1,6 +1,6 @@
-﻿using SPTarkov.Server.Core.Models.Eft.Bot.GlobalSettings;
+﻿using Common.Models.Output.GlobalSettings;
 
-namespace SPTarkov.Server.Core.Models.Eft.Common.Tables;
+namespace Common.Models.Output.Difficulty;
 
 public record DifficultyCategories
 {

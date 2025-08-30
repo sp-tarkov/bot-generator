@@ -22,13 +22,13 @@ namespace Generator.Helpers
         {
             // Read bot setting files from assets folder that match this bots type
             // Save into dictionary with difficulty as key
-            Dictionary<string, DifficultyCategories> difficultySettingsJsons = new();
+            Dictionary<string, Common.Models.Output.Difficulty.DifficultyCategories> difficultySettingsJsons = new();
             var pathsWithBotType = difficultyFilePaths.Where(x => x.Contains($"_{botToUpdate.botType}_BotGlobalSettings", StringComparison.InvariantCultureIgnoreCase));
             foreach (var path in pathsWithBotType)
             {
                 await using FileStream fs = new(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
 
-                var serialisedDifficultySettings = await JsonSerializer.DeserializeAsync<DifficultyCategories>(fs, options);
+                var serialisedDifficultySettings = await JsonSerializer.DeserializeAsync<Common.Models.Output.Difficulty.DifficultyCategories>(fs, options);
 
                 var difficultyOfFile = GetFileDifficultyFromPath(path);
                 difficultySettingsJsons.Add(difficultyOfFile, serialisedDifficultySettings);
@@ -62,7 +62,7 @@ namespace Generator.Helpers
             return splitPath.Last().Split("_")[0];
         }
 
-        private static void SaveSettingsIntoBotFile(Bot botToUpdate, string difficulty, DifficultyCategories categories)
+        private static void SaveSettingsIntoBotFile(Bot botToUpdate, string difficulty, Common.Models.Output.Difficulty.DifficultyCategories categories)
         {
             switch (difficulty)
             {

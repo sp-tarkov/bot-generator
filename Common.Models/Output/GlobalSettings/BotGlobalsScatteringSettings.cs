@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SPTarkov.Server.Core.Models.Eft.Bot.GlobalSettings;
+namespace Common.Models.Output.GlobalSettings;
 
 /// <summary>
 /// <para>

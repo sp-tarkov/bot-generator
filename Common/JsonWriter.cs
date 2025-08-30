@@ -1,11 +1,12 @@
 ﻿using Common.Models.Output;
 using System.Collections.Generic;
 using System.IO;
-using Common.Models.Input;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
+using SPTarkov.Server.Core.Utils;
+using SPTarkov.Server.Core.Utils.Json;
 
 namespace Common
 {
@@ -14,11 +15,7 @@ namespace Common
         private readonly string _workingPath;
         private readonly string _outputFolderName;
 
-        private static JsonSerializerOptions ignoreNullOptions = new JsonSerializerOptions
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            WriteIndented = true
-        };
+        private readonly JsonUtil jsonUtil = new([new SptJsonConverterRegistrator()]);
 
         public JsonWriter(string workingPath, string outputFolderName)
         {
@@ -45,20 +42,11 @@ namespace Common
                     LoggingHelpers.LogToConsole($"Unable to process bot type: {bot.botType}, skipping", ConsoleColor.DarkRed);
                     continue;
                 }
-                var output = JsonSerializer.Serialize(bot, jsonOptions);
+                var output = jsonUtil.Serialize(bot, true);
                 Console.WriteLine($"Writing json file {bot.botType} to {outputPath}");
                 File.WriteAllText($"{outputPath}\\{bot.botType.ToString().ToLower()}.json", output);
                 Console.WriteLine($"file {bot.botType} written to {outputPath}");
             }
-        }
-
-        public void WriteJson(List<Datum> bots, string fileName)
-        {
-            var outputPath = $"{_workingPath}\\{_outputFolderName}";
-            DiskHelpers.CreateDirIfDoesntExist(outputPath);
-
-            var output = JsonSerializer.Serialize(bots, ignoreNullOptions);
-            File.WriteAllText($"{outputPath}\\{fileName.ToLower()}.json", output);
         }
     }
 }

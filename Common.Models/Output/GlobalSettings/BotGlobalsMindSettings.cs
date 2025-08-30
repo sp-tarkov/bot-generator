@@ -1,7 +1,7 @@
-﻿using System.Text.Json.Serialization;
-using SPTarkov.Server.Core.Models.Eft.Common;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace SPTarkov.Server.Core.Models.Eft.Bot.GlobalSettings;
+namespace Common.Models.Output.GlobalSettings;
 
 /// <summary>
 /// <para>
@@ -83,17 +83,33 @@ public record BotGlobalsMindSettings
     [JsonPropertyName("DEFAULT_SAVAGE_BEHAVIOUR")]
     public EWarnBehaviour? DefaultSavageBehaviour { get; set; }
 
+    /// <summary>
+    /// typeof(WildSpawnType)
+    /// Must be sent to client as strings
+    /// </summary>
     [JsonPropertyName("FRIENDLY_BOT_TYPES")]
-    public WildSpawnType[]? FriendlyBotTypes { get; set; }
+    public List<string> FriendlyBotTypes { get; set; }
 
+    /// <summary>
+    /// typeof(WildSpawnType)
+    /// Must be sent to client as strings
+    /// </summary>
     [JsonPropertyName("WARN_BOT_TYPES")]
-    public WildSpawnType[]? WarnBotTypes { get; set; }
+    public List<string> WarnBotTypes { get; set; }
 
+    /// <summary>
+    /// typeof(WildSpawnType)
+    /// Must be sent to client as strings
+    /// </summary>
     [JsonPropertyName("ENEMY_BOT_TYPES")]
-    public WildSpawnType[]? EnemyBotTypes { get; set; }
+    public List<string> EnemyBotTypes { get; set; }
 
+    /// <summary>
+    /// typeof(WildSpawnType)
+    /// Must be sent to client as strings
+    /// </summary>
     [JsonPropertyName("REVENGE_BOT_TYPES")]
-    public WildSpawnType[]? RevengeBotTypes { get; set; }
+    public List<string> RevengeBotTypes { get; set; }
 
     [JsonPropertyName("FOLLOWER_AND_BOSS_WARN_EQUAL_PRIORITY")]
     public bool? FollowerAndBossWarnEqualPriority { get; set; }
@@ -378,7 +394,7 @@ public record BotGlobalsMindSettings
     public bool? UseAddToEnemyValidation { get; set; }
 
     [JsonPropertyName("VALID_REASONS_TO_ADD_ENEMY")]
-    public EBotEnemyCause[]? ValidReasonsToAddEnemy { get; set; }
+    public EBotEnemyCause[] ValidReasonsToAddEnemy { get; set; }
 
     [JsonPropertyName("CHECK_MARK_OF_UNKNOWS")]
     public bool? CheckMarkOfUnknows { get; set; }
@@ -421,9 +437,12 @@ public record BotGlobalsMindSettings
 
     public enum EWarnBehaviour
     {
-        Neutral,
-        Warn,
-        AlwaysEnemies,
+        Default = 1,
+        Neutral = 2,
+        Warn = 4,
+        AlwaysEnemies = 8,
+        AlwaysFriends = 16,
+        ChancedEnemies = 32,
     }
 
     public enum EBotEnemyCause

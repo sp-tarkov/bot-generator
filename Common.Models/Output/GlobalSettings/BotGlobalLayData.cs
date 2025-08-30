@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SPTarkov.Server.Core.Models.Eft.Common.Tables;
+namespace Common.Models.Output.GlobalSettings;
 
 /// <summary>
 /// <para>

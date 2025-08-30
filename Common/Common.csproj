@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SPTarkov.Server.Core" Version="4.0.0-pre.20250828.1045" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Common.Models\Common.Models.csproj" />
   </ItemGroup>
 
