@@ -436,6 +436,109 @@
       "whitelist": []
     }
   },
+  "bosspartisan": {
+    "backpackLoot": {
+      "weights": {
+        "0": 1,
+        "1": 2,
+        "2": 5,
+        "3": 3,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 0
+      },
+      "whitelist": []
+    },
+    "drugs": {
+      "weights": {
+        "0": 1,
+        "1": 2
+      },
+      "whitelist": []
+    },
+	"food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "drinks": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+	  "currency": {
+        "weights": {
+          "0": 20,
+          "1": 5,
+          "2": 1
+        },
+        "whitelist": []
+      },
+    "grenades": {
+      "weights": {
+        "0": 0,
+        "1": 1,
+        "2": 3,
+        "3": 3,
+        "4": 1,
+        "5": 1
+      },
+      "whitelist": []
+    },
+    "healing": {
+      "weights": {
+        "0": 2,
+        "1": 1,
+        "2": 1
+      },
+      "whitelist": []
+    },
+    "magazines": {
+      "weights": {
+        "0": 0,
+        "1": 2,
+        "2": 4,
+        "3": 4
+      },
+      "whitelist": []
+    },
+    "pocketLoot": {
+      "weights": {
+        "0": 1,
+        "1": 7,
+        "2": 4,
+        "3": 1,
+        "4": 1
+      },
+      "whitelist": []
+    },
+    "specialItems": {
+      "weights": {
+        "0": 0
+      },
+      "whitelist": []
+    },
+    "stims": {
+      "weights": {
+        "0": 6,
+        "1": 1
+      },
+      "whitelist": []
+    },
+    "vestLoot": {
+      "weights": {
+        "0": 0
+      },
+      "whitelist": []
+    }
+  },
   "bosskojaniy": {
     "backpackLoot": {
       "weights": {
