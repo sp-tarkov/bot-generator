@@ -454,6 +454,27 @@
     <None Update="Assets\items.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\normal_arenaFighterEvent_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_arenaFighter_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_assault_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossBoarSniper_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossBoar_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossBully_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossGluhar_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\normal_bossKillaAgro_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -463,7 +484,40 @@
     <None Update="Assets\normal_bossKnight_PvE_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\normal_bossKojaniy_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossKolontay_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossPartisan_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossSanitar_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossStormtrooper_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\normal_bossTagillaAgro_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossTagilla_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossTest_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_bossZryachiy_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_cursedAssault_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_exUsec_PvE_BotGlobalSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\normal_followerBigPipe_PvE_BotGlobalSettings.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\normal_shooterBTR_BotGlobalSettings.txt">
