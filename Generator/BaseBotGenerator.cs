@@ -42,7 +42,7 @@ namespace Generator
 
         private static void AddStandingForKill(Bot botToUpdate, Datum rawBotData)
         {
-            botToUpdate.experience.standingForKill ??= new Dictionary<string, object>();
+            botToUpdate.experience.standingForKill ??= new Dictionary<string, double>();
 
             if (!botToUpdate.experience.standingForKill.ContainsKey(rawBotData.Info.Settings.BotDifficulty))
             {
@@ -52,7 +52,7 @@ namespace Generator
 
         private static void AddAggressorBonus(Bot botToUpdate, Datum rawBotData)
         {
-            botToUpdate.experience.aggressorBonus ??= new Dictionary<string, object>();
+            botToUpdate.experience.aggressorBonus ??= new Dictionary<string, double>();
 
             if (!botToUpdate.experience.aggressorBonus.ContainsKey(rawBotData.Info.Settings.BotDifficulty))
             {

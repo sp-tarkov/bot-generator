@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Common.Models.Converters;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
@@ -9,8 +10,10 @@ namespace Common.Models.Input
         public string Role { get; set; }
         public string BotDifficulty { get; set; }
         public int Experience { get; set; }
-        public object StandingForKill { get; set; }
-        public object AggressorBonus { get; set; }
+        [JsonConverter(typeof(StringToDoubleConverter))]
+        public double StandingForKill { get; set; }
+        [JsonConverter(typeof(StringToDoubleConverter))]
+        public double AggressorBonus { get; set; }
         public bool UseSimpleAnimator { get; set; }
     }
 
