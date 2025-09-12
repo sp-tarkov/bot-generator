@@ -1,6 +1,6 @@
-﻿using SPTarkov.Server.Core.Models.Eft.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using SPTarkov.Server.Core.Models.Eft.Common;
 
 namespace Common.Models.Output.GlobalSettings;
 
@@ -431,9 +431,6 @@ public record BotGlobalsMindSettings
 
     [JsonPropertyName("PUSH_AND_SUPPRESS_PUSH")]
     public float? PushAndSuppressPush { get; set; }
-
-    [JsonPropertyName("AGGRESSOR_LOYALTY_BONUS")]
-    public float? AggressorLoyaltyBonus { get; set; }
 
     public enum EWarnBehaviour
     {
