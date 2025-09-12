@@ -22,7 +22,7 @@
     "TIME_COEF_IF_MOVE": 1.1,
     "BOT_MOVE_IF_DELTA": 3.01,
     "ANYTIME_LIGHT_WHEN_AIM_100": 10.0,
-    "ANY_PART_SHOOT_TIME": 15.0,
+    "ANY_PART_SHOOT_TIME": 900,
     "UnderbarrelLauncherAiming": {
       "MAX_AIM_PRECICING": 2.0,
       "COEF_FROM_COVER": 0.45,
@@ -49,7 +49,8 @@
     "CAN_LOOK_TO_WALL": true,
     "NO_GREEN_DIST": 5,
     "NO_GRASS_DIST": 5,
-    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0
+    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0,
+    "VISIBILITY_CHANGE_SPEED": 2
   },
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 1.0,
@@ -153,7 +154,6 @@
   "Core": {
     "VisibleAngle": 160.0,
     "VisibleDistance": 142.0,
-    "GainSightCoef": 2,
     "ScatteringPerMeter": 0.045,
     "DamageCoeff": 1.0,
     "HearingSense": 2.9,

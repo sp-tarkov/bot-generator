@@ -67,7 +67,7 @@
         "NEXT_SHOT_MISS_CHANCE_100": 100.0,
         "NEXT_SHOT_MISS_Y_OFFSET": 1.0,
         "ANYTIME_LIGHT_WHEN_AIM_100": -1.0,
-        "ANY_PART_SHOOT_TIME": 15.0,
+        "ANY_PART_SHOOT_TIME": 900,
         "WEAPON_ROOT_OFFSET": 0.35,
         "MIN_DAMAGE_TO_GET_HIT_AFFETS": 1.0,
         "MAX_AIM_TIME": 1.5,
@@ -151,13 +151,14 @@
         "SEC_REPEATED_SEEN": 10.0,
         "DIST_SQRT_REPEATED_SEEN": 225.0,
         "DIST_REPEATED_SEEN": 15.0,
-        "COEF_REPEATED_SEEN": 5,
+        "COEF_REPEATED_SEEN": 1,
         "MAX_DIST_CLAMP_TO_SEEN_SPEED": 100.0,
         "NIGHT_VISION_ON": 100.0,
         "NIGHT_VISION_OFF": 110.0,
         "NIGHT_VISION_DIST": 105.0,
         "VISIBLE_ANG_LIGHT": 60.0,
-        "VISIBLE_ANG_NIGHTVISION": 120.0
+        "VISIBLE_ANG_NIGHTVISION": 120.0,
+        "VISIBILITY_CHANGE_SPEED": 2
     },
     "Shoot":
     {
@@ -564,7 +565,6 @@
     {
         "VisibleAngle": 160.0,
         "VisibleDistance": 142.0,
-        "GainSightCoef": 2,
         "ScatteringPerMeter": 0.045,
         "ScatteringClosePerMeter": 0.12,
         "DamageCoeff": 1.0,

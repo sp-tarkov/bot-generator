@@ -64,7 +64,7 @@
     "NEXT_SHOT_MISS_CHANCE_100": 100.0,
     "NEXT_SHOT_MISS_Y_OFFSET": 1.0,
     "ANYTIME_LIGHT_WHEN_AIM_100": -1.0,
-    "ANY_PART_SHOOT_TIME": 15.0,
+    "ANY_PART_SHOOT_TIME": 900,
     "Y_TOP_OFFSET_COEF": 0.001,
     "Y_BOTTOM_OFFSET_COEF": 0.015,
     "BAD_SHOOTS_MIN": 0,
@@ -132,7 +132,8 @@
 	"LOOK_THROUGH_GRASS":true,
     "NO_GREEN_DIST": 5,
     "NO_GRASS_DIST": 5,
-    "GOAL_TO_FULL_DISSAPEAR_GREEN": 1.5
+    "GOAL_TO_FULL_DISSAPEAR_GREEN": 1.5,
+    "VISIBILITY_CHANGE_SPEED": 15.384
   },
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 1.0,
@@ -470,7 +471,6 @@
   "Core": {
     "VisibleAngle": 160.0,
     "VisibleDistance": 162.0,
-    "GainSightCoef": 15.384,
     "ScatteringPerMeter": 0.045,
     "ScatteringClosePerMeter": 0.12,
     "DamageCoeff": 1.0,

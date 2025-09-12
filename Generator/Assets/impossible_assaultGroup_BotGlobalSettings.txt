@@ -67,7 +67,7 @@
     "NEXT_SHOT_MISS_CHANCE_100": 100.0,
     "NEXT_SHOT_MISS_Y_OFFSET": 1.0,
     "ANYTIME_LIGHT_WHEN_AIM_100": -1.0,
-    "ANY_PART_SHOOT_TIME": 10.0,
+    "ANY_PART_SHOOT_TIME": 900,
     "WEAPON_ROOT_OFFSET": 0.35,
     "MIN_DAMAGE_TO_GET_HIT_AFFETS": 1.0,
     "MAX_AIM_TIME": 1.5,
@@ -130,7 +130,8 @@
     "OPTIMIZE_TO_ONLY_BODY": true,
     "NO_GREEN_DIST": 5,
     "NO_GRASS_DIST": 5,
-    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0
+    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0,
+    "VISIBILITY_CHANGE_SPEED": 20
   },
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 2.0,
@@ -469,7 +470,6 @@
   "Core": {
     "VisibleAngle": 140.0,
     "VisibleDistance": 137.0,
-    "GainSightCoef": 20,
     "ScatteringPerMeter": 0.05,
     "ScatteringClosePerMeter": 0.1,
     "DamageCoeff": 1.0,

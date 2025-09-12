@@ -21,7 +21,7 @@
     "AIMING_TYPE": 4,
     "COEF_IF_MOVE": 1.0,
     "TIME_COEF_IF_MOVE": 1.1,
-    "ANY_PART_SHOOT_TIME": 10.0,
+    "ANY_PART_SHOOT_TIME": 900,
     "SHALL_LAY_PROBABILTY_WHEN_ARTILLERY" : 10,
     "UnderbarrelLauncherAiming": {
       "MAX_AIM_PRECICING": 4.0,
@@ -45,7 +45,8 @@
     "ENEMY_LIGHT_ADD": 45.0,
     "NO_GREEN_DIST": 5,
     "NO_GRASS_DIST": 5,
-    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0
+    "GOAL_TO_FULL_DISSAPEAR_GREEN": 0,
+    "VISIBILITY_CHANGE_SPEED": 20
   },
   "Shoot": {
     "RECOIL_TIME_NORMALIZE": 2.0,
@@ -133,7 +134,6 @@
   },
   "Core": {
     "VisibleAngle": 140.0,
-    "GainSightCoef": 20,
     "ScatteringPerMeter": 0.05,
     "ScatteringClosePerMeter": 0.1,
     "DamageCoeff": 1.0,
