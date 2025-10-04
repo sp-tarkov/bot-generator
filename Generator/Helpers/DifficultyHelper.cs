@@ -13,7 +13,8 @@ namespace Generator.Helpers
         private static readonly JsonSerializerOptions options = new()
         {
             UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-            Converters = { new JsonStringEnumConverter() }
+            Converters = { new JsonStringEnumConverter() },
+            AllowTrailingCommas = true,
         };
 
         private static readonly string[] _difficulties = ["easy", "normal", "hard", "impossible"];
