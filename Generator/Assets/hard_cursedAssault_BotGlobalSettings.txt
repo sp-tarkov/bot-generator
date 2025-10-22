@@ -1,5 +1,6 @@
 {
   "Lay": {
+    "CAN_LAY_AT_SHOOTFROMPLACE": false
   },
   "Aiming": {
     "MAX_AIM_PRECICING": 4.0,

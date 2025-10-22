@@ -223,7 +223,7 @@
     "NO_RUN_FROM_AI_GRENADES": true,
     "MAX_THROW_POWER": 25.0,
 	"MIN_THROW_DIST_PERCENT_0_1": 0.7,
-    "GrenadePrecision": 0.05,
+    "GrenadePrecision": 0.09,
     "STOP_WHEN_THROW_GRENADE": true,
     "WAIT_TIME_TURN_AWAY": 0.2,
     "SMOKE_SUPPRESS_DELTA": 20.0,
